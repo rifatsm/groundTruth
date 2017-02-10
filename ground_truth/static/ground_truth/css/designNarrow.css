@@ -1,0 +1,81 @@
+html, body {
+        height: 100%;
+        padding: 0px 10px;
+        background-color: #e7e7e7;
+        font-family: "Helvetica";
+      }
+	  
+	  #container{
+		width: 1000px;
+		margin-left: 50%;
+		transform: translateX(-50%);
+	  }
+      
+      #titleBar {
+       
+        width: 100%;
+        display: inline-block;
+        padding-top: 10px;
+
+      }
+      #titleBar div{
+        padding: 10px;
+
+      }
+
+
+      #about {
+        float: right;
+        border-right: 1px solid grey;
+      }
+
+      #leave {
+        float: right;
+      }
+
+      #title {
+        float: left;
+        border-right: 1px solid grey;
+
+      }
+
+      #titleBar div h1{
+        display: inline;
+      }
+
+      #titleBar div h2{
+        display: inline;
+      }
+
+      #mainView {
+      	float: right;
+
+        margin-bottom: 10px;
+	width: 20vw;
+  height:20vw;
+      }
+
+      #bottom {
+        float: right;
+        width: 100%
+
+      }
+
+      #mysteryImage img{
+        height: auto;
+        width: 100%;
+      }
+
+      #miniMap {
+        width: 330px;
+        height: 266px;
+        float: left;
+      }
+
+      #topDown {
+        float: left;
+        width: 40%;
+        height: 270px;
+      }
+
+

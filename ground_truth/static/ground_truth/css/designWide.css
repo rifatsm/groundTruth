@@ -1,0 +1,84 @@
+html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0px auto;
+		
+      }
+	  
+
+	 
+
+	#container {
+		width: 970px !important; /* just for example */
+		margin: 0 auto;
+		height:100%;
+	}
+      
+      #titleBar {
+       
+        width: 100%;
+        display: inline-block;
+        padding-top: 10px;
+
+      }
+      #titleBar div{
+        padding: 10px;
+
+      }
+
+      #about {
+        float: right;
+        border-right: 1px solid grey;
+      }
+
+      #leave {
+        float: right;
+      }
+
+      #mainView {
+		float: right;
+        width: 600px;
+		height:600px;
+        margin-bottom: 10px;
+      }
+
+      #bottom {
+        width: 25%;
+        height: auto;
+        float: left;
+      }
+
+      #mysteryImage {
+        display: block;
+        width: 100%;
+      }
+
+      #mysteryImage img{
+        height: auto;
+        width: 100%;
+      }
+
+      #notePad {
+        width: 100%;
+      }
+
+      #notePad textarea{
+        width: 97%;
+      }
+
+      #miniMap {
+        width: 100%;
+        height: 20vw;
+      }
+
+      #topDown {
+        width: 100%;
+        height: 250px;
+      }
+	  
+	  #startride{
+		float:right;
+	  }
+	  
+
+

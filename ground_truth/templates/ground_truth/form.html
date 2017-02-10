@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hellow World</title>
+</head>
+<body>
+<form action="{% url 'ground_truth:add' %}" method="post">
+    {% csrf_token %}
+    Area ID:<br>
+    <input type="text" name="lat" placeholder="enter lat here">
+    <br>
+    <input type="text" name="lon" placeholder="enter long here">
+    <br>
+    <input type="text" name="grid" placeholder="enter grid seen">
+    <input type="submit" value="Submit">
+</form>
+<div data-lat="45"></div>
+</body>
+</html>

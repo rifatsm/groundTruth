@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta charset="utf-8">
+          {% load static %}
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+	<link href="{%  static 'ground_truth/css/bootstrap.min.css'%}" rel="stylesheet">
+	<script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'ground_truth/js/search.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing&callback=initMap"
+    async defer></script>
+	<script src="{% static 'ground_truth/dist/joyride.js'%}"></script>
+	<script src="{% static 'ground_truth/js/Matrix.js' %}"></script>
+	<script src="{% static 'ground_truth/js/jquery.freetrans.js' %}"></script>
+	<script src="{% static 'ground_truth/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
+
+
+  </head>
+ 
+  
+  <body>
+	<div id="outerContainer">
+	<div id="container">
+		<div id="titleBar">
+			<div class="col-xs-2">
+					<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>
+			</div>
+			<div class="col-xs-4">
+				<div id="titlePanel">
+					<h1>Ground Truth</h1>
+					<!--button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
+				</div>
+			</div>		  
+			<div class="col-xs-6">
+			
+				<div id="titlePanel">
+				
+					<!--button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
+					<a id="startride" class="btn btn-large btn-default">View Tutorial</a>
+					<div id="clockdiv"></div>
+				</div>
+			</div>	
+		</div>
+		
+		<hr>
+		
+		<div class="row">
+			<!--div id="instructions" class="collapse in jr-quantity" class="col-xs-6 offset-xs-3" style="margin-bottom:20px">
+				Here are some sample instructions
+			</div-->
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="row">
+				<!--div id='bounds'></div-->
+					<img id="mysteryImage" src="{% static 'ground_truth/img/image.png' %}" style="width:100%;"/>
+					<div class="col-md-12 text-center" style="margin-bottom:15px;"> 
+					  <div class="btn-group mr-2" role="group" aria-label="First group">
+						<button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+						<button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo" aria-hidden="true"></i></button>
+					  </div> 
+					</div>
+				</div>
+				
+				<div class="row">
+					<div id="miniMap"></div>
+				</div>
+			</div>
+			<div class="col-xs-8">
+				
+				<div id="mainView"></div>
+				
+			</div>
+		</div>
+		
+		
+		
+		<div class="row">
+			<hr>
+			<div id="footer">
+				<p class="text-center">Virginia Tech &copy; 2017</p>
+			</div>
+		</div>
+	</div>
+	</div>
+	
+
+	
+	<ol id="joyRideTipContent">
+	<li data-id="mysteryImage" data-button="Next" data-options="tipLocation:right">
+        <p>This is your reference image. Your mission is to look through satellite imagery and indicate whether or not the satellite image looks like this reference image.</p>
+      </li>
+	  <li data-id="yesButton" data-button="Next" data-options="tipLocation:left">
+        <p>If you think the satellite imagery looks similar to the reference image, click the 'Yes / Maybe' button or press 'y' on your keyboard.</p>
+      </li>
+	  <li data-id="noButton" data-button="Next" data-options="tipLocation:left">
+        <p>If you do not think the satellite imagery looks similar to the reference image, click the 'No' button or press 'n' on your keyboard.</p>
+      </li>
+	  <!---Placeholder-->
+	  <li data-id="footer" data-button="Next" data-options="tipLocation:left">
+        <p>This is a placeholder</p>
+      </li>
+	  <!---Placeholder-->
+	  
+      <li data-id="nextButton" data-button="Next" data-options="tipLocation:left">
+        <p>Click the 'Next' button or press 'Enter' to view the next subregion.</p>
+      </li>
+	  <li data-id="miniMap" data-button="Next" data-options="tipLocation:right">
+        <p>This map shows you're progress throughout the task. As you make your determinations, this map will update.</p>
+      </li>
+	  <li data-id="mainView" data-button="Close" data-options="tipLocation:left">
+        <p>Feel free to use any of the map controls available to you.</p>
+      </li>
+    </ol>
+
+	
+	<script>
+		/*
+		$(function(){
+			// do a selector group
+			//$('.trans').freetrans({'rot-origin': '50% 100%'});
+			//$('.trans').freetrans('rotator', true);
+			$('.trans').freetrans({
+				x: 0, 
+				y: 0
+			});
+			
+		})
+		*/
+		
+		$('#startride').click(function (e) {
+        $('#joyRideTipContent').joyride({
+          autoStart : true,
+          postStepCallback : function (index, tip) {
+          if (index == 2) {
+            $(this).joyride('set_li', false, 1);
+          }
+        },
+        modal:true,
+        expose: true
+        });
+      });
+	  
+	  
+
+	</script>
+
+	
+  </body>
+</html>
