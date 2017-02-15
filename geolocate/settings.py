@@ -83,8 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': "ground_truth",
-        # 'PASSWORD': os.environ["DB_PASS"],
-        'PASSWORD': "energetic12",
+        'PASSWORD': os.environ["DB_PASS"],
         'HOST': 'localhost',
         'PORT': '',
     }
