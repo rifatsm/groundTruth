@@ -551,7 +551,7 @@ function initMap() {
 //These functions simply create the divs for the buttons on the map as well as the css vlaues.
 function nextControlMethod(controlDiv, map, text) {
     var nextButton = document.createElement("input");
-    nextButton.id = "nextButton"
+    nextButton.id = "nextButton";
     nextButton.style.marginTop = '10px';
     nextButton.style.marginRight = '10px';
     nextButton.type = "button";
