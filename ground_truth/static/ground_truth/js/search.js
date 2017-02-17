@@ -6,20 +6,23 @@
 
 //The map that is displayed on the page
 var map;
-var decisions = new Array();
-var subRegions = new Array();
-var regionNumber = 0;
+var judgementsList = new Array();
+var subRegionsList = new Array();
+var currentSubRegionNumber = 0;
 var searchRegion;
 var taskStartTime;
 var lastTaskEndTime;
-var highlightRegion;
+var highlightSubRegion;
 var taskCode;
 var yeses = 0;
+
+var db = false;
 
 //Initialize the map and event handlers
 function initMap() {
 
-
+    //----Set up study info-----
+    //STUDY ONLY
     var br = ['br', './assets/Brasilia_level1_rotate.jpg', './assets/Brasilia_level2_rotate.jpg', './assets/Brasilia_level3_rotate.jpg', './assets/Brasilia_level4_rotate.jpg', './assets/Brasilia_level5_rotate.jpg', './assets/Brasilia_level6_rotate.jpg'];
     var clt = ['clt', './assets/CLT_level1_rotate.jpg', './assets/CLT_level2_rotate.jpg', './assets/CLT_level3_rotate.jpg', './assets/CLT_level4_rotate.jpg',];
     var cmd = ['cmd', './assets/Comodore_level1_rotate.jpg', './assets/Comodore_level2_rotate.jpg', './assets/Comodore_level3_rotate.jpg', './assets/Comodore_level4_rotate.jpg', './assets/Comodore_level5_rotate.jpg', './assets/Comodore_level6_rotate.jpg',];
@@ -39,14 +42,15 @@ function initMap() {
     var taskID = baseTaskIndexer[i] + j;
     //var task = tasksList[taskID][0];
     //var level = tasksList[taskID][1];
-    //taskCode = task[0] + level;
     var task = br;
     var level = 3;
+    taskCode = task[0] + level;
     $('#mysteryImage').attr("src", task[level]);
     $('#taskID').text(taskCode);
     console.log(taskCode);
 
 
+    //----Timer----
     taskStartTime = new Date();
     lastTaskEndTime = taskStartTime;
     var endTime = new Date(taskStartTime.getTime() + 10 * 60000); // 10 minutes
@@ -100,6 +104,9 @@ function initMap() {
 
     initializeClock('clockdiv', endTime);
 
+
+    //----Initialize different maps for the different task codes----
+    //STUDY ONLY
     if (task == br) {
         miniMap = new google.maps.Map(document.getElementById('miniMap'), {
             zoom: 11,
@@ -250,11 +257,21 @@ function initMap() {
         var ZOOM = 18;
 
     }//end sp
+    //end initialization of separate maps for the study
 
-    var searchWidth = searchRegion.getBounds().getNorthEast().lng() - searchRegion.getBounds().getSouthWest().lng();
-    var searchHeight = searchRegion.getBounds().getNorthEast().lat() - searchRegion.getBounds().getSouthWest().lat();
-    subRegionWidth = searchWidth / SIZE;
-    subRegionHeight = searchHeight / SIZE;
+
+
+
+    //----Process the larger region into subregions, store subregions in subRegionsList, and draw----
+
+    var regionWidth = searchRegion.getBounds().getNorthEast().lng() - searchRegion.getBounds().getSouthWest().lng();
+    var regionHeight = searchRegion.getBounds().getNorthEast().lat() - searchRegion.getBounds().getSouthWest().lat();
+    //TODO Currently size is definied per task. Later needs to be a constant
+    subRegionWidth = regionWidth / SIZE;
+    subRegionHeight = regionHeight / SIZE;
+
+    //Construct the subregions in the creeping line search pattern
+    //Starting with bottom left i.e. SW corner
     for (var i = SIZE; i > 0; i--) {
         if (i % 2 == 0) {
             for (var j = 1; j < SIZE + 1; j++) {
@@ -262,21 +279,12 @@ function initMap() {
                 var newLatNE = searchRegion.getBounds().getNorthEast().lat() - subRegionHeight * j;
                 var newLngSW = newLngNE + subRegionWidth;
                 var newLatSW = newLatNE + subRegionHeight;
-                var region = new google.maps.LatLngBounds(
+                var subRegionBounds = new google.maps.LatLngBounds(
                     new google.maps.LatLng(newLatNE, newLngNE),
                     new google.maps.LatLng(newLatSW, newLngSW)
                 );
 
-                subRegions.push(region);
-
-                var subRegion = new google.maps.Rectangle({
-                    strokeColor: 'gray',
-                    strokeOpacity: 0.5,
-                    strokeWeight: .5,
-                    fillOpacity: 0.0,
-                    map: miniMap,
-                    bounds: region
-                });
+                subRegionsList.push(subRegionBounds);
             }
         }
         else {
@@ -285,66 +293,89 @@ function initMap() {
                 var newLatNE = searchRegion.getBounds().getNorthEast().lat() - subRegionHeight * j;
                 var newLngSW = newLngNE + subRegionWidth;
                 var newLatSW = newLatNE + subRegionHeight;
-                var region = new google.maps.LatLngBounds(
+                var subRegionBounds = new google.maps.LatLngBounds(
                     new google.maps.LatLng(newLatNE, newLngNE),
                     new google.maps.LatLng(newLatSW, newLngSW)
                 );
 
-                subRegions.push(region);
-
-                var subRegion = new google.maps.Rectangle({
-                    strokeColor: 'gray',
-                    strokeOpacity: 0.5,
-                    strokeWeight: .5,
-                    fillOpacity: 0.0,
-                    map: miniMap,
-                    bounds: region
-                });
+                subRegionsList.push(subRegionBounds);
             }
         }
 
     }
 
+    //Draw the subregions on the miniMap
+    for (var i = 0; i < subRegionsList.length; i++) {
+        var subRegion = new google.maps.Rectangle({
+                    strokeColor: 'gray',
+                    strokeOpacity: 0.5,
+                    strokeWeight: .5,
+                    fillOpacity: 0.0,
+                    map: miniMap,
+                    bounds: subRegionsList[i]
+                });
+    }
 
+
+    // Initializes the main search map to subregion 0.
     map = new google.maps.Map(document.getElementById('mainView'), {
         tilt: 0,
         zoom: ZOOM,
-        center: subRegions[regionNumber].getCenter(),
+        center: subRegionsList[currentSubRegionNumber].getCenter(),
         mapTypeId: 'satellite',
         draggable: true,
         scrollwheel: true,
         minZoom: ZOOM,
-        bounds: subRegions[regionNumber]
+        bounds: subRegionsList[currentSubRegionNumber]
 
     });
-    for (var i = 0; i < subRegions.length; i++) {
+
+    //Draw the subregions on the main map
+    for (var i = 0; i < subRegionsList.length; i++) {
         var subRegionOutlines = new google.maps.Rectangle({
             strokeColor: 'white',
             strokeOpacity: 0.3,
             strokeWeight: 6,
             fillOpacity: 0.0,
             map: map,
-            bounds: subRegions[i]
+            bounds: subRegionsList[i]
         });
     }
-    highlightRegion = new google.maps.Rectangle({
+    //add a highlight to the current subregion
+    highlightSubRegion = new google.maps.Rectangle({
         strokeColor: 'white',
         strokeOpacity: 0.4,
         strokeWeight: 15,
         fillOpacity: 0.0,
         map: map,
-        bounds: subRegions[regionNumber]
+        bounds: subRegionsList[currentSubRegionNumber]
     });
 
 
-    //This rectangle is the red rectangle that appears in the minimap
-    var historyBox = new google.maps.Rectangle({
+    //Add the square on the miniMap that tracks the main map view
+    var viewTracker = new google.maps.Rectangle({
         fillOpacity: 0,
         strokeColor: 'blue',
         map: miniMap
     });
 
-    //Creates the div's for the buttons and adds them to the map
+    //Add an event listener to handle the tracking of the minimap
+    google.maps.event.addListener(map, 'bounds_changed', (function () {
+        //Get the bounds of the map, then set the bounds of the history box.
+        var mapBounds = map.getBounds();
+        viewTracker.setBounds(mapBounds);
+    }));
+
+    //When the map is loaded in, then center the minimap.
+    google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
+        miniMap.fitBounds(searchRegion.getBounds());
+    });
+
+
+
+    //----Adding buttons to the map-----
+
+    //Creates the divs for the buttons and adds them to the map
     var nextControlDiv = document.createElement('div');
     var nextControl = new nextControlMethod(nextControlDiv, map, 'Next');
 
@@ -364,50 +395,54 @@ function initMap() {
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(noControlDiv);
 
 
-//Add an event listener to handle the tracking of the minimap
-    google.maps.event.addListener(map, 'bounds_changed', (function () {
-        //Get the bounds of the map, then set the bounds of the history box.
-        var mapBounds = map.getBounds();
-
-        historyBox.setBounds(mapBounds);
-
-    }));
-
-    //When the map is loaded in, then center the minimap.
-    google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
-        miniMap.fitBounds(searchRegion.getBounds());
-    });
 
 
-    var decisionRectangle = null;
+
+    //-----Decision Logic-------
+
+    //Holds the value of the rectangle representation of the judgement
+    var judgementRectangle = null;
+
     //Handle the next button
     google.maps.event.addDomListener(nextControlDiv, 'click', nextFunction);
 
     function nextFunction() {
 
-        console.log("SubRegion ID: " + regionNumber);
-        console.log("Decision: " + decisionRectangle.yesNo);
+        //STUDY ONLY
+        console.log("SubRegion ID: " + currentSubRegionNumber);
+        console.log("Decision: " + judgementRectangle.yesNo);
         console.log("Time: " + getTimeElapsed(lastTaskEndTime).minutes + "m" + getTimeElapsed(lastTaskEndTime).seconds + "s");
 
-        if (regionNumber == 0) {
+
+        //---Process this subregion-----
+
+        //TODO John is testing the db on only the first subregion
+        if (currentSubRegionNumber == 0) {
             var send = {
                 "time": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
-                "judgment": decisionRectangle.yesNo,
+                "judgment": judgementRectangle.yesNo,
                 "worker": 0,
-                "index": regionNumber,
+                "index": currentSubRegionNumber,
                 "region_id": 2
             };
-            $.post("/ground_truth/add/", send, function (res) {
-                console.log(res);
-            });
+            if (db) {
+                $.post("/ground_truth/add/", send, function (res) {
+                    console.log(res);
+                });
+            }
+
         }
 
-        if (decisionRectangle.yesNo == 'yes') {
+        //Count the number of 'yes' judgements
+        if (judgementRectangle.yesNo == 'yes') {
             yeses++;
         }
 
+        //Mark the time they made this judgement
         lastTaskEndTime = new Date();
-        if (regionNumber == subRegions.length - 1) {
+
+        //End condition for the task
+        if (currentSubRegionNumber == subRegionsList.length - 1) {
             swal({
                 title: "Thank you!",
                 text: "You have now completed the task! </br>" + taskCode + "</br>Time to complete: " + getTimeElapsed(taskStartTime).minutes + "m" + getTimeElapsed(taskStartTime).seconds + "s",
@@ -419,38 +454,46 @@ function initMap() {
             console.log("Number No: " + (25 - yeses));
 
         }
+
+
+
+        //----Set up next subregion-----
+
+        //Disbale the next button for the next subregion until they have picked 'yes' or 'no'
         $("#nextButton").prop('disabled', true);
-        highlightRegion.setMap(null);
-        for (var i = 0; i < subRegions.length; i++) {
+
+        //Update highlighted region
+        highlightSubRegion.setMap(null);
+        for (var i = 0; i < subRegionsList.length; i++) {
             var subRegionOutlines = new google.maps.Rectangle({
                 strokeColor: 'white',
                 strokeOpacity: 0.3,
                 strokeWeight: 6,
                 fillOpacity: 0.0,
                 map: map,
-                bounds: subRegions[i]
+                bounds: subRegionsList[i]
             });
         }
-        highlightRegion = new google.maps.Rectangle({
+        highlightSubRegion = new google.maps.Rectangle({
             strokeColor: 'white',
             strokeOpacity: 0.4,
             strokeWeight: 15,
             fillOpacity: 0.0,
             map: map,
-            bounds: subRegions[regionNumber + 1]
+            bounds: subRegionsList[currentSubRegionNumber + 1]
         });
 
-        //TODO John: deicsionRectangle is an object that holds all the info for the region and the yes/no. Might also need subRegions[regionNumber].
-        //This push call is simulating sending to db
-        if (decisionRectangle != null) {
-            decisions.push(decisionRectangle);
-            regionNumber++;
-            map.setCenter(subRegions[regionNumber].getCenter());
-            for (var i = 0; i < decisions.length; i++) {
-                decisions[i].setMap(miniMap);
+        //Draw the judgement on the miniMap
+        if (judgementRectangle != null) {
+            judgementsList.push(judgementRectangle);
+            currentSubRegionNumber++;
+            map.setCenter(subRegionsList[currentSubRegionNumber].getCenter());
+            for (var i = 0; i < judgementsList.length; i++) {
+                judgementsList[i].setMap(miniMap);
             }
-            decisionRectangle = null;
+            judgementRectangle = null;
         }
+        //If the try to advance without making a judgement first
         else {
             swal("Please make a decision", "Use the 'Yes/Maybe' or 'No' button to indication your response.", "warning");
         }
@@ -458,14 +501,16 @@ function initMap() {
     }
 
 
-    //Handle the no
+    //Handle the no button
     google.maps.event.addDomListener(noControlDiv, 'click', noFunction);
 
     function noFunction() {
-        if (decisionRectangle != null) {
-            decisionRectangle.setMap(null);
+        //If they previously made a judgement, erase that one from the map
+        if (judgementRectangle != null) {
+            judgementRectangle.setMap(null);
         }
-        decisionRectangle = new google.maps.Rectangle({
+        //Draw new judgement on the map
+        judgementRectangle = new google.maps.Rectangle({
             strokeColor: 'red',
             strokeOpacity: 0.8,
             strokeWeight: 1,
@@ -473,27 +518,24 @@ function initMap() {
             fillOpacity: 0.2,
             map: miniMap,
             value: 0,
-            bounds: subRegions[regionNumber],
+            bounds: subRegionsList[currentSubRegionNumber],
             yesNo: "no"
         });
+        //They can now click the next button
         $("#nextButton").prop('disabled', false);
 
     }
 
-//Add a listener to handle the mark history button being clicked
+    //Handle the yes button
     google.maps.event.addDomListener(yesControlDiv, 'click', yesFunction);
 
     function yesFunction() {
-        //Check if it's the right size, can be easily changed
-        if (map.getZoom() < 17) {
-            window.alert("You must be zoomed in further for your history to be tracked")
-            return;
+        //If they previously made a judgement, erase that one from the map
+        if (judgementRectangle != null) {
+            judgementRectangle.setMap(null);
         }
-        if (decisionRectangle != null) {
-            decisionRectangle.setMap(null);
-        }
-
-        decisionRectangle = new google.maps.Rectangle({
+         //Draw new judgement on the map
+        judgementRectangle = new google.maps.Rectangle({
             strokeColor: 'green',
             strokeOpacity: 0.8,
             strokeWeight: 1,
@@ -501,46 +543,48 @@ function initMap() {
             fillOpacity: 0.2,
             map: miniMap,
             value: 1,
-            bounds: subRegions[regionNumber],
+            bounds: subRegionsList[currentSubRegionNumber],
             yesNo: "yes"
         });
+        //They can now click the next button
         $("#nextButton").prop('disabled', false);
     }
 
-//Handle keyboard events
+    //Handle keyboard events
     google.maps.event.addDomListener(document, 'keyup', function (e) {
-
         var code = (e.keyCode ? e.keyCode : e.which);
+        // 'n' key
         if (code === 78) {
             noFunction();
         }
-        if (code === 89) {
+        // 'y' key
+        else if (code === 89) {
             yesFunction();
         }
-        if (code === 13) {
+        // 'Enter' key
+        else if (code === 13) {
             nextFunction();
         }
     });
 
-    var lastValidCenter = map.getCenter();
 
+    //Keep the user in the bounds of the subregion
+    var lastValidCenter = map.getCenter();
     google.maps.event.addListener(map, 'center_changed', function () {
-        if (subRegions[regionNumber].contains(map.getCenter())) {
-            // still within valid bounds, so save the last valid position
+        if (subRegionsList[currentSubRegionNumber].contains(map.getCenter())) {
             lastValidCenter = map.getCenter();
             return;
         }
         //swal("Looks like your trying to explore outside of your region", "Please stay inside the bounds")
-        // not valid anymore => return to last valid position
         map.panTo(lastValidCenter);
     });
 
+    //Reference image rotation controls
     $('#rot-left').on('click', function (event) {
         event.preventDefault();
         $('#mysteryImage').rotate(-45);
 
     });
-
     $('#rot-right').on('click', function (event) {
         event.preventDefault();
         $('#mysteryImage').rotate(45);
@@ -585,32 +629,6 @@ function yesControlMethod(controlDiv, map) {
     yesButton.value = "Yes / Maybe";
     yesButton.className = "btn btn-success";
     controlDiv.appendChild(yesButton);
-}
-
-//Translate the bounds to cordinates, CW is a boolean.
-//If true, make the returned coordinates boolean.
-function transBoundsToCord(bounds, CW) {
-    var NE = bounds.getNorthEast();
-    var SW = bounds.getSouthWest();
-    var SE = new google.maps.LatLng(SW.lat(), NE.lng());
-    var NW = new google.maps.LatLng(NE.lat(), SW.lng());
-
-    var path = [];
-
-    if (CW) {
-        path.push(NE);
-        path.push(SE);
-        path.push(SW);
-        path.push(NW);
-    }
-    else {
-        path.push(NE);
-        path.push(NW);
-        path.push(SW);
-        path.push(SE);
-    }
-
-    return path;
 }
 	  
 	  
