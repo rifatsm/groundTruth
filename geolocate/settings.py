@@ -85,6 +85,7 @@ DATABASES = {
         'NAME': "ground_truth",
         'PASSWORD': os.environ["DB_PASS"],
         'HOST': 'localhost',
+        'USER': 'postgres',
         'PORT': '',
     }
 }
