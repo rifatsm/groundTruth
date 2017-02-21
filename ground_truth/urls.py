@@ -6,7 +6,7 @@ from . import api
 app_name = 'ground_truth'
 
 urlpatterns = [
-	# url(r'^$', views.form, name='form'),
-	url(r'^add/$',api.add, name='add'),
-	url(r'^$', views.serach, name="search")
+    url(r'^add_judgment/$', api.add_judgment, name='add_judgment'),
+    url(r'^region/$', api.get_region, name='get_region'),
+    url(r'^$', views.serach, name="search")
 ]

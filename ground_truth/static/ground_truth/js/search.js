@@ -22,8 +22,8 @@ function initMap() {
 
     var br = ['br', './assets/Brasilia_level1_rotate.jpg', './assets/Brasilia_level2_rotate.jpg', './assets/Brasilia_level3_rotate.jpg', './assets/Brasilia_level4_rotate.jpg', './assets/Brasilia_level5_rotate.jpg', './assets/Brasilia_level6_rotate.jpg'];
     var clt = ['clt', './assets/CLT_level1_rotate.jpg', './assets/CLT_level2_rotate.jpg', './assets/CLT_level3_rotate.jpg', './assets/CLT_level4_rotate.jpg',];
-    var cmd = ['cmd', './assets/Comodore_level1_rotate.jpg', './assets/Comodore_level2_rotate.jpg', './assets/Comodore_level3_rotate.jpg', './assets/Comodore_level4_rotate.jpg', './assets/Comodore_level5_rotate.jpg', './assets/Comodore_level6_rotate.jpg',];
-    var sp = ['sp', './assets/Paulo_level1_rotate.jpg', './assets/Paulo_level2_rotate.jpg', './assets/Paulo_level3_rotate.jpg', './assets/Paulo_level4_rotate.jpg', './assets/Paulo_level5_rotate.jpg', './assets/Paulo_level6_rotate.jpg',];
+    var cmd = ['cmd', './assets/Comodore_level1_rotate.jpg', './assets/Comodore_level2_rotate.jpg', './assets/Comodore_level3_rotate.jpg', './assets/Comodore_level4_rotate.jpg', './assets/Comodore_level5_rotate.jpg', './assets/Comodore_level6_rotate.jpg'];
+    var sp = ['sp', './assets/Paulo_level1_rotate.jpg', './assets/Paulo_level2_rotate.jpg', './assets/Paulo_level3_rotate.jpg', './assets/Paulo_level4_rotate.jpg', './assets/Paulo_level5_rotate.jpg', './assets/Paulo_level6_rotate.jpg'];
     var p = ['p', './assets/Pope_level1_rotate.jpg', './assets/Pope_level2_rotate.jpg', './assets/Pope_level3_rotate.jpg'];
 
     var tasksList = [[br, 1], [br, 2], [br, 4], [br, 5], [br, 6],
@@ -251,6 +251,8 @@ function initMap() {
 
     }//end sp
 
+
+    // TODO what happens when we are not in the north hemisphere?
     var searchWidth = searchRegion.getBounds().getNorthEast().lng() - searchRegion.getBounds().getSouthWest().lng();
     var searchHeight = searchRegion.getBounds().getNorthEast().lat() - searchRegion.getBounds().getSouthWest().lat();
     subRegionWidth = searchWidth / SIZE;
