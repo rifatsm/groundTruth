@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 def add_judgment(request):
     # TODO THIS IS NOT TESTED FULLY, NEED TO TEST
     post = request.POST
+    print(post)
     if (u'judgment' in post and u'worker' in post and u'sub_region' in post
         and u'datetime' in post and u'duration' in post):
 
@@ -154,6 +155,7 @@ def get_region(request):
         for sub_region in subs:
             sub_regions.append({
                 'region_id': region_id,
+                'sub_region_id': sub_region.pk,
                 'index': sub_region.index,
                 'bounds': {
                     'lat_start': sub_region.lat_start,

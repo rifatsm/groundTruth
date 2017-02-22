@@ -233,11 +233,13 @@ function initMap() {
             //TODO John is testing the db on only the first subregion
             if (currentSubRegionNumber == 0) {
                 var send = {
-                    "time": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
-                    "judgment": judgementRectangle.yesNo,
-                    "worker": 0,
-                    "index": currentSubRegionNumber,
-                    "region_id": 2
+                    // "judgment": judgementRectangle.yesNo,
+                    // "worker": 0,
+                    // "sub_region":
+                    // "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
+                    //
+                    // "index": currentSubRegionNumber,
+                    // "region_id": 2
                 };
                 if (db) {
                     $.post("/ground_truth/add_judgment/", send, function (res) {
