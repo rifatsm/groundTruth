@@ -16,7 +16,7 @@ var highlightSubRegion;
 var taskCode;
 var yeses = 0;
 
-var db = true;
+var db = false;
 
 //Initialize the map and event handlers
 function initMap() {
@@ -119,7 +119,9 @@ function initMap() {
                 new google.maps.LatLng(s.lat_start, s.lon_start),
                 new google.maps.LatLng(s.lat_end, s.lon_end)
             );
-            subRegionsList.push(subRegionBounds);
+            var subRegion = json.sub_regions[i];
+            subRegion.bounds = subRegionBounds;
+            subRegionsList.push(subRegion);
         }
 
         //Draw the subregions on the miniMap
@@ -130,7 +132,7 @@ function initMap() {
                 strokeWeight: .5,
                 fillOpacity: 0.0,
                 map: miniMap,
-                bounds: subRegionsList[i]
+                bounds: subRegionsList[i].bounds
             });
         }
 
@@ -139,12 +141,12 @@ function initMap() {
         map = new google.maps.Map(document.getElementById('mainView'), {
             tilt: 0,
             zoom: ZOOM,
-            center: subRegionsList[currentSubRegionNumber].getCenter(),
+            center: subRegionsList[currentSubRegionNumber].bounds.getCenter(),
             mapTypeId: 'satellite',
             draggable: true,
             scrollwheel: true,
             minZoom: ZOOM,
-            bounds: subRegionsList[currentSubRegionNumber]
+            bounds: subRegionsList[currentSubRegionNumber].bounds
 
         });
 
@@ -156,7 +158,7 @@ function initMap() {
                 strokeWeight: 6,
                 fillOpacity: 0.0,
                 map: map,
-                bounds: subRegionsList[i]
+                bounds: subRegionsList[i].bounds
             });
         }
         //add a highlight to the current subregion
@@ -166,7 +168,7 @@ function initMap() {
             strokeWeight: 15,
             fillOpacity: 0.0,
             map: map,
-            bounds: subRegionsList[currentSubRegionNumber]
+            bounds: subRegionsList[currentSubRegionNumber].bounds
         });
 
 
@@ -241,6 +243,7 @@ function initMap() {
                     // "index": currentSubRegionNumber,
                     // "region_id": 2
                 };
+                console.log(send);
                 if (db) {
                     $.post("/ground_truth/add_judgment/", send, function (res) {
                         console.log(res);
@@ -286,7 +289,7 @@ function initMap() {
                     strokeWeight: 6,
                     fillOpacity: 0.0,
                     map: map,
-                    bounds: subRegionsList[i]
+                    bounds: subRegionsList[i].bounds
                 });
             }
             highlightSubRegion = new google.maps.Rectangle({
@@ -295,14 +298,14 @@ function initMap() {
                 strokeWeight: 15,
                 fillOpacity: 0.0,
                 map: map,
-                bounds: subRegionsList[currentSubRegionNumber + 1]
+                bounds: subRegionsList[currentSubRegionNumber + 1].bounds
             });
 
             //Draw the judgement on the miniMap
             if (judgementRectangle != null) {
                 judgementsList.push(judgementRectangle);
                 currentSubRegionNumber++;
-                map.setCenter(subRegionsList[currentSubRegionNumber].getCenter());
+                map.setCenter(subRegionsList[currentSubRegionNumber].bounds.getCenter());
                 for (var i = 0; i < judgementsList.length; i++) {
                     judgementsList[i].setMap(miniMap);
                 }
@@ -333,7 +336,7 @@ function initMap() {
                 fillOpacity: 0.2,
                 map: miniMap,
                 value: 0,
-                bounds: subRegionsList[currentSubRegionNumber],
+                bounds: subRegionsList[currentSubRegionNumber].bounds,
                 yesNo: "no"
             });
             //They can now click the next button
@@ -358,7 +361,7 @@ function initMap() {
                 fillOpacity: 0.2,
                 map: miniMap,
                 value: 1,
-                bounds: subRegionsList[currentSubRegionNumber],
+                bounds: subRegionsList[currentSubRegionNumber].bounds,
                 yesNo: "yes"
             });
             //They can now click the next button
@@ -386,7 +389,7 @@ function initMap() {
         //Keep the user in the bounds of the subregion
         var lastValidCenter = map.getCenter();
         google.maps.event.addListener(map, 'center_changed', function () {
-            if (subRegionsList[currentSubRegionNumber].contains(map.getCenter())) {
+            if (subRegionsList[currentSubRegionNumber].bounds.contains(map.getCenter())) {
                 lastValidCenter = map.getCenter();
                 return;
             }
