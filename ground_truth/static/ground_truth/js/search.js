@@ -16,7 +16,7 @@ var highlightSubRegion;
 var taskCode;
 var yeses = 0;
 
-var db = false;
+var db = true;
 
 //Initialize the map and event handlers
 function initMap() {
@@ -233,24 +233,21 @@ function initMap() {
             //---Process this subregion-----
 
             //TODO John is testing the db on only the first subregion
-            if (currentSubRegionNumber == 0) {
-                var send = {
-                    // "judgment": judgementRectangle.yesNo,
-                    // "worker": 0,
-                    // "sub_region":
-                    // "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
-                    //
-                    // "index": currentSubRegionNumber,
-                    // "region_id": 2
-                };
-                console.log(send);
-                if (db) {
-                    $.post("/ground_truth/add_judgment/", send, function (res) {
-                        console.log(res);
-                    });
-                }
 
+            var send = {
+                "judgment": judgementRectangle.yesNo,
+                "worker": 0,
+                "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
+                "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
+                "datetime": lastTaskEndTime
+            };
+            console.log(send);
+            if (db) {
+                $.post("/ground_truth/add_judgment/", send, function (res) {
+                    console.log(res);
+                });
             }
+
 
             //Count the number of 'yes' judgements
             if (judgementRectangle.yesNo == 'yes') {
@@ -429,7 +426,7 @@ function nextControlMethod(controlDiv, map, text) {
 
 function noControlMethod(controlDiv, map) {
     var noButton = document.createElement("input");
-    noButton.id = "noButton"
+    noButton.id = "noButton";
     noButton.style.marginTop = '10px';
     noButton.style.marginRight = '10px';
     noButton.type = "button";
@@ -441,7 +438,7 @@ function noControlMethod(controlDiv, map) {
 
 function yesControlMethod(controlDiv, map) {
     var yesButton = document.createElement("input");
-    yesButton.id = "yesButton"
+    yesButton.id = "yesButton";
     yesButton.style.marginTop = '10px';
     yesButton.style.marginRight = '10px';
     yesButton.type = "button";

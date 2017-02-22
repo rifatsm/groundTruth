@@ -14,7 +14,6 @@ from django.views.decorators.csrf import csrf_exempt
 def add_judgment(request):
     # TODO THIS IS NOT TESTED FULLY, NEED TO TEST
     post = request.POST
-    print(post)
     if (u'judgment' in post and u'worker' in post and u'sub_region' in post
         and u'datetime' in post and u'duration' in post):
 
