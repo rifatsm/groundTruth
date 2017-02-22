@@ -265,6 +265,9 @@ function initMap() {
 
     //----Process the larger region into subregions, store subregions in subRegionsList, and draw----
 
+    var json = {"sub_regions": [{"index": 0, "region_id": "1", "bounds": {"lat_end": -15.803342, "lon_start": -47.881063, "lon_end": -47.877063, "lat_start": -15.807342}}, {"index": 1, "region_id": "1", "bounds": {"lat_end": -15.803342, "lon_start": -47.877063, "lon_end": -47.873063, "lat_start": -15.807342}}, {"index": 2, "region_id": "1", "bounds": {"lat_end": -15.803342, "lon_start": -47.873063, "lon_end": -47.869063, "lat_start": -15.807342}}, {"index": 3, "region_id": "1", "bounds": {"lat_end": -15.803342, "lon_start": -47.869063, "lon_end": -47.865063, "lat_start": -15.807342}}, {"index": 4, "region_id": "1", "bounds": {"lat_end": -15.803342, "lon_start": -47.865063, "lon_end": -47.861063, "lat_start": -15.807342}}, {"index": 5, "region_id": "1", "bounds": {"lat_end": -15.799342, "lon_start": -47.881063, "lon_end": -47.877063, "lat_start": -15.803342}}, {"index": 6, "region_id": "1", "bounds": {"lat_end": -15.799342, "lon_start": -47.877063, "lon_end": -47.873063, "lat_start": -15.803342}}, {"index": 7, "region_id": "1", "bounds": {"lat_end": -15.799342, "lon_start": -47.873063, "lon_end": -47.869063, "lat_start": -15.803342}}, {"index": 8, "region_id": "1", "bounds": {"lat_end": -15.799342, "lon_start": -47.869063, "lon_end": -47.865063, "lat_start": -15.803342}}, {"index": 9, "region_id": "1", "bounds": {"lat_end": -15.799342, "lon_start": -47.865063, "lon_end": -47.861063, "lat_start": -15.803342}}, {"index": 10, "region_id": "1", "bounds": {"lat_end": -15.795342, "lon_start": -47.881063, "lon_end": -47.877063, "lat_start": -15.799342}}, {"index": 11, "region_id": "1", "bounds": {"lat_end": -15.795342, "lon_start": -47.877063, "lon_end": -47.873063, "lat_start": -15.799342}}, {"index": 12, "region_id": "1", "bounds": {"lat_end": -15.795342, "lon_start": -47.873063, "lon_end": -47.869063, "lat_start": -15.799342}}, {"index": 13, "region_id": "1", "bounds": {"lat_end": -15.795342, "lon_start": -47.869063, "lon_end": -47.865063, "lat_start": -15.799342}}, {"index": 14, "region_id": "1", "bounds": {"lat_end": -15.795342, "lon_start": -47.865063, "lon_end": -47.861063, "lat_start": -15.799342}}, {"index": 15, "region_id": "1", "bounds": {"lat_end": -15.791342, "lon_start": -47.881063, "lon_end": -47.877063, "lat_start": -15.795342}}, {"index": 16, "region_id": "1", "bounds": {"lat_end": -15.791342, "lon_start": -47.877063, "lon_end": -47.873063, "lat_start": -15.795342}}, {"index": 17, "region_id": "1", "bounds": {"lat_end": -15.791342, "lon_start": -47.873063, "lon_end": -47.869063, "lat_start": -15.795342}}, {"index": 18, "region_id": "1", "bounds": {"lat_end": -15.791342, "lon_start": -47.869063, "lon_end": -47.865063, "lat_start": -15.795342}}, {"index": 19, "region_id": "1", "bounds": {"lat_end": -15.791342, "lon_start": -47.865063, "lon_end": -47.861063, "lat_start": -15.795342}}, {"index": 20, "region_id": "1", "bounds": {"lat_end": -15.787342, "lon_start": -47.881063, "lon_end": -47.877063, "lat_start": -15.791342}}, {"index": 21, "region_id": "1", "bounds": {"lat_end": -15.787342, "lon_start": -47.877063, "lon_end": -47.873063, "lat_start": -15.791342}}, {"index": 22, "region_id": "1", "bounds": {"lat_end": -15.787342, "lon_start": -47.873063, "lon_end": -47.869063, "lat_start": -15.791342}}, {"index": 23, "region_id": "1", "bounds": {"lat_end": -15.787342, "lon_start": -47.869063, "lon_end": -47.865063, "lat_start": -15.791342}}, {"index": 24, "region_id": "1", "bounds": {"lat_end": -15.787342, "lon_start": -47.865063, "lon_end": -47.861063, "lat_start": -15.791342}}], "id": "1", "investigation_id": 1, "bounds": {"lat_end": -15.787342, "lon_start": -47.881063, "lon_end": -47.861063, "lat_start": -15.807342}}
+
+
     var regionWidth = searchRegion.getBounds().getNorthEast().lng() - searchRegion.getBounds().getSouthWest().lng();
     var regionHeight = searchRegion.getBounds().getNorthEast().lat() - searchRegion.getBounds().getSouthWest().lat();
     //TODO Currently size is definied per task. Later needs to be a constant
@@ -273,6 +276,7 @@ function initMap() {
 
     //Construct the subregions in the creeping line search pattern
     //Starting with bottom left i.e. SW corner
+/*
     for (var i = SIZE; i > 0; i--) {
         if (i % 2 == 0) {
             for (var j = 1; j < SIZE + 1; j++) {
@@ -284,8 +288,8 @@ function initMap() {
                     new google.maps.LatLng(newLatNE, newLngNE),
                     new google.maps.LatLng(newLatSW, newLngSW)
                 );
-
-                subRegionsList.push(subRegionBounds);
+                console.log("Old Bounds " + subRegionsList.length + " : " + subRegionBounds);
+                //subRegionsList.push(subRegionBounds);
             }
         }
         else {
@@ -298,11 +302,21 @@ function initMap() {
                     new google.maps.LatLng(newLatNE, newLngNE),
                     new google.maps.LatLng(newLatSW, newLngSW)
                 );
-
-                subRegionsList.push(subRegionBounds);
+                console.log("Old Bounds " + subRegionsList.length + " : " + subRegionBounds);
+                //subRegionsList.push(subRegionBounds);
             }
         }
 
+    }
+*/
+
+    for(var i=0; i<json.sub_regions.length; i++){
+        var s = json.sub_regions[i].bounds;
+        var subRegionBounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(s.lat_start, s.lon_start),
+                    new google.maps.LatLng(s.lat_end, s.lon_end)
+                );
+        subRegionsList.push(subRegionBounds);
     }
 
     //Draw the subregions on the miniMap
