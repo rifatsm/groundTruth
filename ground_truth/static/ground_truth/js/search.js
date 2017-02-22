@@ -276,40 +276,6 @@ function initMap() {
 
     //Construct the subregions in the creeping line search pattern
     //Starting with bottom left i.e. SW corner
-/*
-    for (var i = SIZE; i > 0; i--) {
-        if (i % 2 == 0) {
-            for (var j = 1; j < SIZE + 1; j++) {
-                var newLngNE = searchRegion.getBounds().getNorthEast().lng() - subRegionWidth * i;
-                var newLatNE = searchRegion.getBounds().getNorthEast().lat() - subRegionHeight * j;
-                var newLngSW = newLngNE + subRegionWidth;
-                var newLatSW = newLatNE + subRegionHeight;
-                var subRegionBounds = new google.maps.LatLngBounds(
-                    new google.maps.LatLng(newLatNE, newLngNE),
-                    new google.maps.LatLng(newLatSW, newLngSW)
-                );
-                console.log("Old Bounds " + subRegionsList.length + " : " + subRegionBounds);
-                //subRegionsList.push(subRegionBounds);
-            }
-        }
-        else {
-            for (var j = SIZE; j > 0; j--) {
-                var newLngNE = searchRegion.getBounds().getNorthEast().lng() - subRegionWidth * i;
-                var newLatNE = searchRegion.getBounds().getNorthEast().lat() - subRegionHeight * j;
-                var newLngSW = newLngNE + subRegionWidth;
-                var newLatSW = newLatNE + subRegionHeight;
-                var subRegionBounds = new google.maps.LatLngBounds(
-                    new google.maps.LatLng(newLatNE, newLngNE),
-                    new google.maps.LatLng(newLatSW, newLngSW)
-                );
-                console.log("Old Bounds " + subRegionsList.length + " : " + subRegionBounds);
-                //subRegionsList.push(subRegionBounds);
-            }
-        }
-
-    }
-*/
-
     for(var i=0; i<json.sub_regions.length; i++){
         var s = json.sub_regions[i].bounds;
         var subRegionBounds = new google.maps.LatLngBounds(
