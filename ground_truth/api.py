@@ -47,10 +47,6 @@ def add_investigation(request):
     # TODO im not happy with he helper function structure
     # TODO this could be much shorter
 
-    SUB_REGION_SIZE = 5
-    WIDTH = 0.02
-    HEIGHT = 0.02
-
     post = request.POST
 
     """
@@ -63,7 +59,8 @@ def add_investigation(request):
     """
 
     if (u'lat_start' in post and u'lon_start' in post and u'lat_end' in post
-        and u'lon_end' in post and u'expert_id' in post):
+        and u'lon_end' in post and u'expert_id' in post and u'sub_region_width' in post
+        and u'sub_region_height' in post and u'num_sub_regions_width' in post and u'num_sub_regions_height' in post):
 
         lat_start = post[u'lat_start'].strip()
         lon_start = post[u'lon_start'].strip()
@@ -71,45 +68,67 @@ def add_investigation(request):
         lat_end = post[u'lat_end'].strip()
         lon_end = post[u'lon_end'].strip()
 
+        sub_region_width = post[u'sub_region_width'].strip()
+        sub_region_height = post[u'sub_region_height'].strip()
+
+        num_sub_regions_width = post[u'num_sub_regions_width'].strip()
+        num_sub_regions_height = post[u'num_sub_regions_height'].strip()
+
         expert_id = post[u'expert_id'].strip()
 
         if (isfloat(lat_start) and isfloat(lon_start) and isfloat(lon_end) and
-                isfloat(lat_end) and expert_id.isdigit() and int(expert_id) > -1):
+                isfloat(lat_end) and expert_id.isdigit() and int(expert_id) > -1
+                and isfloat(sub_region_width) and isfloat(sub_region_height) and
+                isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height)):
 
-            lat_start = float(lat_start)
-            lon_start = float(lon_start)
+            lat_start = round(float(lat_start), 6)
+            lon_start = round(float(lon_start), 6)
 
-            lat_end = float(lat_end)
-            lon_end = float(lon_end)
+            lat_end = round(float(lat_end), 6)
+            lon_end = round(float(lon_end), 6)
+
+            sub_region_width = round(float(sub_region_width), 6)
+            sub_region_height = round(float(sub_region_height), 6)
+
+            num_sub_regions_width = round(float(num_sub_regions_width), 6)
+            num_sub_regions_height = round(float(num_sub_regions_height), 6)
+
+            WIDTH = num_sub_regions_width * sub_region_width
+            HEIGHT = num_sub_regions_height * sub_region_height
 
             expert_id = int(expert_id)
 
             investigation_height = abs(lat_start - lat_end)
             investigation_width = abs(lon_start - lon_end)
 
-            # TODO unsure of behavior in other regions of the globe (written for north america)
             if investigation_width % WIDTH != 0:
-                missing = float(investigation_width % WIDTH)
+                missing = WIDTH - float(investigation_width % WIDTH)
                 expand = missing / 2.0
 
-                lon_start =- expand
-                lon_end =+ expand
+                lon_start = round(lon_start - expand, 6)
+                lon_end = round(lon_end + expand, 6)
+
+                # print(abs(lon_start - lon_end) / WIDTH)
+                # print(abs(lon_start - lon_end))
 
             if investigation_height % HEIGHT != 0:
-                missing = float(investigation_height % HEIGHT)
+                missing = HEIGHT - float(investigation_height % HEIGHT)
                 expand = missing / 2.0
 
-                lat_start =- expand
-                lat_end =+ expand
+                lat_start = round(lat_start - expand, 6)
+                lat_end = round(lat_end + expand, 6)
 
             now = datetime.datetime.now()
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
                                    expert_id=expert_id, datetime_str=now.isoformat(), image="")
             invest.save()
 
-            for region in build_regions(invest, HEIGHT, WIDTH):
+            regions = build_regions(invest, HEIGHT, WIDTH)
+
+            for region in regions:
                 region.save()
-                for sub_region in build_sub_regions(region, SUB_REGION_SIZE):
+                print("helpppas fklasjfjlkasjflkasjflkasjlkfsjklfjklasklasdfjklasdf")
+                for sub_region in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
                     sub_region.save()
 
             res = {
