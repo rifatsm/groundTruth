@@ -80,9 +80,13 @@ function initMap() {
 
         //----Initialize different maps for the different task codes----
 
+        var regionBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(json.bounds.lat_start, json.bounds.lon_start),
+                new google.maps.LatLng(json.bounds.lat_end, json.bounds.lon_end)
+            );
         miniMap = new google.maps.Map(document.getElementById('miniMap'), {
             zoom: 11,
-            center: new google.maps.LatLng(-15.797342, -47.871063),
+            center: regionBounds.getCenter(),
             mapTypeId: 'roadmap',
             disableDefaultUI: true,
             scrollwheel: true,
@@ -97,16 +101,11 @@ function initMap() {
             fillColor: '#000000',
             fillOpacity: 0.0,
             map: miniMap,
-            bounds: {
-                north: -15.797342 + 0.01,
-                south: -15.797342 - 0.01,
-                east: -47.871063 + 0.01,
-                west: -47.871063 - 0.01
-            }
+            bounds: regionBounds
         });
 
         var SIZE = 5;
-        var ZOOM = 17;
+        var ZOOM = 18;
 
 
         //----Process the larger region into subregions, store subregions in subRegionsList, and draw----
