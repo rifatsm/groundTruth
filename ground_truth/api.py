@@ -102,19 +102,20 @@ def add_investigation(request):
 
             expert_id = int(expert_id)
 
-            investigation_height = abs(lat_start - lat_end)
-            investigation_width = abs(lon_start - lon_end)
+            investigation_height = (+Decimal(abs(lat_start - lat_end)))
+            investigation_width = (+Decimal(abs(lon_start - lon_end)))
 
-            if investigation_width % WIDTH != 0:
+            if investigation_width % WIDTH != 0.0:
+                print("snapped")
                 missing = WIDTH - Decimal(investigation_width % WIDTH)
-                expand = missing / 2.0
+                expand = missing / (+Decimal(2.0))
 
                 lon_start = lon_start - expand
                 lon_end = lon_end + expand
 
-            if investigation_height % HEIGHT != 0:
+            if investigation_height % HEIGHT != 0.0:
                 missing = HEIGHT - Decimal(investigation_height % HEIGHT)
-                expand = missing / 2.0
+                expand = missing / (+Decimal(2.0))
 
                 lat_start = lat_start - expand
                 lat_end = lat_end + expand
