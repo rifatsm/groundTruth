@@ -9,6 +9,10 @@ from .util import isfloat, build_regions, build_sub_regions
 
 from django.views.decorators.csrf import csrf_exempt
 
+from decimal import *
+getcontext().prec = 6
+getcontext().rounding = ROUND_HALF_UP
+
 
 @csrf_exempt
 def add_judgment(request):
@@ -81,17 +85,17 @@ def add_investigation(request):
                 and isfloat(sub_region_width) and isfloat(sub_region_height) and
                 isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height)):
 
-            lat_start = round(float(lat_start), 6)
-            lon_start = round(float(lon_start), 6)
+            lat_start = +Decimal(lat_start)
+            lon_start = + Decimal(lon_start)
 
-            lat_end = round(float(lat_end), 6)
-            lon_end = round(float(lon_end), 6)
+            lat_end = + Decimal(lat_end)
+            lon_end = + Decimal(lon_end)
 
-            sub_region_width = round(float(sub_region_width), 6)
-            sub_region_height = round(float(sub_region_height), 6)
+            sub_region_width = +Decimal(sub_region_width)
+            sub_region_height = + Decimal(sub_region_height)
 
-            num_sub_regions_width = round(float(num_sub_regions_width), 6)
-            num_sub_regions_height = round(float(num_sub_regions_height), 6)
+            num_sub_regions_width = + Decimal(num_sub_regions_width)
+            num_sub_regions_height = + Decimal(num_sub_regions_height)
 
             WIDTH = num_sub_regions_width * sub_region_width
             HEIGHT = num_sub_regions_height * sub_region_height
@@ -102,21 +106,18 @@ def add_investigation(request):
             investigation_width = abs(lon_start - lon_end)
 
             if investigation_width % WIDTH != 0:
-                missing = WIDTH - float(investigation_width % WIDTH)
+                missing = WIDTH - Decimal(investigation_width % WIDTH)
                 expand = missing / 2.0
 
-                lon_start = round(lon_start - expand, 6)
-                lon_end = round(lon_end + expand, 6)
-
-                # print(abs(lon_start - lon_end) / WIDTH)
-                # print(abs(lon_start - lon_end))
+                lon_start = lon_start - expand
+                lon_end = lon_end + expand
 
             if investigation_height % HEIGHT != 0:
-                missing = HEIGHT - float(investigation_height % HEIGHT)
+                missing = HEIGHT - Decimal(investigation_height % HEIGHT)
                 expand = missing / 2.0
 
-                lat_start = round(lat_start - expand, 6)
-                lat_end = round(lat_end + expand, 6)
+                lat_start = lat_start - expand
+                lat_end = lat_end + expand
 
             now = datetime.datetime.now()
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
@@ -127,7 +128,6 @@ def add_investigation(request):
 
             for region in regions:
                 region.save()
-                print("helpppas fklasjfjlkasjflkasjflkasjlkfsjklfjklasklasdfjklasdf")
                 for sub_region in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
                     sub_region.save()
 

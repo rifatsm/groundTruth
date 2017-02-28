@@ -2,19 +2,22 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from decimal import *
+
+getcontext().prec = 6
+getcontext().rounding = ROUND_HALF_UP
 
 
 class Investigation(models.Model):
-    lat_start = models.FloatField(blank=False, default=0.0)
-    lon_start = models.FloatField(blank=False, default=0.0)
+    lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
-    lat_end = models.FloatField(blank=False, default=0.0)
-    lon_end = models.FloatField(blank=False, default=0.0)
+    lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
     expert_id = models.IntegerField(blank=False, default=0.0)
 
     datetime_str = models.CharField(max_length=200)
-
 
     # TODO Give meaning
     # TODO idk how this works, this was from a guide
@@ -34,19 +37,19 @@ class Investigation(models.Model):
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  expert_id: {4}  " \
                "datetime: {5}  status: {6}  image: {7}\n".format(
-            self.lat_start, self.lon_start, self.lat_end, self.lon_end,
-            self.expert_id, self.datetime_str, self.status, self.image
-        )
+                self.lat_start, self.lon_start, self.lat_end, self.lon_end,
+                self.expert_id, self.datetime_str, self.status, self.image
+            )
 
 
 class Region(models.Model):
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
 
-    lat_start = models.FloatField(blank=False, default=0.0)
-    lon_start = models.FloatField(blank=False, default=0.0)
+    lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
-    lat_end = models.FloatField(blank=False, default=0.0)
-    lon_end = models.FloatField(blank=False, default=0.0)
+    lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  investigation: {4}\n".format(
@@ -54,15 +57,15 @@ class Region(models.Model):
         )
 
 
-#TODO Rename
+# TODO Rename
 class Subregion(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
-    lat_start = models.FloatField(blank=False, default=0.0)
-    lon_start = models.FloatField(blank=False, default=0.0)
+    lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
-    lat_end = models.FloatField(blank=False, default=0.0)
-    lon_end = models.FloatField(blank=False, default=0.0)
+    lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
     # go up, then right, then down, then right, then up.....
     index = models.IntegerField(

@@ -1,14 +1,10 @@
 import requests
 
-x = -23.568
-y = -46.66
-z = -23.558
-k = -46.65
 payload = {
-    u'lat_start': x,
-    u'lon_start': y,
-    u'lat_end': z,
-    u'lon_end': k,
+    u'lat_start': -23.568,
+    u'lon_start': -46.66,
+    u'lat_end': -23.558,
+    u'lon_end': -46.65,
     u'sub_region_width': 0.002,
     u'sub_region_height': 0.002,
     u'num_sub_regions_width': 5,
