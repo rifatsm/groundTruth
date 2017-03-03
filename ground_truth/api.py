@@ -125,7 +125,7 @@ def add_investigation(request):
             now = datetime.datetime.now()
 
             img_url = post[u'img']
-            img_url = img_url.replace("https://www.dropbox.com", "dl.dropboxusercontent.com")
+            img_url = img_url.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
                                    expert_id=expert_id, datetime_str=now.isoformat(), image=img_url)
             invest.save()

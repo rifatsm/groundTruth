@@ -23,6 +23,8 @@ function initMap() {
     $.getJSON("region/?region=1", function (data) {
         var json = data;
 
+         $('#mysteryImage').attr("src", json['img']);
+
         //----Timer----
         taskStartTime = new Date();
         lastTaskEndTime = taskStartTime;
