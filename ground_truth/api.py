@@ -59,12 +59,15 @@ def add_investigation(request):
     lon_start: #,
     lat_end: #,
     lon_end: #,
-    expert_id: #
+    expert_id: #,
+    img: image_url in dopbox
     """
 
+    # TODO this should be a for loop
     if (u'lat_start' in post and u'lon_start' in post and u'lat_end' in post
         and u'lon_end' in post and u'expert_id' in post and u'sub_region_width' in post
-        and u'sub_region_height' in post and u'num_sub_regions_width' in post and u'num_sub_regions_height' in post):
+        and u'sub_region_height' in post and u'num_sub_regions_width' in post and u'num_sub_regions_height' in post
+        and u'img' in post):
 
         lat_start = post[u'lat_start'].strip()
         lon_start = post[u'lon_start'].strip()
@@ -106,7 +109,6 @@ def add_investigation(request):
             investigation_width = (+Decimal(abs(lon_start - lon_end)))
 
             if investigation_width % WIDTH != 0.0:
-                print("snapped")
                 missing = WIDTH - Decimal(investigation_width % WIDTH)
                 expand = missing / (+Decimal(2.0))
 
@@ -121,8 +123,11 @@ def add_investigation(request):
                 lat_end = lat_end + expand
 
             now = datetime.datetime.now()
+
+            img_url = post[u'img']
+            img_url = img_url.replace("https://www.dropbox.com", "dl.dropboxusercontent.com")
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
-                                   expert_id=expert_id, datetime_str=now.isoformat(), image="")
+                                   expert_id=expert_id, datetime_str=now.isoformat(), image=img_url)
             invest.save()
 
             regions = build_regions(invest, HEIGHT, WIDTH)
@@ -168,7 +173,8 @@ def get_region(request):
                 'lon_start': region.lon_start,
                 'lat_end': region.lat_end,
                 'lon_end': region.lon_end
-            }
+            },
+            'img': region.investigation.image
         }
         sub_regions = []
         for sub_region in subs:
