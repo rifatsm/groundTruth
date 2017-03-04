@@ -52,7 +52,8 @@ payload = {
     u'num_sub_regions_width': 5,
     u'num_sub_regions_height': 5,
     u'expert_id': 23,
-    u'img': "https://www.dropbox.com/s/uv7n6uvryplxone/Paulo_level1_rotate.jpg?dl=0"
+    u'img': "https://www.dropbox.com/s/uv7n6uvryplxone/Paulo_level1_rotate.jpg?dl=0",
+    u'zoom': 17
 }
 
 r = requests.post("http://127.0.0.1:8000/ground_truth/add_investigation/", data=payload)

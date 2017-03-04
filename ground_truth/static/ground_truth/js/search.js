@@ -20,7 +20,7 @@ var db = true;
 
 //Initialize the map and event handlers
 function initMap() {
-    $.getJSON("region/?region=1", function (data) {
+    $.getJSON("region/?region=6", function (data) {
         var json = data;
 
          $('#mysteryImage').attr("src", json['img']);
@@ -107,7 +107,7 @@ function initMap() {
         });
 
         var SIZE = 5;
-        var ZOOM = 18;
+        var ZOOM = parseInt(json['zoom']);
 
 
         //----Process the larger region into subregions, store subregions in subRegionsList, and draw----

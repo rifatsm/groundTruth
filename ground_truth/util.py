@@ -11,7 +11,7 @@ def isfloat(x):
         return True
 
 
-def build_regions(invest, height, width):
+def build_regions(invest, height, width, zoom):
     # TODO i am assuming that the region will fit evenly in the investigation
 
     ret = []
@@ -26,7 +26,8 @@ def build_regions(invest, height, width):
                 lon_start=invest.lon_start + (height * (j - 1)),
                 lat_end=invest.lat_start + (width * i),
                 lon_end=invest.lon_start + (height * j),
-                investigation=invest
+                investigation=invest,
+                zoom=zoom
             ))
     return ret
 

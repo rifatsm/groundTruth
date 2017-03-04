@@ -51,9 +51,11 @@ class Region(models.Model):
     lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
     lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
+    zoom = models.IntegerField(blank=False, default=18)
+
     def __str__(self):
-        return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  investigation: {4}\n".format(
-            self.lat_start, self.lon_start, self.lat_end, self.lon_end, self.investigation.pk
+        return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  investigation: {4}  zoom: {5}\n".format(
+            self.lat_start, self.lon_start, self.lat_end, self.lon_end, self.investigation.pk, self.zoom
         )
 
 

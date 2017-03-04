@@ -67,7 +67,7 @@ def add_investigation(request):
     if (u'lat_start' in post and u'lon_start' in post and u'lat_end' in post
         and u'lon_end' in post and u'expert_id' in post and u'sub_region_width' in post
         and u'sub_region_height' in post and u'num_sub_regions_width' in post and u'num_sub_regions_height' in post
-        and u'img' in post):
+        and u'img' in post and u'zoom' in post):
 
         lat_start = post[u'lat_start'].strip()
         lon_start = post[u'lon_start'].strip()
@@ -83,10 +83,12 @@ def add_investigation(request):
 
         expert_id = post[u'expert_id'].strip()
 
+        zoom = post[u'zoom']
+
         if (isfloat(lat_start) and isfloat(lon_start) and isfloat(lon_end) and
                 isfloat(lat_end) and expert_id.isdigit() and int(expert_id) > -1
                 and isfloat(sub_region_width) and isfloat(sub_region_height) and
-                isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height)):
+                isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height) and int(zoom) > 0):
 
             lat_start = +Decimal(lat_start)
             lon_start = + Decimal(lon_start)
@@ -104,6 +106,8 @@ def add_investigation(request):
             HEIGHT = num_sub_regions_height * sub_region_height
 
             expert_id = int(expert_id)
+
+            zoom = int(zoom)
 
             investigation_height = (+Decimal(abs(lat_start - lat_end)))
             investigation_width = (+Decimal(abs(lon_start - lon_end)))
@@ -130,7 +134,7 @@ def add_investigation(request):
                                    expert_id=expert_id, datetime_str=now.isoformat(), image=img_url)
             invest.save()
 
-            regions = build_regions(invest, HEIGHT, WIDTH)
+            regions = build_regions(invest, HEIGHT, WIDTH, zoom)
 
             for region in regions:
                 region.save()
@@ -174,7 +178,8 @@ def get_region(request):
                 'lat_end': region.lat_end,
                 'lon_end': region.lon_end
             },
-            'img': region.investigation.image
+            'img': region.investigation.image,
+            'zoom':region.zoom
         }
         sub_regions = []
         for sub_region in subs:
