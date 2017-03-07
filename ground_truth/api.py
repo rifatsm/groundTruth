@@ -1,15 +1,17 @@
 from django.http import JsonResponse
 from django.http import HttpResponseNotFound, HttpResponse
 from django.urls import reverse
-from ground_truth.models import Investigation, Region, Subregion, Judgement
+from ground_truth.models import Investigation, Region, Subregion, Judgement, CompletedTasks
 from django.shortcuts import get_object_or_404, render
 import dateutil.parser
 import datetime
+import hashlib
 from .util import isfloat, build_regions, build_sub_regions
 
 from django.views.decorators.csrf import csrf_exempt
 
 from decimal import *
+
 getcontext().prec = 6
 getcontext().rounding = ROUND_HALF_UP
 
@@ -18,10 +20,20 @@ getcontext().rounding = ROUND_HALF_UP
 def add_judgment(request):
     # TODO THIS IS NOT TESTED FULLY, NEED TO TEST
     post = request.POST
+
+    hash_lib = hashlib.sha256()
     if (u'judgment' in post and u'worker' in post and u'sub_region' in post
-        and u'datetime' in post and u'duration' in post):
+        and u'datetime' in post and u'duration' in post and u'token' in post
+        and u'task' in post):
+
+        token = post[u'token'].strip()
+
+        task = post[u'task'].strip()
 
         sub_region = get_object_or_404(Subregion, pk=post[u'sub_region'].strip())
+
+        if sub_region.region.access_token != token:
+            return HttpResponse(status=400)
 
         judgement = 2 if request.POST[u"judgment"].strip() == "no" else 3
 
@@ -37,8 +49,14 @@ def add_judgment(request):
         worker = post[u'worker'].strip()
         if duration.isdigit() and worker.isdigit():
             Judgement(subregion=sub_region, result=judgement, worker=worker, datetime_completed_str=date_time,
-                      time_duration_ms=duration).save()
-            return HttpResponse(status=200)
+                      time_duration_ms=duration, task_id=task).save()
+            if sub_region.index == 24:
+                hash_lib.update(datetime.datetime.now().isoformat())
+                task = CompletedTasks(worker=worker, task_id=task, token=hash_lib.hexdigest())
+                task.save()
+                return JsonResponse({"passcode" : task.token})
+            else:
+                return JsonResponse({})
         else:
             return HttpResponse(status=400)
     else:
@@ -87,7 +105,7 @@ def add_investigation(request):
 
         if (isfloat(lat_start) and isfloat(lon_start) and isfloat(lon_end) and
                 isfloat(lat_end) and expert_id.isdigit() and int(expert_id) > -1
-                and isfloat(sub_region_width) and isfloat(sub_region_height) and
+            and isfloat(sub_region_width) and isfloat(sub_region_height) and
                 isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height) and int(zoom) > 0):
 
             lat_start = +Decimal(lat_start)
@@ -167,8 +185,8 @@ def get_region(request):
     token = request.GET.get('token', '-1')
     region = get_object_or_404(Region, pk=region_id)
 
-    # if region.access_token != token:
-    #     return HttpResponse(status=400)
+    if region.access_token != token:
+        return HttpResponse(status=400)
 
     # TODO try catches are slow, i need a faster way to do this.
     try:
@@ -183,7 +201,7 @@ def get_region(request):
                 'lon_end': region.lon_end
             },
             'img': region.investigation.image,
-            'zoom':region.zoom
+            'zoom': region.zoom
         }
         sub_regions = []
         for sub_region in subs:

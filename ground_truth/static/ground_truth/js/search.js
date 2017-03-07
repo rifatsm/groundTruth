@@ -39,6 +39,10 @@ function initMap() {
 
     var region = getUrlVars()["region"];
 
+    var task = getUrlVars()["task"];
+    if (task == null) {
+        task = "-1"
+    }
     $.getJSON("/region/?token="+token+"&region="+region, function (data) {
         var json = data;
 
@@ -256,15 +260,20 @@ function initMap() {
 
             var send = {
                 "judgment": judgementRectangle.yesNo,
-                "worker": 0,
+                "worker": 0, //TODO we need to grab this from the request
                 "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
                 "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
-                "datetime": lastTaskEndTime
+                "datetime": lastTaskEndTime,
+                "token": token,
+                "task": task
             };
             console.log(send);
             if (db) {
-                $.post("/ground_truth/add_judgment/", send, function (res) {
-                    console.log(res);
+                $.post("/add_judgment/", send, function (res) {
+                    if(res.hasOwnProperty("passcode")) {
+                        console.log(res["passcode"]); // TODO rachel, this is the passcode that you need to show
+                    }
+
                 });
             }
 

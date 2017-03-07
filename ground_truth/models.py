@@ -107,7 +107,7 @@ class Judgement(models.Model):
 
     time_duration_ms = models.IntegerField(blank=False, default=0)
 
-    task_id = models.CharField(max_length=64, blank=False, default="-1")
+    task_id = models.CharField(max_length=64, blank=False)
 
     def __str__(self):
         return "result: {0}  worker{1}  datetime: {2}  duration: {3} subregion: {4}  task_id: {5}\n".format(
@@ -117,7 +117,7 @@ class Judgement(models.Model):
 
 class CompletedTasks(models.Model):
     worker = models.IntegerField(default=0, blank=False)
-    task_id = models.CharField(max_length=60, blank=False, default="-1")
+    task_id = models.CharField(max_length=60, blank=False)
     token = models.CharField(max_length=64, blank=False)
 
     def __str__(self):
