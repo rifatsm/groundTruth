@@ -1,5 +1,7 @@
 from ground_truth.models import Region, Investigation, Subregion, Judgement
 from decimal import *
+import datetime
+import hashlib
 
 
 def isfloat(x):
@@ -14,6 +16,7 @@ def isfloat(x):
 def build_regions(invest, height, width, zoom):
     # TODO i am assuming that the region will fit evenly in the investigation
 
+    hash_lib = hashlib.sha256()
     ret = []
     getcontext().prec = 6
     getcontext().rounding = ROUND_HALF_UP
@@ -21,13 +24,15 @@ def build_regions(invest, height, width, zoom):
     horizontal_bounds = + (Decimal(abs(invest.lon_start - invest.lon_end) / width) + 1)
     for i in range(1, int(vertical_bounds)):
         for j in range(1, int(horizontal_bounds)):
+            hash_lib.update(datetime.datetime.now().isoformat())
             ret.append(Region(
                 lat_start=invest.lat_start + (width * (i - 1)),
                 lon_start=invest.lon_start + (height * (j - 1)),
                 lat_end=invest.lat_start + (width * i),
                 lon_end=invest.lon_start + (height * j),
                 investigation=invest,
-                zoom=zoom
+                zoom=zoom,
+                access_token=hash_lib.hexdigest()
             ))
     return ret
 
@@ -45,7 +50,7 @@ def build_sub_regions(region, num_tall, num_wide):
     num_wide = int(+Decimal(num_wide))
     num_tall = int(+Decimal(num_tall))
 
-    for i in range(1,  num_wide + 1):
+    for i in range(1, num_wide + 1):
         if (i % 2 == 0):
             j = num_tall
             while (j > 0):
@@ -59,7 +64,7 @@ def build_sub_regions(region, num_tall, num_wide):
                 index += 1
                 j -= 1
         else:
-            for j in range(1,  num_tall+ 1):
+            for j in range(1, num_tall + 1):
                 ret.append(
                     Subregion(region=region,
                               lat_start=region.lat_start + (sub_width * (j - 1)),

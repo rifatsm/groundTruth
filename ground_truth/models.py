@@ -37,9 +37,9 @@ class Investigation(models.Model):
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  expert_id: {4}  " \
                "datetime: {5}  status: {6}  image: {7}\n".format(
-                self.lat_start, self.lon_start, self.lat_end, self.lon_end,
-                self.expert_id, self.datetime_str, self.status, self.image
-            )
+            self.lat_start, self.lon_start, self.lat_end, self.lon_end,
+            self.expert_id, self.datetime_str, self.status, self.image
+        )
 
 
 class Region(models.Model):
@@ -53,9 +53,13 @@ class Region(models.Model):
 
     zoom = models.IntegerField(blank=False, default=18)
 
+    access_token = models.CharField(max_length=64, blank=False)
+
     def __str__(self):
-        return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  investigation: {4}  zoom: {5}\n".format(
-            self.lat_start, self.lon_start, self.lat_end, self.lon_end, self.investigation.pk, self.zoom
+        return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  investigation: {4}  zoom: {5}" \
+               "  access_token: {6}\n".format(
+            self.lat_start, self.lon_start, self.lat_end, self.lon_end, self.investigation.pk,
+            self.zoom, self.access_token
         )
 
 
@@ -103,9 +107,20 @@ class Judgement(models.Model):
 
     time_duration_ms = models.IntegerField(blank=False, default=0)
 
-    # we need to store zoom level
+    task_id = models.CharField(max_length=64, blank=False, default="-1")
 
     def __str__(self):
-        return "result: {0}  worker{1}  datetime: {2}  duration: {3} subregion: {4}\n".format(
-            self.result, self.worker, self.datetime_completed_str, self.time_duration, self.subregion.pk
+        return "result: {0}  worker{1}  datetime: {2}  duration: {3} subregion: {4}  task_id: {5}\n".format(
+            self.result, self.worker, self.datetime_completed_str, self.time_duration, self.subregion.pk, self.task_id
+        )
+
+
+class CompletedTasks(models.Model):
+    worker = models.IntegerField(default=0, blank=False)
+    task_id = models.CharField(max_length=60, blank=False, default="-1")
+    token = models.CharField(max_length=64, blank=False)
+
+    def __str__(self):
+        return "worker: {0}  task_id: {1}  token: {2}\n".format(
+            self.worker, self.task_id, self.token
         )

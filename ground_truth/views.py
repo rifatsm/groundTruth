@@ -6,6 +6,13 @@ from .models import Region, Subregion, Judgement
 # Create your views here.
 
 def serach(request):
+    region_id = request.GET.get('region', '-1')
+    region = get_object_or_404(Region, pk=region_id)
+    token = request.GET.get('token', '-1')
+
+    if region.access_token != token:
+        return HttpResponse(status=400)
+
     return (render(request, "ground_truth/search.html", {}))
 
 

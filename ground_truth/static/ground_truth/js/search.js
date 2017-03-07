@@ -18,9 +18,28 @@ var yeses = 0;
 
 var db = true;
 
+function getUrlVars() {
+    // obtained from: http://stackoverflow.com/questions/4656843/jquery-get-querystring-from-url
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+
 //Initialize the map and event handlers
 function initMap() {
-    $.getJSON("region/?region=6", function (data) {
+
+    var token = getUrlVars()["token"];
+
+    var region = getUrlVars()["region"];
+
+    $.getJSON("/region/?token="+token+"&region="+region, function (data) {
         var json = data;
 
          $('#mysteryImage').attr("src", json['img']);

@@ -164,7 +164,11 @@ def add_investigation(request):
 
 def get_region(request):
     region_id = request.GET.get('region', '-1')
+    token = request.GET.get('token', '-1')
     region = get_object_or_404(Region, pk=region_id)
+
+    # if region.access_token != token:
+    #     return HttpResponse(status=400)
 
     # TODO try catches are slow, i need a faster way to do this.
     try:
