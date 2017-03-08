@@ -1,1 +1,1 @@
-web: gunicorn ground_truth.wsgi --log-file -
+web: gunicorn geolocate.wsgi --log-file -
