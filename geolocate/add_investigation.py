@@ -56,5 +56,5 @@ payload = {
     u'zoom': 17
 }
 
-r = requests.post("http://127.0.0.1:8000/ground_truth/add_investigation/", data=payload)
+r = requests.post("https://groundtruth.herokuapp.com/add_investigation/", data=payload)
 print(r.text)
