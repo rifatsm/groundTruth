@@ -1,1 +1,1 @@
-web: gunicorn dev.wsgi --log-file -
+web: gunicorn ground_truth.wsgi --log-file -
