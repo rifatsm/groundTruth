@@ -26,7 +26,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = [u'groundtruth.herokuapp.com']
+ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', u'127.0.0.1']
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -46,11 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE_CLASSES = [
-  # 'django.middleware.security.SecurityMiddleware',
-  'whitenoise.middleware.WhiteNoiseMiddleware',
-  # ...
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'geolocate.urls'
