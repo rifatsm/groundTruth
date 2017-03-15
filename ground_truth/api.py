@@ -56,6 +56,7 @@ def add_judgment(request):
         sub_region = get_object_or_404(Subregion, pk=post[u'sub_region'].strip())
 
         if sub_region.region.access_token != token:
+            print("400 for token")
             return HttpResponse(status=400)
 
         judgement = 2 if request.POST[u"judgment"].strip() == "no" else 3
@@ -66,6 +67,7 @@ def add_judgment(request):
         try:
             dateutil.parser.parse(date_time)
         except ValueError:
+            print("400 for value error")
             return HttpResponse(status=400)
 
         duration = post[u'duration'].strip()
@@ -76,8 +78,10 @@ def add_judgment(request):
                       time_duration_ms=duration, task_id=task).save()
             return HttpResponse(status=200)
         else:
+            print("400 for duration")
             return HttpResponse(status=400)
     else:
+        print("400 for bad form val")
         return HttpResponse(status=400)
 
 
