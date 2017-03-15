@@ -70,7 +70,7 @@ def add_judgment(request):
 
         duration = post[u'duration'].strip()
         worker = post[u'worker'].strip()
-        if duration.isdigit() and worker.isdigit():
+        if duration.isdigit():
             task = post[u'task'].strip()
             Judgement(subregion=sub_region, result=judgement, worker=worker, datetime_completed_str=date_time,
                       time_duration_ms=duration, task_id=task).save()
