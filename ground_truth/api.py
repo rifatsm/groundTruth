@@ -15,20 +15,43 @@ from decimal import *
 getcontext().prec = 6
 getcontext().rounding = ROUND_HALF_UP
 
+@csrf_exempt
+def get_code(request):
+    post = request.POST
+
+    hash_lib = hashlib.sha1()
+
+    if (u'worker' in post and  u'task' in post and u'token' in post and u'comments' in post and u'sub_region' in post):
+        task = post[u'task'].strip()
+        hash_lib.update(datetime.datetime.now().isoformat())
+        worker = post[u'worker'].strip()
+        token = post[u'token'].strip()
+        comment = post[u'comments'].strip()
+        sub_region = get_object_or_404(Subregion, pk=post[u'sub_region'].strip())
+        if sub_region.region.access_token != token:
+            return HttpResponse(status=400)
+        if len(comment) < 1:
+            task = CompletedTasks(worker=worker, task_id=task, token=hash_lib.hexdigest())
+        else:
+            task = CompletedTasks(worker=worker, task_id=task, token=hash_lib.hexdigest(), comment=comment)
+        task.save()
+        return JsonResponse({"passcode" : task.token})
+    else:
+        return HttpResponse(status=400)
 
 @csrf_exempt
 def add_judgment(request):
     # TODO THIS IS NOT TESTED FULLY, NEED TO TEST
+
     post = request.POST
 
-    hash_lib = hashlib.sha256()
     if (u'judgment' in post and u'worker' in post and u'sub_region' in post
         and u'datetime' in post and u'duration' in post and u'token' in post
         and u'task' in post):
 
         token = post[u'token'].strip()
 
-        task = post[u'task'].strip()
+
 
         sub_region = get_object_or_404(Subregion, pk=post[u'sub_region'].strip())
 
@@ -48,15 +71,10 @@ def add_judgment(request):
         duration = post[u'duration'].strip()
         worker = post[u'worker'].strip()
         if duration.isdigit() and worker.isdigit():
+            task = post[u'task'].strip()
             Judgement(subregion=sub_region, result=judgement, worker=worker, datetime_completed_str=date_time,
                       time_duration_ms=duration, task_id=task).save()
-            if sub_region.index == 24:
-                hash_lib.update(datetime.datetime.now().isoformat())
-                task = CompletedTasks(worker=worker, task_id=task, token=hash_lib.hexdigest())
-                task.save()
-                return JsonResponse({"passcode" : task.token})
-            else:
-                return JsonResponse({})
+            return HttpResponse(status=200)
         else:
             return HttpResponse(status=400)
     else:

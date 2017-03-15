@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<style>
+
+</style>
+
+    {% load static %}
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+    <link href="{% static 'ground_truth/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'ground_truth/js/search.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing&callback=initMap"
+            async defer></script>
+    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
+    <script src="{% static 'ground_truth/js/Matrix.js' %}"></script>
+    {#	<script src="{% static 'ground_truth/js/jquery.freetrans.js' %}"></script>#}
+    <script src="{% static 'ground_truth/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
+
+  </head>
+
+
+  <body>
+	<div id="outerContainer">
+	<div id="container">
+		<div id="titleBar">
+			<div class="col-xs-2">
+					 <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>
+			</div>
+			<div class="col-xs-4">
+				<div id="titlePanel">
+					<h1>Ground Truth</h1>
+					<!--button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
+				</div>
+			</div>
+
+
+		</div>
+
+
+		<hr>
+
+
+		<div class="row text-center">
+			<h1>Oops!</h1></br></br>
+			<h2>Looks like you've already completed a task for us. <br>Thanks for that by the way.</h2>
+			<h3>We're currently not allowing a worker to complete more than one task. <br>Please return to Mechanical Turk and return this HIT.</h3>
+			</br></br><h1>Thanks and have a great day!</h1>
+		</div>
+
+
+
+		<div class="row">
+			<hr>
+			<div id="footer">
+				<p class="text-center">Virginia Tech &copy; 2017</p>
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+  </body>
+</html>

@@ -101,7 +101,7 @@ class Judgement(models.Model):
 
     result = models.IntegerField(choices=STATUS_CHOICES, default=NOT_SEEN)
 
-    worker = models.IntegerField(default=0, blank=False)
+    worker = models.CharField(max_length=64, blank=False)
 
     datetime_completed_str = models.CharField(max_length=200)
 
@@ -116,9 +116,11 @@ class Judgement(models.Model):
 
 
 class CompletedTasks(models.Model):
-    worker = models.IntegerField(default=0, blank=False)
+    worker = models.CharField(max_length=64, blank=False)
     task_id = models.CharField(max_length=60, blank=False)
     token = models.CharField(max_length=64, blank=False)
+
+    comment = models.TextField(blank=True)
 
     def __str__(self):
         return "worker: {0}  task_id: {1}  token: {2}\n".format(

@@ -22,8 +22,7 @@ function getUrlVars() {
     // obtained from: http://stackoverflow.com/questions/4656843/jquery-get-querystring-from-url
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
+    for (var i = 0; i < hashes.length; i++) {
         hash = hashes[i].split('=');
         vars.push(hash[0]);
         vars[hash[0]] = hash[1];
@@ -39,14 +38,21 @@ function initMap() {
 
     var region = getUrlVars()["region"];
 
-    var task = getUrlVars()["task"];
+    var task = getUrlVars()["hitId"];
     if (task == null) {
-        task = "-1"
+        task = -1;
     }
-    $.getJSON("/region/?token="+token+"&region="+region, function (data) {
+
+    var workerid = getUrlVars()['workerId'];
+    if (workerid == null) {
+        workerid = -1;
+    }
+
+
+    $.getJSON("/region/?token=" + token + "&region=" + region, function (data) {
         var json = data;
 
-         $('#mysteryImage').attr("src", json['img']);
+        $('#mysteryImage').attr("src", json['img']);
 
         //----Timer----
         taskStartTime = new Date();
@@ -106,9 +112,9 @@ function initMap() {
         //----Initialize different maps for the different task codes----
 
         var regionBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(json.bounds.lat_start, json.bounds.lon_start),
-                new google.maps.LatLng(json.bounds.lat_end, json.bounds.lon_end)
-            );
+            new google.maps.LatLng(json.bounds.lat_start, json.bounds.lon_start),
+            new google.maps.LatLng(json.bounds.lat_end, json.bounds.lon_end)
+        );
         miniMap = new google.maps.Map(document.getElementById('miniMap'), {
             zoom: 11,
             center: regionBounds.getCenter(),
@@ -246,12 +252,38 @@ function initMap() {
         //Handle the next button
         google.maps.event.addDomListener(nextControlDiv, 'click', nextFunction);
 
-        function nextFunction() {
+        $("#submitButton").click(function () {
+            var send = {
+                "worker": workerid,
+                "token": token,
+                "task": task,
+                "comments": $("#comments").val(),
 
-            //STUDY ONLY
-            console.log("SubRegion ID: " + currentSubRegionNumber);
-            console.log("Decision: " + judgementRectangle.yesNo);
-            console.log("Time: " + getTimeElapsed(lastTaskEndTime).minutes + "m" + getTimeElapsed(lastTaskEndTime).seconds + "s");
+                // TODO i question my morals here.
+                // this is cause we need a region id on the backend
+                "sub_region": subRegionsList[0].sub_region_id
+            };
+            $.post("/get_code/", send, function (res) {
+                swal({
+                    title: "Thank you!",
+                    text: "You have now completed the task! <br>" +
+                    "<br>The code to complete your HIT is:<br><br>" +
+                    "<strong>" + res["passcode"] + "</strong>",
+                    type: "success",
+                    showConfirmButton: false,
+                    html: true
+                });
+            });
+        });
+
+
+        function nextFunction() {
+            // console.log(subRegionsList.length);
+
+            // //STUDY ONLY
+            // console.log("SubRegion ID: " + currentSubRegionNumber);
+            // console.log("Decision: " + judgementRectangle.yesNo);
+            // console.log("Time: " + getTimeElapsed(lastTaskEndTime).minutes + "m" + getTimeElapsed(lastTaskEndTime).seconds + "s");
 
 
             //---Process this subregion-----
@@ -260,22 +292,13 @@ function initMap() {
 
             var send = {
                 "judgment": judgementRectangle.yesNo,
-                "worker": 0, //TODO we need to grab this from the request
+                "worker": workerid,
                 "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
                 "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
                 "datetime": lastTaskEndTime,
                 "token": token,
                 "task": task
             };
-            console.log(send);
-            if (db) {
-                $.post("/add_judgment/", send, function (res) {
-                    if(res.hasOwnProperty("passcode")) {
-                        console.log(res["passcode"]); // TODO rachel, this is the passcode that you need to show
-                    }
-
-                });
-            }
 
 
             //Count the number of 'yes' judgements
@@ -285,20 +308,6 @@ function initMap() {
 
             //Mark the time they made this judgement
             lastTaskEndTime = new Date();
-
-            //End condition for the task
-            if (currentSubRegionNumber == subRegionsList.length - 1) {
-                swal({
-                    title: "Thank you!",
-                    text: "You have now completed the task! </br>" + taskCode + "</br>Time to complete: " + getTimeElapsed(taskStartTime).minutes + "m" + getTimeElapsed(taskStartTime).seconds + "s",
-                    type: "success",
-                    html: true
-                });
-                console.log("Total Task Time: " + getTimeElapsed(taskStartTime).minutes + "m" + getTimeElapsed(taskStartTime).seconds + "s");
-                console.log("Number Yes: " + yeses);
-                console.log("Number No: " + (25 - yeses));
-
-            }
 
 
             //----Set up next subregion-----
@@ -318,29 +327,55 @@ function initMap() {
                     bounds: subRegionsList[i].bounds
                 });
             }
-            highlightSubRegion = new google.maps.Rectangle({
-                strokeColor: 'white',
-                strokeOpacity: 0.4,
-                strokeWeight: 15,
-                fillOpacity: 0.0,
-                map: map,
-                bounds: subRegionsList[currentSubRegionNumber + 1].bounds
-            });
 
-            //Draw the judgement on the miniMap
-            if (judgementRectangle != null) {
-                judgementsList.push(judgementRectangle);
-                currentSubRegionNumber++;
-                map.setCenter(subRegionsList[currentSubRegionNumber].bounds.getCenter());
-                for (var i = 0; i < judgementsList.length; i++) {
-                    judgementsList[i].setMap(miniMap);
-                }
-                judgementRectangle = null;
+            if (db) {
+                $.post("/add_judgment/", send, function (res) {
+                    //End condition for the task
+                    // console.log(currentSubRegionNumber);
+                    if (currentSubRegionNumber == subRegionsList.length - 1) {
+
+                        swal({
+                            title: "Thank you!",
+                            text: "Please feel free to leave any comments about your experience with the task in " +
+                            "the comment box at the bottom of the page.<br><br>" +
+                            "When you are done, click the \"Generate Passcode\" button to receive your completion passcode.",
+                            type: "success",
+                            showConfirmButton: true,
+                            html: true
+
+                        });
+                        $('#submitButton').prop("disabled", false);
+                        $('#yesButton').prop("disabled", true);
+                        $('#noButton').prop("disabled", true);
+                        $('#nextButton').prop("disabled", true);
+
+                        return; // break out to stop errors
+
+
+                    }
+                    judgementsList.push(judgementRectangle);
+
+
+                    currentSubRegionNumber++;
+                    map.setCenter(subRegionsList[currentSubRegionNumber].bounds.getCenter());
+                    for (var i = 0; i < judgementsList.length; i++) {
+                        judgementsList[i].setMap(miniMap);
+                    }
+                    judgementRectangle = null;
+
+                    highlightSubRegion = new google.maps.Rectangle({
+                        strokeColor: 'white',
+                        strokeOpacity: 0.4,
+                        strokeWeight: 15,
+                        fillOpacity: 0.0,
+                        map: map,
+                        bounds: subRegionsList[currentSubRegionNumber].bounds
+                    });
+
+
+                });
             }
-            //If the try to advance without making a judgement first
-            else {
-                swal("Please make a decision", "Use the 'Yes/Maybe' or 'No' button to indication your response.", "warning");
-            }
+
 
         }
 
@@ -435,7 +470,8 @@ function initMap() {
 
         });
 
-    });//end of get
+    })
+    ;//end of get
 }//end of initMap
 
 //These functions simply create the divs for the buttons on the map as well as the css vlaues.

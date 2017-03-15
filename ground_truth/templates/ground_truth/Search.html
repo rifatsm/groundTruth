@@ -80,14 +80,18 @@
                     <div id="miniMap"></div>
                 </div>
             </div>
-            <div class="col-xs-8">
+            <div class="col-xs-8" id="right-div">
 
                 <div id="mainView"></div>
 
             </div>
         </div>
-
-
+        <textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"
+                  placeholder="Feel free to leave any comments about your experience with the task."></textarea>
+        <button type='submit' id='submitButton'
+                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Generate
+            Passcode
+        </button>
         <div class="row">
             <hr>
             <div id="footer">
@@ -100,59 +104,45 @@
 
 <ol id="joyRideTipContent">
     <li data-id="mysteryImage" data-button="Next" data-options="tipLocation:right">
-        <p>This is your reference image. Your mission is to look through satellite imagery and indicate whether or not
-            the satellite image looks like this reference image.</p>
+        <p>This is your reference diagram. Your mission is to look through satellite imagery and indicate whether or not
+            the satellite image looks like this reference image. Pay attention to the features in the diagram and see if
+            you can find them in the satellite region. You can rotate it using the controls below.</p>
+    </li>
+    <li data-id="right-div" data-button="Next" data-options="tipLocation:left">
+        <p>This is what one subregion will look like. Remember to look at not only the center, but also the edges and
+            corners of these subregions for similar features.</p>
     </li>
     <li data-id="yesButton" data-button="Next" data-options="tipLocation:left">
-        <p>If you think the satellite imagery looks similar to the reference image, click the 'Yes / Maybe' button or
-            press 'y' on your keyboard.</p>
+        <p>If you think the satellite imagery looks similar to the reference image, click the 'Yes / Maybe' button.</p>
     </li>
     <li data-id="noButton" data-button="Next" data-options="tipLocation:left">
-        <p>If you do not think the satellite imagery looks similar to the reference image, click the 'No' button or
-            press 'n' on your keyboard.</p>
+        <p>If you do not think the satellite imagery looks similar to the reference image, click the 'No' button.</p>
     </li>
-    <!---Placeholder-->
-    <li data-id="footer" data-button="Next" data-options="tipLocation:left">
-        <p>This is a placeholder</p>
-    </li>
-    <!---Placeholder-->
-
     <li data-id="nextButton" data-button="Next" data-options="tipLocation:left">
-        <p>Click the 'Next' button or press 'Enter' to view the next subregion.</p>
+        <p>After you make a decision, click the 'Next' button to view the next subregion.</p>
     </li>
     <li data-id="miniMap" data-button="Next" data-options="tipLocation:right">
-        <p>This map shows you're progress throughout the task. As you make your determinations, this map will
+        <p>This map shows your progress throughout the 16 subregions. As you make your determinations, this map will
             update.</p>
     </li>
-    <li data-id="mainView" data-button="Close" data-options="tipLocation:left">
+    <li data-id="mainView" data-button="Next" data-options="tipLocation:left">
         <p>Feel free to use any of the map controls available to you.</p>
+    </li>
+    <li data-id="submitButton" data-button="Close" data-options="tipLocation:top">
+        <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original HIT.</p>
     </li>
 </ol>
 
 
 <script>
-    /*
-     $(function(){
-     // do a selector group
-     //$('.trans').freetrans({'rot-origin': '50% 100%'});
-     //$('.trans').freetrans('rotator', true);
-     $('.trans').freetrans({
-     x: 0,
-     y: 0
-     });
 
-     })
-     */
+    $('#joyRideTipContent').joyride({
+        autoStart: true,
+        expose: true
+    });
 
     $('#startride').click(function (e) {
         $('#joyRideTipContent').joyride({
-            autoStart: true,
-            postStepCallback: function (index, tip) {
-                if (index == 2) {
-                    $(this).joyride('set_li', false, 1);
-                }
-            },
-            modal: true,
             expose: true
         });
     });
