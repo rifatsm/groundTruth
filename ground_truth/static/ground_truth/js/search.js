@@ -65,8 +65,6 @@ function initMap() {
         task = -1;
     }
 
-    console.log(getUrlVars()["acceptTime"]);
-
     var workerid = getUrlVars()['workerId'];
     if (workerid == null) {
         workerid = -1;
@@ -79,7 +77,7 @@ function initMap() {
         $('#mysteryImage').attr("src", json['img']);
 
         //----Timer----
-        taskStartTime = new Date();
+        taskStartTime = new Date(getUrlVars()["acceptTime"]);
         lastTaskEndTime = taskStartTime;
         var endTime = new Date(taskStartTime.getTime() + 10 * 60000); // 10 minutes
 
