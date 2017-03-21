@@ -103,15 +103,18 @@ class Judgement(models.Model):
 
     worker = models.CharField(max_length=64, blank=False)
 
-    datetime_completed_str = models.CharField(max_length=200)
+    # datetime_completed_str = models.CharField(max_length=200)
 
-    time_duration_ms = models.IntegerField(blank=False, default=0)
+    start_time_sec = models.IntegerField(blank=False, default=-1) # from epoch
+    end_time_sec = models.IntegerField(blank=False, default=-1) # from epoch
+
+    rotation = models.IntegerField(blank=False, default=0)
 
     task_id = models.CharField(max_length=64, blank=False)
 
     def __str__(self):
-        return "result: {0}  worker{1}  datetime: {2}  duration: {3} subregion: {4}  task_id: {5}\n".format(
-            self.result, self.worker, self.datetime_completed_str, self.time_duration, self.subregion.pk, self.task_id
+        return "result: {0}  worker{1}  start sec: {2}  end sec: {3} subregion: {4}  task_id: {5}\n".format(
+            self.result, self.worker, self.start_time_sec, self.end_time_sec, self.subregion.pk, self.task_id
         )
 
 

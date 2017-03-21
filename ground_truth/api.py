@@ -15,13 +15,14 @@ from decimal import *
 getcontext().prec = 6
 getcontext().rounding = ROUND_HALF_UP
 
+
 @csrf_exempt
 def get_code(request):
     post = request.POST
 
     hash_lib = hashlib.sha1()
 
-    if (u'worker' in post and  u'task' in post and u'token' in post and u'comments' in post and u'sub_region' in post):
+    if (u'worker' in post and u'task' in post and u'token' in post and u'comments' in post and u'sub_region' in post):
         task = post[u'task'].strip()
         hash_lib.update(datetime.datetime.now().isoformat())
         worker = post[u'worker'].strip()
@@ -35,9 +36,10 @@ def get_code(request):
         else:
             task = CompletedTasks(worker=worker, task_id=task, token=hash_lib.hexdigest(), comment=comment)
         task.save()
-        return JsonResponse({"passcode" : task.token})
+        return JsonResponse({"passcode": task.token})
     else:
         return HttpResponse(status=400)
+
 
 @csrf_exempt
 def add_judgment(request):
@@ -46,42 +48,35 @@ def add_judgment(request):
     post = request.POST
 
     if (u'judgment' in post and u'worker' in post and u'sub_region' in post
-        and u'datetime' in post and u'duration' in post and u'token' in post
-        and u'task' in post):
+        and u'end_time' in post and u'start_time' in post and u'token' in post
+        and u'task' in post and u"rotation" in post):
 
         token = post[u'token'].strip()
-
-
 
         sub_region = get_object_or_404(Subregion, pk=post[u'sub_region'].strip())
 
         if sub_region.region.access_token != token:
-            print("400 for token")
+            print("Bad token")
             return HttpResponse(status=400)
 
         judgement = 2 if request.POST[u"judgment"].strip() == "no" else 3
 
-        date_time = post[u'datetime'].strip()
+        start_time_sec = post[u'start_time'].strip()
+        end_time_sec = post[u'end_time'].strip()
 
-        # TODO i need a better way to do this
-        try:
-            dateutil.parser.parse(date_time)
-        except ValueError:
-            print("400 for value error")
-            return HttpResponse(status=400)
-
-        duration = post[u'duration'].strip()
         worker = post[u'worker'].strip()
-        if duration.isdigit():
-            task = post[u'task'].strip()
-            Judgement(subregion=sub_region, result=judgement, worker=worker, datetime_completed_str=date_time,
-                      time_duration_ms=duration, task_id=task).save()
+        task = post[u'task'].strip()
+        rotation = post[u'rotation'].strip()
+        if start_time_sec.isdigit() and end_time_sec.isdigit():
+
+            Judgement(subregion=sub_region, result=judgement, worker=worker, start_time_sec=int(start_time_sec),
+                      end_time_sec=int(end_time_sec), task_id=task, rotation=rotation).save()
             return HttpResponse(status=200)
         else:
-            print("400 for duration")
+            print("400 bad time objects")
             return HttpResponse(status=400)
     else:
-        print("400 for bad form val")
+        print("400 bad args")
         return HttpResponse(status=400)
 
 

@@ -14,10 +14,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
+    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
     <script type="text/javascript" src="{% static 'ground_truth/js/search.js' %}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing&callback=initMap"
             async defer></script>
-    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
+
     <script src="{% static 'ground_truth/js/Matrix.js' %}"></script>
     {#	<script src="{% static 'ground_truth/js/jquery.freetrans.js' %}"></script>#}
     <script src="{% static 'ground_truth/js/bootstrap.min.js' %}"></script>
@@ -132,23 +133,6 @@
         <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original HIT.</p>
     </li>
 </ol>
-
-
-<script>
-
-    $('#joyRideTipContent').joyride({
-        autoStart: true,
-        expose: true
-    });
-
-    $('#startride').click(function (e) {
-        $('#joyRideTipContent').joyride({
-            expose: true
-        });
-    });
-
-
-</script>
 
 
 </body>

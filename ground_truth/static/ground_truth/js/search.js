@@ -16,7 +16,10 @@ var highlightSubRegion;
 var taskCode;
 var yeses = 0;
 
+var rotationVal = 0;
+
 var db = true;
+
 
 function getUrlVars() {
     // obtained from: http://stackoverflow.com/questions/4656843/jquery-get-querystring-from-url
@@ -34,6 +37,25 @@ function getUrlVars() {
 //Initialize the map and event handlers
 function initMap() {
 
+    var start_time = Math.floor(new Date() / 1000);
+
+    $('#joyRideTipContent').joyride({
+        postRideCallback: function () {
+            if (currentSubRegionNumber == 0) {
+                start_time = Math.floor(new Date() / 1000);
+            }
+
+        },
+        autoStart: true,
+        expose: true
+    });
+
+    $('#startride').click(function (e) {
+        $('#joyRideTipContent').joyride({
+            expose: true
+        });
+    });
+
     var token = getUrlVars()["token"];
 
     var region = getUrlVars()["region"];
@@ -42,6 +64,8 @@ function initMap() {
     if (task == null) {
         task = -1;
     }
+
+    console.log(getUrlVars()["acceptTime"]);
 
     var workerid = getUrlVars()['workerId'];
     if (workerid == null) {
@@ -294,11 +318,15 @@ function initMap() {
                 "judgment": judgementRectangle.yesNo,
                 "worker": workerid,
                 "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
-                "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
-                "datetime": lastTaskEndTime,
+                // "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
+                // "datetime": lastTaskEndTime,
+                "rotation": rotationVal,
+                "end_time": Math.floor(new Date() / 1000),
+                "start_time": start_time,
                 "token": token,
                 "task": task
             };
+            start_time = Math.floor(new Date() / 1000);
 
 
             //Count the number of 'yes' judgements
@@ -462,10 +490,12 @@ function initMap() {
         $('#rot-left').on('click', function (event) {
             event.preventDefault();
             $('#mysteryImage').rotate(-45);
+            rotationVal = rotationVal - 90;
 
         });
         $('#rot-right').on('click', function (event) {
             event.preventDefault();
+            rotationVal = rotationVal + 90;
             $('#mysteryImage').rotate(45);
 
         });

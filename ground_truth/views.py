@@ -24,15 +24,3 @@ def search(request):
     # TODO we need to check that works are not doing tasks twice. send them a different view.
 
     return (render(request, "ground_truth/Search.html", {}))
-
-
-# def region_search(request, digit):
-#     region = get_object_or_404(Region, pk=digit)
-#     subs = region.subregion_set.all()
-#     context = {
-#         'id': digit,
-#         'region': region,
-#         'sub_regions': subs
-#
-#     }
-#     return (render(request, "ground_truth/region_search.html", context))
