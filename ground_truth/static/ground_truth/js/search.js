@@ -123,7 +123,13 @@ function initMap() {
                 }
                 if (remainingTime.total <= 0) {
                     clearInterval(timeinterval);
-                    swal("Bummer!", "You ran out of time", "error")
+                    swal({
+                        title: "Bummer!",
+                        text: "You ran out of time. Please return to Amazon Mechanical Turk",
+                        type: "error",
+                        showConfirmButton: false
+
+                    })
                 }
             }, 1000);
         }
