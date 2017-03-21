@@ -77,10 +77,8 @@ function initMap() {
         $('#mysteryImage').attr("src", json['img']);
 
         //----Timer----
-        console.log(parseInt(getUrlVars()["acceptTime"]));
-        console.log(getUrlVars()["acceptTime"]);
-        taskStartTime = new Date(parseInt(getUrlVars()["acceptTime"]));
-        console.log(taskStartTime);
+        taskStartTime = new Date(0);
+        taskStartTime.setUTCSeconds(parseInt(getUrlVars()["acceptTime"]));
 
         lastTaskEndTime = taskStartTime;
         var endTime = new Date(taskStartTime.getTime() + 10 * 60000); // 10 minutes
