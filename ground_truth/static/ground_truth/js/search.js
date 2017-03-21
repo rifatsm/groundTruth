@@ -77,6 +77,8 @@ function initMap() {
         $('#mysteryImage').attr("src", json['img']);
 
         //----Timer----
+        console.log(parseInt(getUrlVars()["acceptTime"]));
+        console.log(getUrlVars()["acceptTime"]);
         taskStartTime = new Date(parseInt(getUrlVars()["acceptTime"]));
         console.log(taskStartTime);
 
@@ -128,9 +130,10 @@ function initMap() {
                     clearInterval(timeinterval);
                     swal({
                         title: "Bummer!",
-                        text: "You ran out of time. Please return to Amazon Mechanical Turk",
+                        text: "You ran out of time.<br> Please return to Amazon Mechanical Turk",
                         type: "error",
-                        showConfirmButton: false
+                        showConfirmButton: false,
+                        html: true
 
                     })
                 }
