@@ -71,8 +71,17 @@ function initMap() {
     }
 
 
+    function sub_compare(a,b) {
+        return a.index - b.index;
+    }
+
     $.getJSON("/region/?token=" + token + "&region=" + region, function (data) {
         var json = data;
+
+
+        json.sub_regions.sort(sub_compare);
+
+
 
         $('#mysteryImage').attr("src", json['img']);
 
