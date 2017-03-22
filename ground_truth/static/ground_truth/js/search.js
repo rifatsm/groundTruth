@@ -466,21 +466,21 @@ function initMap() {
         }
 
         //Handle keyboard events
-        google.maps.event.addDomListener(document, 'keyup', function (e) {
-            var code = (e.keyCode ? e.keyCode : e.which);
-            // 'n' key
-            if (code === 78) {
-                noFunction();
-            }
-            // 'y' key
-            else if (code === 89) {
-                yesFunction();
-            }
-            // 'Enter' key
-            else if (code === 13) {
-                nextFunction();
-            }
-        });
+        // google.maps.event.addDomListener(document, 'keyup', function (e) {
+        //     var code = (e.keyCode ? e.keyCode : e.which);
+        //     // 'n' key
+        //     if (code === 78) {
+        //         noFunction();
+        //     }
+        //     // 'y' key
+        //     else if (code === 89) {
+        //         yesFunction();
+        //     }
+        //     // 'Enter' key
+        //     else if (code === 13) {
+        //         nextFunction();
+        //     }
+        // });
 
 
         //Keep the user in the bounds of the subregion

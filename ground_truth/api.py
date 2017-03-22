@@ -12,8 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 from decimal import *
 
-getcontext().prec = 6
-getcontext().rounding = ROUND_HALF_UP
 
 
 @csrf_exempt
@@ -125,17 +123,17 @@ def add_investigation(request):
             and isfloat(sub_region_width) and isfloat(sub_region_height) and
                 isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height) and int(zoom) > 0):
 
-            lat_start = +Decimal(lat_start)
-            lon_start = + Decimal(lon_start)
+            lat_start = Decimal(lat_start).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            lon_start = Decimal(lon_start).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
 
-            lat_end = + Decimal(lat_end)
-            lon_end = + Decimal(lon_end)
+            lat_end = Decimal(lat_end).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            lon_end = Decimal(lon_end).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
 
-            sub_region_width = +Decimal(sub_region_width)
-            sub_region_height = + Decimal(sub_region_height)
+            sub_region_width = Decimal(sub_region_width).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            sub_region_height = Decimal(sub_region_height).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
 
-            num_sub_regions_width = + Decimal(num_sub_regions_width)
-            num_sub_regions_height = + Decimal(num_sub_regions_height)
+            num_sub_regions_width = Decimal(num_sub_regions_width).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            num_sub_regions_height = Decimal(num_sub_regions_height).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
 
             WIDTH = num_sub_regions_width * sub_region_width
             HEIGHT = num_sub_regions_height * sub_region_height
@@ -144,19 +142,19 @@ def add_investigation(request):
 
             zoom = int(zoom)
 
-            investigation_height = (+Decimal(abs(lat_start - lat_end)))
-            investigation_width = (+Decimal(abs(lon_start - lon_end)))
+            investigation_height = (Decimal(abs(lat_start - lat_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+            investigation_width = (Decimal(abs(lon_start - lon_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
             if investigation_width % WIDTH != 0.0:
-                missing = WIDTH - Decimal(investigation_width % WIDTH)
-                expand = missing / (+Decimal(2.0))
+                missing = WIDTH - (Decimal(investigation_width % WIDTH).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+                expand = missing / (Decimal(2.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
                 lon_start = lon_start - expand
                 lon_end = lon_end + expand
 
             if investigation_height % HEIGHT != 0.0:
-                missing = HEIGHT - Decimal(investigation_height % HEIGHT)
-                expand = missing / (+Decimal(2.0))
+                missing = HEIGHT - (Decimal(investigation_height % HEIGHT).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+                expand = missing / (Decimal(2.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
                 lat_start = lat_start - expand
                 lat_end = lat_end + expand

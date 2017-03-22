@@ -4,9 +4,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import *
 
-getcontext().prec = 6
 getcontext().rounding = ROUND_HALF_UP
-
 
 class Investigation(models.Model):
     lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
@@ -45,11 +43,21 @@ class Investigation(models.Model):
 class Region(models.Model):
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
 
-    lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
-    lon_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lat_start = models.DecimalField(blank=False,
+                                    default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                    max_digits=9, decimal_places=6)
 
-    lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
-    lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_start = models.DecimalField(blank=False,
+                                    default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                    max_digits=9, decimal_places=6)
+
+    lat_end = models.DecimalField(blank=False,
+                                  default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                  max_digits=9, decimal_places=6)
+
+    lon_end = models.DecimalField(blank=False,
+                                  default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                  max_digits=9, decimal_places=6)
 
     zoom = models.IntegerField(blank=False, default=18)
 
@@ -67,11 +75,21 @@ class Region(models.Model):
 class Subregion(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
-    lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
-    lon_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lat_start = models.DecimalField(blank=False,
+                                    default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                    max_digits=9, decimal_places=6)
 
-    lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
-    lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
+    lon_start = models.DecimalField(blank=False,
+                                    default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                    max_digits=9, decimal_places=6)
+
+    lat_end = models.DecimalField(blank=False,
+                                  default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                  max_digits=9, decimal_places=6)
+
+    lon_end = models.DecimalField(blank=False,
+                                  default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
+                                  max_digits=9, decimal_places=6)
 
     # go up, then right, then down, then right, then up.....
     index = models.IntegerField(

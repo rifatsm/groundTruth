@@ -18,10 +18,11 @@ def build_regions(invest, height, width, zoom):
 
     hash_lib = hashlib.sha256()
     ret = []
-    getcontext().prec = 6
-    getcontext().rounding = ROUND_HALF_UP
-    vertical_bounds = + (Decimal(abs(invest.lat_start - invest.lat_end) / height) + 1)
-    horizontal_bounds = + (Decimal(abs(invest.lon_start - invest.lon_end) / width) + 1)
+
+    Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+
+    vertical_bounds = (Decimal(abs(invest.lat_start - invest.lat_end) / height) + 1).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+    horizontal_bounds = (Decimal(abs(invest.lon_start - invest.lon_end) / width) + 1).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
     for i in range(1, int(vertical_bounds)):
         for j in range(1, int(horizontal_bounds)):
             hash_lib.update(datetime.datetime.now().isoformat())
@@ -41,14 +42,12 @@ def build_sub_regions(region, num_tall, num_wide):
     ret = []
     index = 0
 
-    getcontext().prec = 6
-    getcontext().rounding = ROUND_HALF_UP
 
-    sub_width = +(Decimal(abs(region.lon_start - region.lon_end))) / num_wide
-    sub_height = +(Decimal(abs(region.lat_start - region.lat_end))) / num_tall
+    sub_width = (Decimal(abs(region.lon_start - region.lon_end))).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP) / num_wide
+    sub_height = (Decimal(abs(region.lat_start - region.lat_end))).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP) / num_tall
 
-    num_wide = int(+Decimal(num_wide))
-    num_tall = int(+Decimal(num_tall))
+    num_wide = int(Decimal(num_wide).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+    num_tall = int(Decimal(num_tall).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
     for i in range(1, num_wide + 1):
         if (i % 2 == 0):
