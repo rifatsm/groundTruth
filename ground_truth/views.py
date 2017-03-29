@@ -8,6 +8,10 @@ from .models import Region, Subregion, Judgement, CompletedTasks
 def search(request):
     region_id = request.GET.get('region', '-1')
     worker_id = request.GET.get('workerId', '0')
+
+    if (region_id == "-1"):
+        return (render(request, "ground_truth/no_search.html", {}))
+
     region = get_object_or_404(Region, pk=region_id)
     token = request.GET.get('token', '-1')
 
@@ -20,7 +24,8 @@ def search(request):
             return (render(request, "ground_truth/no_search.html", {}))
 
 
+    return (render(request, "ground_truth/search.html", {}))
 
-    # TODO we need to check that works are not doing tasks twice. send them a different view.
 
-    return (render(request, "ground_truth/Search.html", {}))
+def designate(request):
+    return(render(request, "ground_truth/designate.html", {}))
