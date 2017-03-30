@@ -303,8 +303,10 @@ def add_investigation(request):
             return JsonResponse(res)
 
         else:
+            print("wrong types")
             return HttpResponse(status=400)
     else:
+        print("missing args or they are wrong")
         return HttpResponse(status=400)
 
 

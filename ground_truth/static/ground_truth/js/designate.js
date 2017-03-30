@@ -38,7 +38,10 @@ function send_investigation() {
         'is_dropbox': document.getElementById('is_dropbox').checked
     };
 
-    console.log(send);
+
+    $.post("/add_investigation/", send, function (res) {
+        console.log(res);
+    });
 
 
 }
