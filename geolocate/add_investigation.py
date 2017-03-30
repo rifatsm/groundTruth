@@ -136,7 +136,7 @@ payload = {
     u'num_sub_regions_height': 4,
     u'expert_id': 1,
     u'img': "https://www.dropbox.com/s/o6ctfbwgyb3iutk/Brasilia_level6_rotate.jpg?dl=0",
-    u'zoom': 17
+    u'zoom': 17,
 }
 
 #########
@@ -190,6 +190,6 @@ payload = {
 
 #############################################
 
-r = requests.post("https://groundtruth.herokuapp.com/add_investigation/", data=payload)
-# r = requests.post("http://127.0.0.1:8000/add_investigation/", data=payload)
+# r = requests.post("https://groundtruth.herokuapp.com/add_investigation/", data=payload)
+r = requests.post("http://127.0.0.1:8000/add_investigation/", data=payload)
 print(r.text)

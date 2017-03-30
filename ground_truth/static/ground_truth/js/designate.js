@@ -1,5 +1,5 @@
 /**
- * @author Divya Sengar
+ * @author Divya Sengar and John Purviance
  * Controls the designate screen
  * Refer to the Google Maps API
  */
@@ -8,7 +8,41 @@
 ///The map that is displayed on the page
 var map;
 
-var investigation = null;
+var investigation = null; // TODO this is the only investigation allowed and this is it.
+
+
+// TODO all the other functions should be declared and implemented above the initMap
+
+function send_investigation() {
+    if (investigation === null) {
+        return;
+    }
+
+    var investigation_area = investigation.getBounds();
+
+    var bottomLeft = investigation_area.getSouthWest();
+    var topRight = investigation_area.getNorthEast();
+
+    var send = {
+        'lat_start': bottomLeft.lat(),
+        'lon_start': bottomLeft.lng(),
+        'lat_end': topRight.lat(),
+        'lon_end': topRight.lng(),
+        'sub_region_width': $("#sub_region_width").find(":selected").val(),
+        'sub_region_height': $("#sub_region_height").find(":selected").val(),
+        'num_sub_regions_width': $("#num_sub_regions_width").find(":selected").val(),
+        'num_sub_regions_height': $("#num_sub_regions_height").find(":selected").val(),
+        'expert_id': $("#ID").val(),
+        'zoom': $("#zoom").val(),
+        'img': $("#img_url").val(),
+        'is_dropbox': document.getElementById('is_dropbox').checked
+    };
+
+    console.log(send);
+
+
+}
+
 
 //Initialize the map and event handlers
 function initMap() {
@@ -54,21 +88,21 @@ function initMap() {
         drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE)
     });
 
-    //Handle the designated area being deleted
-    // var erase = false;
+    // This is where we remove the one investigation
     google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
-        // erase = true;
-        if (investigation != null){
+        if (investigation !== null) {
             investigation.setMap(null);
             investigation = null;
         }
 
     });
 
+    $("#add_investigation").click(send_investigation);
+
     //Convert a drawn region into designated areas
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
 
-        if (investigation != null){
+        if (investigation != null) {
             return; // TODO they should not be allowed to have multiple drawn regions.
         }
 
@@ -97,20 +131,9 @@ function initMap() {
             investigation = rectangle;
         });
 
-        // google.maps.event.addListener(rectangle, 'click', removeRegion); // TODO this allows us to delete the clicked rectangle
-
         drawingManager.setDrawingMode(null);
     });
 
-    //Remove region handler
-    function removeRegion() {
-        if (erase) {
-            this.setMap(null);
-            erase = false;
-        }
-
-        this.setMap(null);
-    }
 
     drawingManager.setDrawingMode(null);
 }

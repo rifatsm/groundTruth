@@ -181,7 +181,6 @@ def draw_investigation(request):
 
 @csrf_exempt
 def add_investigation(request):
-    # TODO need to do the image upload
     # TODO im not happy with he helper function structure
     # TODO this could be much shorter
 
@@ -199,7 +198,9 @@ def add_investigation(request):
     num_sub_regions_width: #,
     num_sub_regions_height: #,
     zoom: #,
+    is_dropbox, # this is optional, if not pressent we assume that you are using dropbox
     img: image_url in dopbox
+    
     """
     if verify_in(post, ADD_INVESTIGATION):
 
@@ -268,7 +269,13 @@ def add_investigation(request):
             now = datetime.datetime.now()
 
             img_url = post[u'img']
-            img_url = img_url.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
+
+            if (u'is_dropbox' in post and (post[u'is_dropbox'] or post[u'is_dropbox'].strip() == u'true'
+                                           or post[u'is_dropbox'].strip() == u'True')) or u'is_dropbox' not in post:
+                # TODO the default is to assume usig dropbox
+                # TODO the user could not be smart and click that box and not have it be a dropbox url, lets fix that here as well
+                img_url = img_url.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
+
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
                                    expert_id=expert_id, datetime_str=now.isoformat(), image=img_url)
             invest.save()

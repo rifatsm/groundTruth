@@ -5,13 +5,16 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     {% load static %}
-    {#  I didnt want the design wide css so i got rid of it. feel free to add it back  #}
-    {#    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">#}
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
+
+
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
@@ -69,8 +72,26 @@
                     <option>5</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="zoom">Zoom Level</label>
+                <input class="form-control" id="zoom" value="16">
+            </div>
+            <div class="form-group">
+                <label for="ID">ID</label>
+                <input class="form-control" id="ID" placeholder="Enter you ID">
+            </div>
+            <div class="form-group">
+                <label for="img_url">Image URL</label>
+                <input class="form-control" id="img_url" placeholder="Image web address">
 
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="is_dropbox">Dropbox URL</label>
+            </div>
+
+            <button class="btn btn-primary" id="add_investigation">Add Investigation</button>
         </div>
+
 
     </div>
     <div class="col-md-6">
