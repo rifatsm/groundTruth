@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
-from .models import Region, Subregion, Judgement, CompletedTasks
+from .models import Region, Subregion, Judgement, CompletedTasks, Investigation
 
 
 # Create your views here.
@@ -23,9 +23,16 @@ def search(request):
         if worker_id == id["worker"]:
             return (render(request, "ground_truth/no_search.html", {}))
 
-
     return (render(request, "ground_truth/search.html", {}))
 
 
 def designate(request):
-    return(render(request, "ground_truth/designate.html", {}))
+    return (render(request, "ground_truth/designate.html", {}))
+
+
+def my_investigations(request, expert_id):
+    investigations = Investigation.objects.filter(expert_id=expert_id)
+    if (len(investigations) == 0):
+        return HttpResponse(status=404)
+    context = {'investigations': investigations}
+    return render(request, 'ground_truth/my_investigations.html', context)
