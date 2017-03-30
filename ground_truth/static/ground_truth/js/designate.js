@@ -5,11 +5,10 @@
  */
 
 
-//Control how big the rectangles are when designating
-var WORKER_SIZE_WIDTH = 1000;
-var WORKER_SIZE_HEIGHT = WORKER_SIZE_WIDTH;
 ///The map that is displayed on the page
 var map;
+
+var investigation = null;
 
 //Initialize the map and event handlers
 function initMap() {
@@ -56,13 +55,22 @@ function initMap() {
     });
 
     //Handle the designated area being deleted
-    var erase = false;
+    // var erase = false;
     google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
-        erase = true;
+        // erase = true;
+        if (investigation != null){
+            investigation.setMap(null);
+            investigation = null;
+        }
+
     });
 
     //Convert a drawn region into designated areas
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
+
+        if (investigation != null){
+            return; // TODO they should not be allowed to have multiple drawn regions.
+        }
 
         //Get the size and bounds of the drawn region
         var desigArea = rectangle.getBounds();
@@ -82,36 +90,29 @@ function initMap() {
         };
 
         $.post("/draw_investigation/", send, function (res) {
-            console.log(res);
             var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
             var newNorthEast = new google.maps.LatLng(res.investigation_bounds.lat_end, res.investigation_bounds.lon_end);
             rectangle.setBounds(new google.maps.LatLngBounds(newSouthWest, newNorthEast));
+
+            investigation = rectangle;
         });
 
-        google.maps.event.addListener(rectangle, 'click', removeRegion);
+        // google.maps.event.addListener(rectangle, 'click', removeRegion); // TODO this allows us to delete the clicked rectangle
 
         drawingManager.setDrawingMode(null);
     });
+
     //Remove region handler
     function removeRegion() {
         if (erase) {
             this.setMap(null);
             erase = false;
         }
+
+        this.setMap(null);
     }
 
     drawingManager.setDrawingMode(null);
-}
-
-
-//Handle the page's layout dynamically  
-function adjustStyle(width) {
-    width = parseInt(width);
-    if (width < 1000) {
-        $("#size-stylesheet").attr("href", "designNarrow.css");
-    } else {
-        $("#size-stylesheet").attr("href", "designWide.css");
-    }
 }
 
 
@@ -168,29 +169,3 @@ function eraseControlMethod(controlDiv, map) {
     controlText.innerHTML = 'Erase';
     controlUI.appendChild(controlText);
 }
-
-// //Utility function to convert bounds to coordinates
-// //CW is a boolean value, true mean the returned coordinates should be clockwise
-// function transBoundsToCord(bounds, CW) {
-//     var NE = bounds.getNorthEast();
-//     var SW = bounds.getSouthWest();
-//     var SE = new google.maps.LatLng(SW.lat(), NE.lng());
-//     var NW = new google.maps.LatLng(NE.lat(), SW.lng());
-//
-//     var path = [];
-//
-//     if (CW) {
-//         path.push(NE);
-//         path.push(SE);
-//         path.push(SW);
-//         path.push(NW);
-//     }
-//     else {
-//         path.push(NE);
-//         path.push(NW);
-//         path.push(SW);
-//         path.push(SE);
-//     }
-//
-//     return path;
-// }
