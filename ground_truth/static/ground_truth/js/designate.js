@@ -66,88 +66,21 @@ function initMap() {
 
         //Get the size and bounds of the drawn region
         var desigArea = rectangle.getBounds();
-        console.log("JOHN!!!!!! " + desigArea); // TODO look here
+
         var bottomLeft = desigArea.getSouthWest();
+        console.log(bottomLeft.lat());
+        console.log(bottomLeft.lng());
         var topRight = desigArea.getNorthEast();
-        var bottomRight = new google.maps.LatLng(bottomLeft.lat(), topRight.lng());
-
-        var width = google.maps.geometry.spherical.computeDistanceBetween(bottomLeft, bottomRight);
-        var height = google.maps.geometry.spherical.computeDistanceBetween(bottomRight, topRight);
-
-        var area = google.maps.geometry.spherical.computeArea(transBoundsToCord(desigArea, true));
-        //Now that we have all the relevant info, delete the drawn region
-        rectangle.setMap(null);
-        //Simply generate the designated regions
-        for (var i = 0; i < Math.floor(width / WORKER_SIZE_WIDTH); i++) {
-            for (var j = 0; j < Math.floor(height / WORKER_SIZE_HEIGHT); j++) {
-                //Use this generate the bounds for the designated region
-                var SWLat = google.maps.geometry.spherical.computeOffset(bottomLeft, j * WORKER_SIZE_HEIGHT, 0).lat();
-                var SWLong = google.maps.geometry.spherical.computeOffset(bottomLeft, i * WORKER_SIZE_WIDTH, 90).lng();
-
-                var newSouthWest = new google.maps.LatLng(SWLat, SWLong);
-
-                //If the blocks do not perfectly fit in the drawn region, extend it to fit the region.
-                var NELat;
-                var NELong;
-                if (j == Math.floor(height / WORKER_SIZE_HEIGHT) - 1) {
-                    NELat = google.maps.geometry.spherical.computeOffset(bottomLeft, (j + 1) * WORKER_SIZE_HEIGHT + height % WORKER_SIZE_HEIGHT, 0).lat();
-                }
-                else {
-                    NELat = google.maps.geometry.spherical.computeOffset(bottomLeft, (j + 1) * WORKER_SIZE_HEIGHT, 0).lat();
-                }
-
-                if (i == Math.floor(width / WORKER_SIZE_WIDTH) - 1) {
-                    NELong = google.maps.geometry.spherical.computeOffset(bottomLeft, (i + 1) * WORKER_SIZE_WIDTH + width % WORKER_SIZE_WIDTH, 90).lng();
-
-                } else {
-                    NELong = google.maps.geometry.spherical.computeOffset(bottomLeft, (i + 1) * WORKER_SIZE_WIDTH, 90).lng();
-                }
-                var newNorthEast = new google.maps.LatLng(NELat, NELong);
-                console.log(this.worker);
-
-                var colorList = ['red', 'red', 'red', 'red', 'red', 'green'];
-                //Generate the rectangle, with the options set below
-                var tempRectangle = new google.maps.Rectangle({
-                    map: map,
-                    strokeColor: 'black',
-                    strokeOpacity: 0.8,
-                    strokeWeight: .5,
-                    fillColor: colorList[Math.floor(Math.random() * 6)], // based on findings
-                    fillOpacity: (10 + Math.floor((Math.random() * 75))) / 100, //based on progress
-                    clickable: true,
-                    bounds: new google.maps.LatLngBounds(newSouthWest, newNorthEast)
-                });
-
-                //Demonstrate that one can add values to the rectangle
-                //Potentially add it to a list, send it to the backend, would be done here
-                tempRectangle["worker"] = Math.floor(Math.random() * 20);
-                google.maps.event.addListener(tempRectangle, 'click', removeRegion);
-                google.maps.event.addListener(tempRectangle, 'mouseover', showWorkers);
-                google.maps.event.addListener(tempRectangle, 'mouseout', hideWorkers);
-
-
-            }
-        }
+        google.maps.event.addListener(rectangle, 'click', removeRegion);
 
         drawingManager.setDrawingMode(null);
     });
     //Remove region handler
     function removeRegion() {
         if (erase) {
-            hideWorkers();
             this.setMap(null);
             erase = false;
         }
-    }
-
-    //Show worker handler
-    function showWorkers() {
-        $("#workerText").text(this.worker);
-    }
-
-    //Hide worker handler
-    function hideWorkers() {
-        $("#workerText").text("Hover over designated region to find out");
     }
 
     drawingManager.setDrawingMode(null);
@@ -163,15 +96,6 @@ function adjustStyle(width) {
         $("#size-stylesheet").attr("href", "designWide.css");
     }
 }
-
-
-// TODO this code was causing loading issues. turn on only if you can fix it
-// $(function() {
-//   adjustStyle($(this).width());
-//   $(window).resize(function() {
-//     adjustStyle($(this).width());
-//   });
-// });
 
 
 //Set the css elements for the button
@@ -228,28 +152,28 @@ function eraseControlMethod(controlDiv, map) {
     controlUI.appendChild(controlText);
 }
 
-//Utility function to convert bounds to coordinates
-//CW is a boolean value, true mean the returned coordinates should be clockwise
-function transBoundsToCord(bounds, CW) {
-    var NE = bounds.getNorthEast();
-    var SW = bounds.getSouthWest();
-    var SE = new google.maps.LatLng(SW.lat(), NE.lng());
-    var NW = new google.maps.LatLng(NE.lat(), SW.lng());
-
-    var path = [];
-
-    if (CW) {
-        path.push(NE);
-        path.push(SE);
-        path.push(SW);
-        path.push(NW);
-    }
-    else {
-        path.push(NE);
-        path.push(NW);
-        path.push(SW);
-        path.push(SE);
-    }
-
-    return path;
-}
+// //Utility function to convert bounds to coordinates
+// //CW is a boolean value, true mean the returned coordinates should be clockwise
+// function transBoundsToCord(bounds, CW) {
+//     var NE = bounds.getNorthEast();
+//     var SW = bounds.getSouthWest();
+//     var SE = new google.maps.LatLng(SW.lat(), NE.lng());
+//     var NW = new google.maps.LatLng(NE.lat(), SW.lng());
+//
+//     var path = [];
+//
+//     if (CW) {
+//         path.push(NE);
+//         path.push(SE);
+//         path.push(SW);
+//         path.push(NW);
+//     }
+//     else {
+//         path.push(NE);
+//         path.push(NW);
+//         path.push(SW);
+//         path.push(SE);
+//     }
+//
+//     return path;
+// }
