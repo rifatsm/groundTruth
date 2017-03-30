@@ -6,12 +6,17 @@ from django.shortcuts import get_object_or_404, render
 import dateutil.parser
 import datetime
 import hashlib
-from .util import isfloat, build_regions, build_sub_regions
+from .util import isfloat, build_regions, build_sub_regions, verify_in
 
 from django.views.decorators.csrf import csrf_exempt
 
 from decimal import *
 
+ADD_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'expert_id', u'sub_region_width',
+                     u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height', u'img', u'zoom']
+
+DRAW_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
+                      u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height']
 
 
 @csrf_exempt
@@ -79,6 +84,102 @@ def add_judgment(request):
 
 
 @csrf_exempt
+def draw_investigation(request):
+    post = request.POST
+    """
+    expect post to be composed like this:
+    lat_start: #,
+    lon_start: #,
+    lat_end: #,
+    lon_end: #,
+    sub_region_width: #,
+    sub_region_height: #,
+    num_sub_regions_width: #,
+    num_sub_regions_height: #,
+    """
+    if verify_in(post, DRAW_INVESTIGATION):
+        lat_start = post[u'lat_start'].strip()
+        lon_start = post[u'lon_start'].strip()
+
+        lat_end = post[u'lat_end'].strip()
+        lon_end = post[u'lon_end'].strip()
+
+        sub_region_width = post[u'sub_region_width'].strip()
+        sub_region_height = post[u'sub_region_height'].strip()
+
+        num_sub_regions_width = post[u'num_sub_regions_width'].strip()
+        num_sub_regions_height = post[u'num_sub_regions_height'].strip()
+        if (isfloat(lat_start) and isfloat(lon_start) and isfloat(lon_end) and
+                isfloat(lat_end) and isfloat(sub_region_width) and isfloat(sub_region_height) and
+                isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height)):
+
+            lat_start = Decimal(lat_start).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            lon_start = Decimal(lon_start).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+
+            lat_end = Decimal(lat_end).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            lon_end = Decimal(lon_end).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+
+            sub_region_width = Decimal(sub_region_width).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            sub_region_height = Decimal(sub_region_height).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+
+            num_sub_regions_width = Decimal(num_sub_regions_width).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            num_sub_regions_height = Decimal(num_sub_regions_height).quantize(Decimal('.000001'),
+                                                                              rounding=ROUND_HALF_UP)
+
+            WIDTH = num_sub_regions_width * sub_region_width
+            HEIGHT = num_sub_regions_height * sub_region_height
+
+            investigation_height = (
+                Decimal(abs(lat_start - lat_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+            investigation_width = (
+                Decimal(abs(lon_start - lon_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+
+            if investigation_width % WIDTH != 0.0:
+                missing = WIDTH - (
+                    Decimal(investigation_width % WIDTH).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+                expand = missing / (Decimal(2.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+
+                lon_start = lon_start - expand
+                lon_end = lon_end + expand
+
+            if investigation_height % HEIGHT != 0.0:
+                missing = HEIGHT - (
+                    Decimal(investigation_height % HEIGHT).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+                expand = missing / (Decimal(2.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+
+                lat_start = lat_start - expand
+                lat_end = lat_end + expand
+
+            invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
+                                   expert_id="-1", datetime_str=datetime.datetime.now().isoformat(),
+                                   image="did you really try to save this?")
+            regions = build_regions(invest, HEIGHT, WIDTH, -1)  # TODO please dont save this
+
+            res = {
+                'investigation_bounds': {
+                    'lat_start': invest.lat_start,
+                    'lon_start': invest.lon_start,
+                    'lat_end': invest.lat_end,
+                    'lon_end': invest.lon_end
+                },
+                'regions': [
+                    {'lat_start': region.lat_start, 'lon_start': region.lon_start, 'lat_end': region.lat_end,
+                     'lon_end': region.lon_end} for region in regions
+                ]
+
+            }
+            return JsonResponse(res)
+
+        else:
+            print("parsing problem")
+            return HttpResponse(status=400)
+
+    else:
+        print("missing args for draw_investigation")
+        return HttpResponse(status=400)
+
+
+@csrf_exempt
 def add_investigation(request):
     # TODO need to do the image upload
     # TODO im not happy with he helper function structure
@@ -93,14 +194,14 @@ def add_investigation(request):
     lat_end: #,
     lon_end: #,
     expert_id: #,
+    sub_region_width: #,
+    sub_region_height: #,
+    num_sub_regions_width: #,
+    num_sub_regions_height: #,
+    zoom: #,
     img: image_url in dopbox
     """
-
-    # TODO this should be a for loop
-    if (u'lat_start' in post and u'lon_start' in post and u'lat_end' in post
-        and u'lon_end' in post and u'expert_id' in post and u'sub_region_width' in post
-        and u'sub_region_height' in post and u'num_sub_regions_width' in post and u'num_sub_regions_height' in post
-        and u'img' in post and u'zoom' in post):
+    if verify_in(post, ADD_INVESTIGATION):
 
         lat_start = post[u'lat_start'].strip()
         lon_start = post[u'lon_start'].strip()
@@ -133,7 +234,8 @@ def add_investigation(request):
             sub_region_height = Decimal(sub_region_height).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
 
             num_sub_regions_width = Decimal(num_sub_regions_width).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
-            num_sub_regions_height = Decimal(num_sub_regions_height).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
+            num_sub_regions_height = Decimal(num_sub_regions_height).quantize(Decimal('.000001'),
+                                                                              rounding=ROUND_HALF_UP)
 
             WIDTH = num_sub_regions_width * sub_region_width
             HEIGHT = num_sub_regions_height * sub_region_height
@@ -142,18 +244,22 @@ def add_investigation(request):
 
             zoom = int(zoom)
 
-            investigation_height = (Decimal(abs(lat_start - lat_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
-            investigation_width = (Decimal(abs(lon_start - lon_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+            investigation_height = (
+                Decimal(abs(lat_start - lat_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+            investigation_width = (
+                Decimal(abs(lon_start - lon_end)).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
             if investigation_width % WIDTH != 0.0:
-                missing = WIDTH - (Decimal(investigation_width % WIDTH).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+                missing = WIDTH - (
+                    Decimal(investigation_width % WIDTH).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
                 expand = missing / (Decimal(2.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
                 lon_start = lon_start - expand
                 lon_end = lon_end + expand
 
             if investigation_height % HEIGHT != 0.0:
-                missing = HEIGHT - (Decimal(investigation_height % HEIGHT).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
+                missing = HEIGHT - (
+                    Decimal(investigation_height % HEIGHT).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
                 expand = missing / (Decimal(2.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP))
 
                 lat_start = lat_start - expand

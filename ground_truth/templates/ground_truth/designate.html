@@ -5,11 +5,20 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     {% load static %}
-    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
-    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
+    {#  I didnt want the design wide css so i got rid of it. feel free to add it back  #}
+    {#    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">#}
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"
             async defer></script>
+
 
 </head>
 <body>
@@ -21,7 +30,55 @@
 {##}
 {#</div>#}
 {#<hr>#}
-<div id="mainView"></div>
+<div class="row">
+    <div class="col-md-6">
+        <div id="add_invest">
+            <div class="form-group">
+                <label for="sub_region_width">Worker Region Width</label>
+                <select class="form-control" id="sub_region_width">
+                    <option>0.005</option>
+                    <option>0.01</option>
+                    <option>0.05</option>
+                    <option>0.1</option>
+                    <option>1</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sub_region_height">Worker Region Height</label>
+                <select class="form-control" id="sub_region_height">
+                    <option>0.005</option>
+                    <option>0.01</option>
+                    <option>0.05</option>
+                    <option>0.1</option>
+                    <option>1</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="num_sub_regions_height">Horizontal Divisions</label>
+                <select class="form-control" id="num_sub_regions_height">
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="num_sub_regions_width">Vertical Divisions</label>
+                <select class="form-control" id="num_sub_regions_width">
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div id="mainView"></div>
+    </div>
+
+</div>
+
 {#<div id="bottom">#}
 {#    <div id="mysteryImage"><img src="image.png" alt="Mystery Image"></div>#}
 {#    <div id="miniMap">#}

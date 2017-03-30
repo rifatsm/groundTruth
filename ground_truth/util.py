@@ -13,6 +13,12 @@ def isfloat(x):
         return True
 
 
+def verify_in(object, is_in):
+    for item in is_in:
+        if item not in object:
+            return False
+    return True
+
 def build_regions(invest, height, width, zoom):
     # TODO i am assuming that the region will fit evenly in the investigation
 

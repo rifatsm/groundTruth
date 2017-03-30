@@ -68,9 +68,26 @@ function initMap() {
         var desigArea = rectangle.getBounds();
 
         var bottomLeft = desigArea.getSouthWest();
-        console.log(bottomLeft.lat());
-        console.log(bottomLeft.lng());
         var topRight = desigArea.getNorthEast();
+
+        var send = {
+            'lat_start': bottomLeft.lat(),
+            'lon_start': bottomLeft.lng(),
+            'lat_end': topRight.lat(),
+            'lon_end': topRight.lng(),
+            'sub_region_width': $("#sub_region_width").find(":selected").text(),
+            'sub_region_height': $("#sub_region_height").find(":selected").text(),
+            'num_sub_regions_width': $("#num_sub_regions_width").find(":selected").text(),
+            'num_sub_regions_height': $("#num_sub_regions_height").find(":selected").text()
+        };
+
+        $.post("/draw_investigation/", send, function (res) {
+            console.log(res);
+            var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
+            var newNorthEast = new google.maps.LatLng(res.investigation_bounds.lat_end, res.investigation_bounds.lon_end);
+            rectangle.setBounds(new google.maps.LatLngBounds(newSouthWest, newNorthEast));
+        });
+
         google.maps.event.addListener(rectangle, 'click', removeRegion);
 
         drawingManager.setDrawingMode(null);
