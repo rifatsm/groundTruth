@@ -34,10 +34,7 @@ function getUrlVars() {
 }
 
 
-//Initialize the map and event handlers
-function initMap() {
-
-    var start_time = Math.floor(new Date() / 1000);
+$(document).ready(function () {
 
     $('#joyRideTipContent').joyride({
         postRideCallback: function () {
@@ -55,6 +52,13 @@ function initMap() {
             expose: true
         });
     });
+});
+
+//Initialize the map and event handlers
+function initMap() {
+
+    var start_time = Math.floor(new Date() / 1000);
+
 
     var token = getUrlVars()["token"];
 
@@ -71,7 +75,7 @@ function initMap() {
     }
 
 
-    function sub_compare(a,b) {
+    function sub_compare(a, b) {
         return a.index - b.index;
     }
 
@@ -80,7 +84,6 @@ function initMap() {
 
 
         json.sub_regions.sort(sub_compare);
-
 
 
         $('#mysteryImage').attr("src", json['img']);
