@@ -8,3 +8,8 @@
     padding-left: 20%;
     padding-right: 20%;
 }
+
+#logout {
+    text-align: right;
+    padding: 1%;
+}

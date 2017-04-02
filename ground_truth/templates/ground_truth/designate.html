@@ -6,13 +6,12 @@
     <meta charset="utf-8">
     {% load static %}
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script src="{% static 'ground_truth/js/designate.js' %}"></script>
-
 
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -25,14 +24,13 @@
 
 </head>
 <body>
-{#<div id="titleBar">#}
-{#    <div id="title"><h1>Designate Area</h1></div>#}
-{#    <div id="leave"><h2>Leave</h2></div>#}
-{##}
-{#    <div id="about"><h2>About</h2></div>#}
-{##}
-{#</div>#}
-{#<hr>#}
+<div id="logout" class="col-md-12">
+
+    <form accept-charset="UTF-8" role="form" action="/logout/" method="post">
+        {% csrf_token %}
+        <input class="btn btn-danger" type="submit" id="logout" value="Logout: {{ username }}">
+    </form>
+</div>
 <div class="row">
     <div class="col-md-6">
         <div id="add_invest">
@@ -99,13 +97,5 @@
     </div>
 
 </div>
-
-{#<div id="bottom">#}
-{#    <div id="mysteryImage"><img src="image.png" alt="Mystery Image"></div>#}
-{#    <div id="miniMap">#}
-{#        <h4>Workers in Current Region:</h4>#}
-{#        <p id="workerText">Hover over designated region to find out</p>#}
-{#    </div>#}
-{#</div>#}
 </body>
 </html>
