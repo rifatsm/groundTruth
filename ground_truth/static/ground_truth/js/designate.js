@@ -32,6 +32,8 @@ function send_investigation() {
         'sub_region_height': $("#sub_region_height").find(":selected").val(),
         'num_sub_regions_width': $("#num_sub_regions_width").find(":selected").val(),
         'num_sub_regions_height': $("#num_sub_regions_height").find(":selected").val(),
+        'description': $("#description").val(),
+        'invest_name': $("#invest_name").val(),
         'expert_id': $("#ID").val(),
         'zoom': $("#zoom").val(),
         'img': $("#img_url").val(),

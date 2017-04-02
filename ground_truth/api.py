@@ -8,11 +8,15 @@ import datetime
 import hashlib
 from .util import isfloat, build_regions, build_sub_regions, verify_in
 
+from django.http import HttpResponseRedirect
+
+from .auth import is_logged_in, get_expert_id, get_expert_object, get_username
+
 from django.views.decorators.csrf import csrf_exempt
 
 from decimal import *
 
-ADD_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'expert_id', u'sub_region_width',
+ADD_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
                      u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height', u'img', u'zoom']
 
 DRAW_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
@@ -86,6 +90,10 @@ def add_judgment(request):
 @csrf_exempt
 def draw_investigation(request):
     post = request.POST
+
+    if not is_logged_in(request):
+        HttpResponseRedirect("/")
+
     """
     expect post to be composed like this:
     lat_start: #,
@@ -151,7 +159,8 @@ def draw_investigation(request):
                 lat_end = lat_end + expand
 
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
-                                   expert_id="-1", datetime_str=datetime.datetime.now().isoformat(),
+                                   expert_id=get_expert_object(request),
+                                   datetime_str=datetime.datetime.now().isoformat(),
                                    image="did you really try to save this?")
             regions = build_regions(invest, HEIGHT, WIDTH, -1)  # TODO please dont save this
 
@@ -184,6 +193,8 @@ def add_investigation(request):
     # TODO im not happy with he helper function structure
     # TODO this could be much shorter
 
+    # TODO If you miss the old version of this function then go find it on github cause im changing it.
+
     post = request.POST
 
     """
@@ -192,7 +203,6 @@ def add_investigation(request):
     lon_start: #,
     lat_end: #,
     lon_end: #,
-    expert_id: #,
     sub_region_width: #,
     sub_region_height: #,
     num_sub_regions_width: #,
@@ -202,6 +212,10 @@ def add_investigation(request):
     img: image_url in dopbox
     
     """
+
+    if not is_logged_in(request):
+        HttpResponseRedirect("/")
+
     if verify_in(post, ADD_INVESTIGATION):
 
         lat_start = post[u'lat_start'].strip()
@@ -216,13 +230,10 @@ def add_investigation(request):
         num_sub_regions_width = post[u'num_sub_regions_width'].strip()
         num_sub_regions_height = post[u'num_sub_regions_height'].strip()
 
-        expert_id = post[u'expert_id'].strip()
-
         zoom = post[u'zoom']
 
         if (isfloat(lat_start) and isfloat(lon_start) and isfloat(lon_end) and
-                isfloat(lat_end) and expert_id.isdigit() and int(expert_id) > -1
-            and isfloat(sub_region_width) and isfloat(sub_region_height) and
+                isfloat(lat_end) and isfloat(sub_region_width) and isfloat(sub_region_height) and
                 isfloat(num_sub_regions_width) and isfloat(num_sub_regions_height) and int(zoom) > 0):
 
             lat_start = Decimal(lat_start).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP)
@@ -240,8 +251,6 @@ def add_investigation(request):
 
             WIDTH = num_sub_regions_width * sub_region_width
             HEIGHT = num_sub_regions_height * sub_region_height
-
-            expert_id = int(expert_id)
 
             zoom = int(zoom)
 
@@ -277,7 +286,8 @@ def add_investigation(request):
                 img_url = img_url.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
 
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
-                                   expert_id=expert_id, datetime_str=now.isoformat(), image=img_url)
+                                   expert_id=get_expert_object(request), datetime_str=now.isoformat(), image=img_url,
+                                   name=post[u"invest_name"], description=post[u"description"])
             invest.save()
 
             regions = build_regions(invest, HEIGHT, WIDTH, zoom)
@@ -288,8 +298,7 @@ def add_investigation(request):
                     sub_region.save()
 
             res = {
-                'id': invest.pk,
-                'expert_id': invest.expert_id,
+                'expert_id': invest.expert_id.pk,
                 'datetime': invest.datetime_str,
                 'status': invest.status,
                 'image': invest.image,

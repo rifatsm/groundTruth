@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from .models import Region, Subregion, Judgement, CompletedTasks, Investigation
-from .auth import is_logged_in, get_username
+from .auth import is_logged_in, get_username, not_logged_in_redirect, get_expert_id
 from django.http import HttpResponseRedirect
+
 
 
 # Create your views here.
@@ -48,12 +49,12 @@ def singup_form(request):
     return render(request, "ground_truth/signup.html")
 
 
-def my_investigations(request, expert_id):
+def my_investigations(request):
     if not is_logged_in(request):
         return HttpResponseRedirect(
             "/")  # TODO this will get you if you are not reading what is sent back to the client
-    investigations = Investigation.objects.filter(expert_id=expert_id)
+    investigations = Investigation.objects.filter(expert_id=get_expert_id(request))
     if (len(investigations) == 0):
         return HttpResponse(status=404)
-    context = {'investigations': investigations}
+    context = {'investigations': investigations, "username": get_username(request)}
     return render(request, 'ground_truth/my_investigations.html', context)

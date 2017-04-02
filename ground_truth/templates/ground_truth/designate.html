@@ -24,13 +24,18 @@
 
 </head>
 <body>
-<div id="logout" class="col-md-12">
-
-    <form accept-charset="UTF-8" role="form" action="/logout/" method="post">
-        {% csrf_token %}
-        <input class="btn btn-danger" type="submit" id="logout" value="Logout: {{ username }}">
-    </form>
-</div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Ground Truth</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/designate/">New Investigation</a></li>
+            <li><a href="/user/investigations/">My Investigations</a></li>
+            <li><a href="/logout/">Logout: {{ username }}</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="row">
     <div class="col-md-6">
         <div id="add_invest">
@@ -75,16 +80,21 @@
                 <input class="form-control" id="zoom" value="16">
             </div>
             <div class="form-group">
-                <label for="ID">ID</label>
-                <input class="form-control" id="ID" placeholder="Enter you ID">
-            </div>
-            <div class="form-group">
                 <label for="img_url">Image URL</label>
                 <input class="form-control" id="img_url" placeholder="Image web address">
 
             </div>
             <div class="checkbox">
                 <label><input type="checkbox" id="is_dropbox">Dropbox URL</label>
+            </div>
+            <div class="form-group">
+                <label for="invest_name">Investigation Name</label>
+                <input class="form-control" id="invest_name" placeholder="">
+
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows="2" id="description"></textarea>
             </div>
 
             <button class="btn btn-primary" id="add_investigation">Add Investigation</button>

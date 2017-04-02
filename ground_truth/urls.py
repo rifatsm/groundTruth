@@ -23,7 +23,7 @@ urlpatterns = [
     # expert views
     url(r'designate/$', views.designate, name="designate"),
     url(r'^$', views.login_form, name="login"),
-    url(r'^user/investigations/(\d+)/$', views.my_investigations, name='my_investigations'),
+    url(r'^user/investigations/$', views.my_investigations, name='my_investigations'),
     url(r'^signup/', views.singup_form, name="signup"),
 
     # worker views
