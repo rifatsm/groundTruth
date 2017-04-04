@@ -33,8 +33,11 @@ function getUrlVars() {
     return vars;
 }
 
+var start_time =  Math.floor(new Date() / 1000);
 
 $(document).ready(function () {
+
+     start_time = Math.floor(new Date() / 1000);
 
     $('#joyRideTipContent').joyride({
         postRideCallback: function () {
@@ -57,7 +60,6 @@ $(document).ready(function () {
 //Initialize the map and event handlers
 function initMap() {
 
-    var start_time = Math.floor(new Date() / 1000);
 
 
     var token = getUrlVars()["token"];
