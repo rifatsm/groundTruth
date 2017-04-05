@@ -10,6 +10,18 @@ var map;
 
 var investigation = null; // TODO this is the only investigation allowed and this is it.
 
+function map_height() {
+    // TODO never again google maps, you are hard
+    var top_height = $("#nav").outerHeight(true);
+    var total = $(window).height();
+    $("#mainView").height(total - top_height);
+}
+
+$( document ).ready(function() {
+    map_height();
+    $( window ).resize(map_height);
+});
+
 
 // TODO all the other functions should be declared and implemented above the initMap
 
