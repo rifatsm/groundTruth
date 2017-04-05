@@ -2,3 +2,15 @@ django project for groundtruth, you will need you own settings file to run the a
 
 example-settings.py is an example settings file that you can use (set with postgres db).
 you will need to have your DB pass as an enviroment variable
+
+
+
+cause i need this:
+
+python manage.py migrate
+
+python manage.py makemigrations ground_truth
+
+python manage.py sqlmigrate 0001
+
+python manage.py migrate
