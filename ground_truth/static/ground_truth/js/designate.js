@@ -96,6 +96,7 @@ function initMap() {
     google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
         if (investigation !== null) {
             $("#add_investigation").addClass("disabled");
+            $("#too_much").attr("hidden", true);
             $("#cost").text("Total investigation cost: $0.00");
             investigation.setMap(null);
             investigation = null;
@@ -137,6 +138,7 @@ function initMap() {
             if (!can_afford(res["regions"].length)) {
                 rectangle.setOptions({fillColor: "#ff343f", fillOpacity: 0.5,strokeColor:"#ff343f", strokeOpacity:1 });
                 $("#add_investigation").addClass("disabled");
+                $("#too_much").removeAttr("hidden");
             }else {
                 $("#add_investigation").removeClass("disabled");
             }
@@ -146,6 +148,8 @@ function initMap() {
 
 
     function send_investigation() {
+
+        // This is where we stop people from spending too much money
         if (investigation === null || !$("#add_investigation$").hasClass("disabled")) {
             return;
         }
