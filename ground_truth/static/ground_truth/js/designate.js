@@ -5,6 +5,17 @@
  */
 
 
+var sub_region_width = 0.003;
+var sub_region_height = 0.003;
+var num_sub_regions_width = 4;
+var num_sub_regions_height = 4;
+var zoom = 16;
+
+var worker_pay = 1.21;
+var worker_density = 3;
+
+var worker_subregions = {};
+
 ///The map that is displayed on the page
 var map;
 
@@ -14,51 +25,20 @@ function map_height() {
     // TODO never again google maps, you are hard
     var top_height = $("#nav").outerHeight(true);
     var total = $(window).height();
-    $("#mainView").height(total - top_height);
+    $("#mainView").height(total - top_height - 10);
 }
 
-$( document ).ready(function() {
+function display_cost(num_regions) {
+    $("#cost").text("Total investigation cost: $" + (num_regions * worker_pay * worker_density).toFixed(2));
+}
+
+$(document).ready(function () {
     map_height();
-    $( window ).resize(map_height);
+    $(window).resize(map_height);
 });
 
 
 // TODO all the other functions should be declared and implemented above the initMap
-
-function send_investigation() {
-    if (investigation === null) {
-        return;
-    }
-
-    var investigation_area = investigation.getBounds();
-
-    var bottomLeft = investigation_area.getSouthWest();
-    var topRight = investigation_area.getNorthEast();
-
-    var send = {
-        'lat_start': bottomLeft.lat(),
-        'lon_start': bottomLeft.lng(),
-        'lat_end': topRight.lat(),
-        'lon_end': topRight.lng(),
-        'sub_region_width': $("#sub_region_width").find(":selected").val(),
-        'sub_region_height': $("#sub_region_height").find(":selected").val(),
-        'num_sub_regions_width': $("#num_sub_regions_width").find(":selected").val(),
-        'num_sub_regions_height': $("#num_sub_regions_height").find(":selected").val(),
-        'description': $("#description").val(),
-        'invest_name': $("#invest_name").val(),
-        'expert_id': $("#ID").val(),
-        'zoom': $("#zoom").val(),
-        'img': $("#img_url").val(),
-        'is_dropbox': document.getElementById('is_dropbox').checked
-    };
-
-
-    $.post("/add_investigation/", send, function (res) {
-        console.log(res);
-    });
-
-
-}
 
 
 //Initialize the map and event handlers
@@ -108,13 +88,12 @@ function initMap() {
     // This is where we remove the one investigation
     google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
         if (investigation !== null) {
+            $("#cost").text("Total investigation cost: $0.00");
             investigation.setMap(null);
             investigation = null;
         }
 
     });
-
-    $("#add_investigation").click(send_investigation);
 
     //Convert a drawn region into designated areas
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
@@ -134,23 +113,106 @@ function initMap() {
             'lon_start': bottomLeft.lng(),
             'lat_end': topRight.lat(),
             'lon_end': topRight.lng(),
-            'sub_region_width': $("#sub_region_width").find(":selected").text(),
-            'sub_region_height': $("#sub_region_height").find(":selected").text(),
-            'num_sub_regions_width': $("#num_sub_regions_width").find(":selected").text(),
-            'num_sub_regions_height': $("#num_sub_regions_height").find(":selected").text()
+            'sub_region_width': sub_region_width,
+            'sub_region_height': sub_region_height,
+            'num_sub_regions_width': num_sub_regions_width,
+            'num_sub_regions_height': num_sub_regions_height
         };
 
         $.post("/draw_investigation/", send, function (res) {
+            console.log(res);
             var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
             var newNorthEast = new google.maps.LatLng(res.investigation_bounds.lat_end, res.investigation_bounds.lon_end);
             rectangle.setBounds(new google.maps.LatLngBounds(newSouthWest, newNorthEast));
 
             investigation = rectangle;
-        });
 
+            display_cost(res["regions"].length);
+        });
         drawingManager.setDrawingMode(null);
     });
 
+
+    function send_investigation() {
+        if (investigation === null) {
+            return;
+        }
+
+        var investigation_area = investigation.getBounds();
+
+        var bottomLeft = investigation_area.getSouthWest();
+        var topRight = investigation_area.getNorthEast();
+
+        var send = {
+            'lat_start': bottomLeft.lat(),
+            'lon_start': bottomLeft.lng(),
+            'lat_end': topRight.lat(),
+            'lon_end': topRight.lng(),
+            'sub_region_width': sub_region_width,
+            'sub_region_height': sub_region_height,
+            'num_sub_regions_width': num_sub_regions_width,
+            'num_sub_regions_height': num_sub_regions_height,
+            'description': $("#description").val(),
+            'invest_name': $("#invest_name").val(),
+            'zoom': zoom,
+            'img': $("#img_url").val(),
+            'is_dropbox': document.getElementById('is_dropbox').checked
+        };
+
+
+        $.post("/add_investigation/", send, function (res) {
+            console.log(res);
+            investigation.setMap(null);
+            investigation = null;
+
+            for (var i = 0; i < res.sub_regions.length; i++) {
+
+                var sub_region = res.sub_regions[i];
+                var id = sub_region.id;
+                worker_subregions[id] = new google.maps.Rectangle({
+                    strokeColor: '#5f5f5f',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#ffffff',
+                    fillOpacity: 0.35,
+                    map: map,
+                    bounds: {
+                        north: Number(sub_region.lat_end),
+                        south: Number(sub_region.lat_start),
+                        east: Number(sub_region.lon_end),
+                        west: Number(sub_region.lon_start)
+                    }
+                });
+
+
+            }
+
+            setInterval(function () {
+                var sub_regions = Object.keys(worker_subregions);
+                for (var i = 0; i < sub_regions.length; i++) {
+
+                    $.get("/judgement/" + sub_regions[i] + "/", function (res) {
+                        var region = worker_subregions[res["sub_region_id"]];
+                        if (res.status === "no") {
+                            region.setOptions({fillColor: "#ff343f"});
+                        } else if (res.status === "yes") {
+                            region.setOptions({fillColor: "#24d613"});
+                        } else {
+                            region.setOptions({fillColor: "#ffffff"});
+                        }
+
+
+                    });
+                }
+            }, 5000);
+
+
+        });
+
+
+    }
+
+    $("#add_investigation").click(send_investigation);
 
     drawingManager.setDrawingMode(null);
 }

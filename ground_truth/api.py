@@ -292,10 +292,14 @@ def add_investigation(request):
 
             regions = build_regions(invest, HEIGHT, WIDTH, zoom)
 
+            sub_regions = []
+
             for region in regions:
                 region.save()
-                for sub_region in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
-                    sub_region.save()
+                for sub in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
+                    sub.save()
+                    sub_regions.append({'lat_start': sub.lat_start, 'lon_start': sub.lon_start, 'lat_end': sub.lat_end,
+                                        'lon_end': sub.lon_end, 'id': sub.pk})
 
             res = {
                 'expert_id': invest.expert_id.pk,
@@ -307,7 +311,8 @@ def add_investigation(request):
                     'lon_start': invest.lon_start,
                     'lat_end': invest.lat_end,
                     'lon_end': invest.lon_end
-                }
+                },
+                'sub_regions': sub_regions
             }
             return JsonResponse(res)
 
@@ -317,6 +322,27 @@ def add_investigation(request):
     else:
         print("missing args or they are wrong")
         return HttpResponse(status=400)
+
+
+def get_sub_region_status(request, sub_region_id):
+    if not is_logged_in(request):
+        HttpResponseRedirect("/")
+
+    judgments = Judgement.objects.filter(subregion_id=sub_region_id)
+    if len(judgments) > 0:
+        yes = 0
+        no = 0
+        for judge in judgments:
+            if judge.is_plausible():
+                yes += 1
+            else:
+                no += 1
+        if yes >= no:
+            return JsonResponse({"status": "yes", "sub_region_id": sub_region_id})
+        else:
+            return JsonResponse({"status": "no", "sub_region_id": sub_region_id})
+
+    return JsonResponse({"status": "none", "sub_region_id": sub_region_id})
 
 
 def get_region(request):

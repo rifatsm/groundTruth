@@ -141,6 +141,9 @@ class Judgement(models.Model):
             self.result, self.worker, self.start_time_sec, self.end_time_sec, self.subregion.pk, self.task_id
         )
 
+    def is_plausible(self):
+        return True if self.result == 3 else False
+
 
 class CompletedTasks(models.Model):
     worker = models.CharField(max_length=64, blank=False)
