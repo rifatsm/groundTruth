@@ -11,6 +11,8 @@ var num_sub_regions_width = 4;
 var num_sub_regions_height = 4;
 var zoom = 16;
 
+var max_cost = 100.00;
+
 var worker_pay = 1.21;
 var worker_density = 3;
 
@@ -21,6 +23,8 @@ var map;
 
 var investigation = null; // TODO this is the only investigation allowed and this is it.
 
+
+
 function map_height() {
     // TODO never again google maps, you are hard
     var top_height = $("#nav").outerHeight(true);
@@ -28,12 +32,15 @@ function map_height() {
     $("#mainView").height(total - top_height - 10);
 }
 
-function display_cost(num_regions) {
+function can_afford(num_regions) {
     $("#cost").text("Total investigation cost: $" + (num_regions * worker_pay * worker_density).toFixed(2));
+    return (num_regions * worker_pay * worker_density).toFixed(2) <= max_cost;
+
 }
 
 $(document).ready(function () {
     map_height();
+    $("#add_investigation").addClass("disabled");
     $(window).resize(map_height);
 });
 
@@ -88,6 +95,7 @@ function initMap() {
     // This is where we remove the one investigation
     google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
         if (investigation !== null) {
+            $("#add_investigation").addClass("disabled");
             $("#cost").text("Total investigation cost: $0.00");
             investigation.setMap(null);
             investigation = null;
@@ -120,21 +128,25 @@ function initMap() {
         };
 
         $.post("/draw_investigation/", send, function (res) {
-            console.log(res);
             var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
             var newNorthEast = new google.maps.LatLng(res.investigation_bounds.lat_end, res.investigation_bounds.lon_end);
             rectangle.setBounds(new google.maps.LatLngBounds(newSouthWest, newNorthEast));
 
             investigation = rectangle;
 
-            display_cost(res["regions"].length);
+            if (!can_afford(res["regions"].length)) {
+                rectangle.setOptions({fillColor: "#ff343f", fillOpacity: 0.5,strokeColor:"#ff343f", strokeOpacity:1 });
+                $("#add_investigation").addClass("disabled");
+            }else {
+                $("#add_investigation").removeClass("disabled");
+            }
         });
         drawingManager.setDrawingMode(null);
     });
 
 
     function send_investigation() {
-        if (investigation === null) {
+        if (investigation === null || !$("#add_investigation$").hasClass("disabled")) {
             return;
         }
 
