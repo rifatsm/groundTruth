@@ -24,7 +24,6 @@ var map;
 var investigation = null; // TODO this is the only investigation allowed and this is it.
 
 
-
 function map_height() {
     // TODO never again google maps, you are hard
     var top_height = $("#nav").outerHeight(true);
@@ -136,10 +135,16 @@ function initMap() {
             investigation = rectangle;
 
             if (!can_afford(res["regions"].length)) {
-                rectangle.setOptions({fillColor: "#ff343f", fillOpacity: 0.5,strokeColor:"#ff343f", strokeOpacity:1 });
+                rectangle.setOptions({
+                    fillColor: "#ff343f",
+                    fillOpacity: 0.5,
+                    strokeColor: "#ff343f",
+                    strokeOpacity: 1
+                });
                 $("#add_investigation").addClass("disabled");
                 $("#too_much").removeAttr("hidden");
-            }else {
+            } else {
+
                 $("#add_investigation").removeClass("disabled");
             }
         });
@@ -150,7 +155,7 @@ function initMap() {
     function send_investigation() {
 
         // This is where we stop people from spending too much money
-        if (investigation === null || !$("#add_investigation$").hasClass("disabled")) {
+        if (investigation == null || $("#add_investigation").hasClass("disabled")) {
             return;
         }
 
