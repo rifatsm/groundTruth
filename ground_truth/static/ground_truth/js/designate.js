@@ -13,7 +13,7 @@ var zoom = 16;
 
 var max_cost = 100.00;
 
-var worker_pay = 1.21;
+var worker_pay = 1.40;
 var worker_density = 3;
 
 var worker_subregions = {};
