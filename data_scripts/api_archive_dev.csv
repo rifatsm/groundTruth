@@ -1,0 +1,8 @@
+"id","worker","task_id","token","comment","diagram_time","image_time","diagram_views","image_views","constraints"
+1,"-2","-2","4912c6340e6b7f2e5d83e1d8f3b22985f45fc4c5","just 'd'",67,0,1,0,"d"
+2,"-3","-3","661cd849d44cf00b5b4d4a9b2e008099a66ec33a","just 'g'",0,33,0,1,"g"
+3,"-4","-4","5e0d72e3ab6a63e7ad49c18c3f3d0ad6de2d59a1","this was 'b_g'",4,31,1,2,"b_g"
+4,"-5","-5","0b2cef66cac968d38ca15b4027c730afacb7b381","just 'b_g' with lots of rotating and switching",44,10,4,4,"b_g"
+5,"-6","-6","eb317148d49ef10e999e47c5a292b442da95a686","this was 'b_d' with lots of time on diagram",47,3,2,1,"b_d"
+6,"-7","-7","0a048aabafb115cfe15067794505b736a0c53418","this was 'b_d' with lots of switching",50,15,4,3,"b_d"
+7,"-8","-8","103f6251bccef1d97c635acdcbb9674929742fe2","this was 'b_d' with little switching",51,5,2,1,"b_d"

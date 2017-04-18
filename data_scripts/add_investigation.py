@@ -137,6 +137,8 @@ payload = {
     u'expert_id': 1,
     u'img': "https://www.dropbox.com/s/o6ctfbwgyb3iutk/Brasilia_level6_rotate.jpg?dl=0",
     u'zoom': 17,
+    u'invest_name': "test invest",
+    u'description': "test investigation"
 }
 
 #########
