@@ -43,5 +43,3 @@ crashlytics-build.properties
 fabric.properties
 
 
-ground_truth/migrations/*
-geolocate/settings.py
