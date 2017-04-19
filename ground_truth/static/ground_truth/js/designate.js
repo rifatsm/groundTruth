@@ -46,11 +46,6 @@ var sub_region_template = {
     fillOpacity: 0
 };
 
-var selection_template = {
-    strokeColor: '#0000FF',
-    strokeOpacity: 0.9
-};
-
 // used to modify selection and sub_region templates at high zoom levels
 var high_zoom_template = {
     strokeOpacity: .8,
@@ -63,6 +58,10 @@ var low_zoom_template = {
     strokeWeight: 3
 };
 
+var selection_template = {
+    strokeColor: '#0000FF',
+    strokeOpacity: 0.5
+};
 
 var designate_template = {
     strokeColor: '#4682B4',
@@ -83,8 +82,6 @@ var too_expensive_template = {
 
 ///////////////////////////////////////////////
 
-//  1 TODO template the styles for rectangles
-// 2 TODO restore templates
 // 3 TODO handle all view cases for overlap
 
 
@@ -113,7 +110,6 @@ function zoom_tracker() {
         //TODO  this is not me being a bad dev, this is also a global used other places
         can_decide = map.getZoom() >= zoom_threshold;
         if (!can_decide) {
-            console.log("cannot choose");
             Object.keys(worker_subregions).forEach(function (sub_key) {
                 worker_subregions[sub_key].setOptions(sub_region_template);
                 worker_subregions[sub_key].setOptions(high_zoom_template);
@@ -126,12 +122,12 @@ function zoom_tracker() {
     });
 }
 
-function sub_center_in_view(sub) {
+function sub_center_in_view(inner_rectangle, outer_rectangle) {
 
-    var view_bounds = map.getBounds();
-    var sub_center = sub.getBounds().getCenter();
-    if (view_bounds.getSouthWest().lng() <= sub_center.lng() && view_bounds.getNorthEast().lng() >= sub_center.lng()) {
-        if (view_bounds.getSouthWest().lat() <= sub_center.lat() && view_bounds.getNorthEast().lat() >= sub_center.lat()) {
+    var outer_bounds = outer_rectangle.getBounds();
+    var inner_center = inner_rectangle.getBounds().getCenter();
+    if (outer_bounds.getSouthWest().lng() <= inner_center.lng() && outer_bounds.getNorthEast().lng() >= inner_center.lng()) {
+        if (outer_bounds.getSouthWest().lat() <= inner_center.lat() && outer_bounds.getNorthEast().lat() >= inner_center.lat()) {
             return true;
         }
     }
@@ -143,14 +139,33 @@ function view_tracker() {
         if (can_decide && Object.keys(worker_subregions).length > 0) {
             var in_view = [];
             Object.keys(worker_subregions).forEach(function (sub_key) {
-                if (sub_center_in_view(worker_subregions[sub_key])) {
+                if (sub_center_in_view(worker_subregions[sub_key], map)) {
                     in_view.push(sub_key);
                 }
             });
             if (in_view.length === 1) {
+
+                console.log("we have only one sub region rectangle in the view");
                 selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
                 worker_subregions[in_view[0]].setOptions(selection_template);
                 delete selection_template['zIndex'];
+            } else if (in_view.length === 0) {
+                var sub_regions = Object.keys(worker_subregions);
+                var i = 0;
+                while (i < sub_regions.length && !sub_center_in_view(map, worker_subregions[sub_regions[i]])) {
+                    i++;
+                }
+                if (i < sub_regions.length) {
+                    console.log("the view is inside a sub region");
+                    selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
+                    worker_subregions[sub_regions[i]].setOptions(selection_template);
+                    delete selection_template['zIndex'];
+                }
+            } else {
+                Object.keys(worker_subregions).forEach(function (sub_key) {
+                    worker_subregions[sub_key].setOptions(sub_region_template);
+                    worker_subregions[sub_key].setOptions(high_zoom_template);
+                });
             }
 
         }
@@ -180,10 +195,13 @@ function initMap() {
 
     //Create the div's for the button
     var drawControlDiv = document.createElement('div');
-    var drawControl = new drawControlMethod(drawControlDiv, map);
+    var drawControl = new draw_control_method(drawControlDiv, map);
 
     var eraseControlDiv = document.createElement('div');
-    var eraseControl = new eraseControlMethod(eraseControlDiv, map);
+    var eraseControl = new erase_control_method(eraseControlDiv, map);
+
+    // var select_control_div = document.createElement('div');
+    // new select_control_method(select_control_div);
 
     //Set them up onto the map
     drawControlDiv.index = 1;
@@ -342,9 +360,32 @@ function initMap() {
     drawingManager.setDrawingMode(null);
 }
 
+// function select_control_method(controlDiv) {
+//     var controlUI = document.createElement('div');
+//     controlUI.style.backgroundColor = '#fff';
+//     controlUI.style.border = '2px solid #fff';
+//     controlUI.style.borderRadius = '3px';
+//     controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+//     controlUI.style.cursor = 'pointer';
+//     controlUI.style.marginBottom = '22px';
+//     controlUI.style.textAlign = 'center';
+//     controlUI.title = 'kljlkjlkjlkjlk';
+//     controlDiv.appendChild(controlUI);
+//
+//     // Set CSS for the control interior.
+//     var controlText = document.createElement('div');
+//     controlText.style.color = 'rgb(25,25,25)';
+//     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+//     controlText.style.fontSize = '16px';
+//     controlText.style.lineHeight = '38px';
+//     controlText.style.paddingLeft = '5px';
+//     controlText.style.paddingRight = '5px';
+//     controlText.innerHTML = 'kljlkjlkjlkjlk';
+//     controlUI.appendChild(controlText);
+// }
 
-//Set the css elements for the button
-function drawControlMethod(controlDiv, map) {
+
+function draw_control_method(controlDiv, map) {
 
     // Set CSS for the control border.
     var controlUI = document.createElement('div');
@@ -371,7 +412,7 @@ function drawControlMethod(controlDiv, map) {
 }
 
 
-function eraseControlMethod(controlDiv, map) {
+function erase_control_method(controlDiv, map) {
 
     // Set CSS for the control border.
     var controlUI = document.createElement('div');
