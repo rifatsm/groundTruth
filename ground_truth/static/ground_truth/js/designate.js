@@ -5,23 +5,87 @@
  */
 
 
+///////////////////////////////////////////////
+// investigation parameters
+
 var sub_region_width = 0.003;
 var sub_region_height = 0.003;
 var num_sub_regions_width = 4;
 var num_sub_regions_height = 4;
 var zoom = 16;
+///////////////////////////////////////////////
 
+///////////////////////////////////////////////
+// zoom parameters for allowing the expert to make decisions on regions
+var zoom_threshold = zoom;
+var can_decide = false;
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+// Worker pay and cost parameters
 var max_cost = 100.00;
 
 var worker_pay = 1.70;
 var worker_density = 3;
+///////////////////////////////////////////////
 
+///////////////////////////////////////////////
+// Map variables
 var worker_subregions = {};
-
-///The map that is displayed on the page
 var map;
-
 var investigation = null; // TODO this is the only investigation allowed and this is it.
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+// rectangle style templates
+
+var sub_region_template = {
+    strokeColor: 'white',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillOpacity: 0
+};
+
+var selection_template = {
+    strokeColor: '#0000FF',
+    strokeOpacity: 0.9
+};
+
+// used to modify selection and sub_region templates at high zoom levels
+var high_zoom_template = {
+    strokeOpacity: .8,
+    strokeWeight: 5
+};
+
+// used to modify selection and sub_region templates at low zoom levels
+var low_zoom_template = {
+    strokeOpacity: 0.3,
+    strokeWeight: 3
+};
+
+
+var designate_template = {
+    strokeColor: '#4682B4',
+    strokeOpacity: 1,
+    strokeWeight: 3,
+    fillColor: '#4682B4',
+    fillOpacity: 0.5,
+    clickable: true
+};
+
+var too_expensive_template = {
+    fillColor: "#ff343f",
+    fillOpacity: 0.5,
+    strokeColor: "#ff343f",
+    strokeOpacity: 1,
+    strokeWeight: 3
+};
+
+///////////////////////////////////////////////
+
+//  1 TODO template the styles for rectangles
+// 2 TODO restore templates
+// 3 TODO handle all view cases for overlap
 
 
 function map_height() {
@@ -43,8 +107,55 @@ $(document).ready(function () {
     $(window).resize(map_height);
 });
 
+function zoom_tracker() {
+    google.maps.event.addListener(map, "zoom_changed", function () {
 
-// TODO all the other functions should be declared and implemented above the initMap
+        //TODO  this is not me being a bad dev, this is also a global used other places
+        can_decide = map.getZoom() >= zoom_threshold;
+        if (!can_decide) {
+            console.log("cannot choose");
+            Object.keys(worker_subregions).forEach(function (sub_key) {
+                worker_subregions[sub_key].setOptions(sub_region_template);
+                worker_subregions[sub_key].setOptions(high_zoom_template);
+            });
+        } else if (can_decide) {
+            Object.keys(worker_subregions).forEach(function (sub_key) {
+                worker_subregions[sub_key].setOptions(low_zoom_template);
+            });
+        }
+    });
+}
+
+function sub_center_in_view(sub) {
+
+    var view_bounds = map.getBounds();
+    var sub_center = sub.getBounds().getCenter();
+    if (view_bounds.getSouthWest().lng() <= sub_center.lng() && view_bounds.getNorthEast().lng() >= sub_center.lng()) {
+        if (view_bounds.getSouthWest().lat() <= sub_center.lat() && view_bounds.getNorthEast().lat() >= sub_center.lat()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function view_tracker() {
+    google.maps.event.addListener(map, "bounds_changed", function () {
+        if (can_decide && Object.keys(worker_subregions).length > 0) {
+            var in_view = [];
+            Object.keys(worker_subregions).forEach(function (sub_key) {
+                if (sub_center_in_view(worker_subregions[sub_key])) {
+                    in_view.push(sub_key);
+                }
+            });
+            if (in_view.length === 1) {
+                selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
+                worker_subregions[in_view[0]].setOptions(selection_template);
+                delete selection_template['zIndex'];
+            }
+
+        }
+    });
+}
 
 
 //Initialize the map and event handlers
@@ -53,22 +164,18 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('mainView'), {
         zoom: 11,
         center: {lat: 33.678, lng: -116.243},
-        mapTypeId: 'terrain'
+        mapTypeId: 'satellite'
     });
+
+    view_tracker();
+    zoom_tracker();
 
     //Create the Drawing manager which will handle the designation
     var drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
         drawingControl: false,
         map: map,
-        rectangleOptions: {
-            strokeColor: '#4682B4',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#4682B4',
-            fillOpacity: 0.35,
-            clickable: true
-        }
+        rectangleOptions: designate_template
     });
 
     //Create the div's for the button
@@ -86,13 +193,13 @@ function initMap() {
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(eraseControlDiv);
 
     //Add a listener for the drawing mode
-    google.maps.event.addDomListener(drawControlDiv, 'click', function () {
+    var draw_listener = google.maps.event.addDomListener(drawControlDiv, 'click', function () {
         //TODO set the drawingOptions here
-        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE)
+        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
     });
 
     // This is where we remove the one investigation
-    google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
+    var erase_listener = google.maps.event.addDomListener(eraseControlDiv, 'click', function () {
         if (investigation !== null) {
             $("#add_investigation").addClass("disabled");
             $("#too_much").attr("hidden", true);
@@ -135,12 +242,7 @@ function initMap() {
             investigation = rectangle;
 
             if (!can_afford(res["regions"].length)) {
-                rectangle.setOptions({
-                    fillColor: "#ff343f",
-                    fillOpacity: 0.5,
-                    strokeColor: "#ff343f",
-                    strokeOpacity: 1
-                });
+                rectangle.setOptions(too_expensive_template);
                 $("#add_investigation").addClass("disabled");
                 $("#too_much").removeAttr("hidden");
             } else {
@@ -182,20 +284,21 @@ function initMap() {
 
 
         $.post("/add_investigation/", send, function (res) {
-            console.log(res);
+
+            // remove the drawing
             investigation.setMap(null);
             investigation = null;
+
+            // Disable all ability to add another investigation
+            drawingManager.setDrawingMode(null);
+            google.maps.event.removeListener(erase_listener); // no more erasing
+            google.maps.event.removeListener(draw_listener); // no more drawing
 
             for (var i = 0; i < res.sub_regions.length; i++) {
 
                 var sub_region = res.sub_regions[i];
                 var id = sub_region.id;
                 worker_subregions[id] = new google.maps.Rectangle({
-                    strokeColor: '#5f5f5f',
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: '#ffffff',
-                    fillOpacity: 0.35,
                     map: map,
                     bounds: {
                         north: Number(sub_region.lat_end),
@@ -204,28 +307,29 @@ function initMap() {
                         west: Number(sub_region.lon_start)
                     }
                 });
+                worker_subregions[id].setOptions(sub_region_template);
 
 
             }
 
-            setInterval(function () {
-                var sub_regions = Object.keys(worker_subregions);
-                for (var i = 0; i < sub_regions.length; i++) {
-
-                    $.get("/judgement/" + sub_regions[i] + "/", function (res) {
-                        var region = worker_subregions[res["sub_region_id"]];
-                        if (res.status === "no") {
-                            region.setOptions({fillColor: "#ff343f"});
-                        } else if (res.status === "yes") {
-                            region.setOptions({fillColor: "#24d613"});
-                        } else {
-                            region.setOptions({fillColor: "#ffffff"});
-                        }
-
-
-                    });
-                }
-            }, 5000);
+            // setInterval(function () {
+            //     var sub_regions = Object.keys(worker_subregions);
+            //     for (var i = 0; i < sub_regions.length; i++) {
+            //
+            //         $.get("/judgement/" + sub_regions[i] + "/", function (res) {
+            //             var region = worker_subregions[res["sub_region_id"]];
+            //             if (res.status === "no") {
+            //                 region.setOptions({fillColor: "#ff343f"});
+            //             } else if (res.status === "yes") {
+            //                 region.setOptions({fillColor: "#24d613"});
+            //             } else {
+            //                 region.setOptions({fillColor: "#ffffff"});
+            //             }
+            //
+            //
+            //         });
+            //     }
+            // }, 5000);
 
 
         });
