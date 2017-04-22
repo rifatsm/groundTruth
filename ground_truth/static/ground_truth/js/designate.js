@@ -199,7 +199,10 @@ function toggle_overlay() {
         toggle.data("hidden", false);
         toggle.text("Hide All Overlays");
     }
+    
+}
 
+function judgements_manager(id, oldVal, newVal) {
 
 }
 
@@ -406,6 +409,7 @@ function initMap() {
             google.maps.event.removeListener(erase_listener); // no more erasing
             google.maps.event.removeListener(draw_listener); // no more drawing
 
+            map["sub_region_candidates"] = {yes: 0, no: 0};
             for (var i = 0; i < res.sub_regions.length; i++) {
 
                 var sub_region = res.sub_regions[i];
@@ -424,6 +428,7 @@ function initMap() {
                 worker_subregions[id]["candidate"] = true;
                 worker_subregions[id]["style_backup"] = {};
                 backup_style(worker_subregions[id]);
+                map["sub_region_candidates"]["yes"] = map["sub_region_candidates"]["yes"] + 1;
 
 
             }
