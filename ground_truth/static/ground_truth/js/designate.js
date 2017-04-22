@@ -189,8 +189,7 @@ function view_tracker() {
                 }
             });
             if (in_view.length === 1) {
-
-                console.log("we have only one sub region rectangle in the view");
+                console.log("sub contained");
                 selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
                 worker_subregions[in_view[0]].setOptions(selection_template);
                 delete selection_template['zIndex'];
@@ -202,11 +201,11 @@ function view_tracker() {
                     i++;
                 }
                 if (i+1 < sub_regions.length && i > -1) {
-                    console.log("the view is inside a sub region");
+                    console.log("view contained");
                     selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
-                    worker_subregions[sub_regions[i]].setOptions(selection_template);
+                    worker_subregions[sub_regions[i+1]].setOptions(selection_template);
                     delete selection_template['zIndex'];
-                    selection_manager(worker_subregions[in_view[0]]);
+                    selection_manager(worker_subregions[sub_regions[i+1]]);
                 }
             } else {
                 Object.keys(worker_subregions).forEach(function (sub_key) {
