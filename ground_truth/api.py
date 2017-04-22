@@ -279,10 +279,7 @@ def add_investigation(request):
 
             img_url = post[u'img']
 
-            if (u'is_dropbox' in post and (post[u'is_dropbox'] or post[u'is_dropbox'].strip() == u'true'
-                                           or post[u'is_dropbox'].strip() == u'True')) or u'is_dropbox' not in post:
-                # TODO the default is to assume usig dropbox
-                # TODO the user could not be smart and click that box and not have it be a dropbox url, lets fix that here as well
+            if "https://www.dropbox.com" in img_url:
                 img_url = img_url.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
 
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,

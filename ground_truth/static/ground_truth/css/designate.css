@@ -1,20 +1,19 @@
- * , *:before, *:after{
-     box-sizing:border-box;
-     -moz-box-sizing:border-box;
-     -webkit-box-sizing:border-box;
-     -ms-box-sizing:border-box;
-   }
+*, *:before, *:after {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
 
-#map_outter{
+#map_outter {
     padding-right: 10px;
-    margin-bottom: 10px;
-    display:inline-block;
+    display: inline-block;
 }
 
 #mainView {
 }
 
-#add_invest{
+#add_invest {
     padding-top: 8%;
     padding-left: 10%;
     padding-right: 10%;
@@ -23,4 +22,16 @@
 #logout {
     text-align: right;
     padding: 1%;
+}
+
+.btn-toolbar {
+    text-align: center;
+}
+#judgement_wrapper{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#judgement_wrapper .btn-group {
+  float: none !important;
 }

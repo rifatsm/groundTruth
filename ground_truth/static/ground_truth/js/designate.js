@@ -42,14 +42,13 @@ var investigation = null; // TODO this is the only investigation allowed and thi
 var sub_region_template = {
     strokeColor: 'white',
     strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillOpacity: 0
+    strokeWeight: 2
 };
 
 // used to modify selection and sub_region templates at high zoom levels
 var high_zoom_template = {
     strokeOpacity: .8,
-    strokeWeight: 5
+    strokeWeight: 3
 };
 
 // used to modify selection and sub_region templates at low zoom levels
@@ -80,6 +79,16 @@ var too_expensive_template = {
     strokeWeight: 3
 };
 
+var not_seen_template = {
+    fillColor: "#000000",
+    fillOpacity: 1
+};
+
+var possible_template = {
+    fillColor: "#000000",
+    fillOpacity: 0
+};
+
 ///////////////////////////////////////////////
 
 // 3 TODO handle all view cases for overlap
@@ -88,8 +97,13 @@ var too_expensive_template = {
 function map_height() {
     // TODO never again google maps, you are hard
     var top_height = $("#nav").outerHeight(true);
+
+    var bottom_height = 10;
+    if ($("#judgement_wrapper").is(":visible")) {
+        bottom_height = $("#judgement_wrapper").outerHeight(true);
+    }
     var total = $(window).height();
-    $("#mainView").height(total - top_height - 10);
+    $("#mainView").height(total - top_height - bottom_height);
 }
 
 function can_afford(num_regions) {
@@ -97,12 +111,6 @@ function can_afford(num_regions) {
     return (num_regions * worker_pay * worker_density).toFixed(2) <= max_cost;
 
 }
-
-$(document).ready(function () {
-    map_height();
-    $("#add_investigation").addClass("disabled");
-    $(window).resize(map_height);
-});
 
 function zoom_tracker() {
     google.maps.event.addListener(map, "zoom_changed", function () {
@@ -134,8 +142,45 @@ function sub_center_in_view(inner_rectangle, outer_rectangle) {
     return false;
 }
 
+function set_not_seen() {
+    if ($("#judgement_wrapper").data("sub_region") !== undefined) {
+        var sub_region = $("#judgement_wrapper").data("sub_region");
+        sub_region["candidate"] = false;
+        sub_region.setOptions(not_seen_template);
+        selection_manager(sub_region);
+    }
+}
+
+function unset_not_seen() {
+    if ($("#judgement_wrapper").data("sub_region") !== undefined) {
+        var sub_region = $("#judgement_wrapper").data("sub_region");
+        sub_region["candidate"] = true;
+        sub_region.setOptions(sub_region_template);
+        sub_region.setOptions(selection_template);
+        sub_region.setOptions(possible_template);
+        selection_manager(sub_region);
+    }
+}
+
+function selection_manager(sub_region) {
+    if (sub_region === null) {
+        $("#judgement_wrapper").removeData("sub_region");
+        $('#not_seen').prop('disabled', true);
+        $("#unset_not_seen").prop('disabled', true);
+    } else if (sub_region["candidate"]) {
+        $("#judgement_wrapper").data("sub_region", sub_region);
+        $('#not_seen').prop('disabled', false);
+        $("#unset_not_seen").prop('disabled', true);
+    } else {
+        $("#judgement_wrapper").data("sub_region", sub_region);
+        $('#not_seen').prop('disabled', true);
+        $("#unset_not_seen").prop('disabled', false);
+    }
+}
+
 function view_tracker() {
     google.maps.event.addListener(map, "bounds_changed", function () {
+        selection_manager(null);
         if (can_decide && Object.keys(worker_subregions).length > 0) {
             var in_view = [];
             Object.keys(worker_subregions).forEach(function (sub_key) {
@@ -149,17 +194,19 @@ function view_tracker() {
                 selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
                 worker_subregions[in_view[0]].setOptions(selection_template);
                 delete selection_template['zIndex'];
+                selection_manager(worker_subregions[in_view[0]]);
             } else if (in_view.length === 0) {
                 var sub_regions = Object.keys(worker_subregions);
-                var i = 0;
-                while (i < sub_regions.length && !sub_center_in_view(map, worker_subregions[sub_regions[i]])) {
+                var i = -1;
+                while (i+1 < sub_regions.length && !sub_center_in_view(map, worker_subregions[sub_regions[i+1]])) {
                     i++;
                 }
-                if (i < sub_regions.length) {
+                if (i+1 < sub_regions.length && i > -1) {
                     console.log("the view is inside a sub region");
                     selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
                     worker_subregions[sub_regions[i]].setOptions(selection_template);
                     delete selection_template['zIndex'];
+                    selection_manager(worker_subregions[in_view[0]]);
                 }
             } else {
                 Object.keys(worker_subregions).forEach(function (sub_key) {
@@ -171,6 +218,15 @@ function view_tracker() {
         }
     });
 }
+
+
+$(document).ready(function () {
+    map_height();
+    $("#add_investigation").addClass("disabled");
+    $(window).resize(map_height);
+    $("#not_seen").click(set_not_seen);
+    $("#unset_not_seen").click(unset_not_seen);
+});
 
 
 //Initialize the map and event handlers
@@ -199,9 +255,6 @@ function initMap() {
 
     var eraseControlDiv = document.createElement('div');
     var eraseControl = new erase_control_method(eraseControlDiv, map);
-
-    // var select_control_div = document.createElement('div');
-    // new select_control_method(select_control_div);
 
     //Set them up onto the map
     drawControlDiv.index = 1;
@@ -296,8 +349,7 @@ function initMap() {
             'description': $("#description").val(),
             'invest_name': $("#invest_name").val(),
             'zoom': zoom,
-            'img': $("#img_url").val(),
-            'is_dropbox': document.getElementById('is_dropbox').checked
+            'img': $("#img_url").val()
         };
 
 
@@ -326,9 +378,14 @@ function initMap() {
                     }
                 });
                 worker_subregions[id].setOptions(sub_region_template);
+                worker_subregions[id].setOptions({fillOpacity:0});
+                worker_subregions[id]["candidate"] = true;
 
 
             }
+
+            $("#judgement_wrapper").show();
+            map_height();
 
             // setInterval(function () {
             //     var sub_regions = Object.keys(worker_subregions);
@@ -359,30 +416,6 @@ function initMap() {
 
     drawingManager.setDrawingMode(null);
 }
-
-// function select_control_method(controlDiv) {
-//     var controlUI = document.createElement('div');
-//     controlUI.style.backgroundColor = '#fff';
-//     controlUI.style.border = '2px solid #fff';
-//     controlUI.style.borderRadius = '3px';
-//     controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-//     controlUI.style.cursor = 'pointer';
-//     controlUI.style.marginBottom = '22px';
-//     controlUI.style.textAlign = 'center';
-//     controlUI.title = 'kljlkjlkjlkjlk';
-//     controlDiv.appendChild(controlUI);
-//
-//     // Set CSS for the control interior.
-//     var controlText = document.createElement('div');
-//     controlText.style.color = 'rgb(25,25,25)';
-//     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-//     controlText.style.fontSize = '16px';
-//     controlText.style.lineHeight = '38px';
-//     controlText.style.paddingLeft = '5px';
-//     controlText.style.paddingRight = '5px';
-//     controlText.innerHTML = 'kljlkjlkjlkjlk';
-//     controlUI.appendChild(controlText);
-// }
 
 
 function draw_control_method(controlDiv, map) {
