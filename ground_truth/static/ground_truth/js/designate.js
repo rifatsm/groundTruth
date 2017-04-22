@@ -163,10 +163,11 @@ function sub_center_in_view(inner_rectangle, outer_rectangle) {
 }
 
 function set_not_seen() {
-
     if ($("#judgement_wrapper").data("sub_region") !== undefined) {
         var sub_region = $("#judgement_wrapper").data("sub_region");
         sub_region["candidate"] = false;
+        map["sub_region_candidates"]["not"] = map["sub_region_candidates"]["not"] + 1;
+        judgements_manager();
         sub_region.setOptions(not_seen_template);
         selection_manager(sub_region);
     }
@@ -176,11 +177,32 @@ function unset_not_seen() {
     if ($("#judgement_wrapper").data("sub_region") !== undefined) {
         var sub_region = $("#judgement_wrapper").data("sub_region");
         sub_region["candidate"] = true;
+        map["sub_region_candidates"]["not"] = map["sub_region_candidates"]["not"] - 1;
+        judgements_manager();
         sub_region.setOptions(sub_region_template);
         sub_region.setOptions(selection_template);
         sub_region.setOptions(possible_template);
         selection_manager(sub_region);
     }
+}
+
+function toggle_judgements() {
+    var toggle = $("#toggle_judgements");
+    if (!toggle.data("hidden")) {
+        Object.keys(worker_subregions).forEach(function (id) {
+            backup_style(worker_subregions[id]);
+            worker_subregions[id].setOptions({fillOpacity: 0});
+        });
+        toggle.data("hidden", true);
+        toggle.text("Show All Judgments");
+    } else {
+        Object.keys(worker_subregions).forEach(function (id) {
+            revert_style(worker_subregions[id]);
+        });
+        toggle.data("hidden", false);
+        toggle.text("Hide All Judgments");
+    }
+
 }
 
 function toggle_overlay() {
@@ -199,11 +221,18 @@ function toggle_overlay() {
         toggle.data("hidden", false);
         toggle.text("Hide All Overlays");
     }
-    
+
 }
 
-function judgements_manager(id, oldVal, newVal) {
-
+function judgements_manager() {
+    var toggle = $("#toggle_judgements");
+    if (map["sub_region_candidates"].not <= 0) {
+        toggle.prop('disabled', true);
+        toggle.text("Hide Judgements");
+    } else {
+        toggle.prop('disabled', false);
+        toggle.text("Hide Judgements");
+    }
 }
 
 function selection_manager(sub_region) {
@@ -271,6 +300,8 @@ $(document).ready(function () {
     $("#unset_not_seen").click(unset_not_seen);
     $("#toggle_overlay").click(toggle_overlay);
     $("#toggle_overlay").data("hidden", false);
+    $("#toggle_judgements").click(toggle_judgements);
+    $("#toggle_judgements").data("hidden", true);
 });
 
 
@@ -409,7 +440,9 @@ function initMap() {
             google.maps.event.removeListener(erase_listener); // no more erasing
             google.maps.event.removeListener(draw_listener); // no more drawing
 
-            map["sub_region_candidates"] = {yes: 0, no: 0};
+            map["sub_region_candidates"] = {
+                not: 0
+            };
             for (var i = 0; i < res.sub_regions.length; i++) {
 
                 var sub_region = res.sub_regions[i];
@@ -428,7 +461,6 @@ function initMap() {
                 worker_subregions[id]["candidate"] = true;
                 worker_subregions[id]["style_backup"] = {};
                 backup_style(worker_subregions[id]);
-                map["sub_region_candidates"]["yes"] = map["sub_region_candidates"]["yes"] + 1;
 
 
             }
