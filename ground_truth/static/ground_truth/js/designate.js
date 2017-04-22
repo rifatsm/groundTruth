@@ -89,9 +89,29 @@ var possible_template = {
     fillOpacity: 0
 };
 
-///////////////////////////////////////////////
+function backup_style(sub_region) {
+    var properties = ["strokeOpacity", "fillOpacity"];
+    var backup = {};
+    for (var i = 0; i < properties.length; i++) {
+        if (sub_region.hasOwnProperty(properties[i])) {
+            backup[properties[i]] = sub_region[properties[i]];
+        }
+    }
+    sub_region["style_backup"] = backup;
+}
 
-// 3 TODO handle all view cases for overlap
+function revert_style(sub_region) {
+    for (var prop in sub_region["style_backup"]) {
+        if (sub_region["style_backup"].hasOwnProperty(prop)) {
+            var set = {};
+            set[prop] = sub_region["style_backup"][prop];
+            sub_region.setOptions(set);
+        }
+    }
+    sub_region["style_backup"] = {};
+}
+
+///////////////////////////////////////////////
 
 
 function map_height() {
@@ -146,7 +166,6 @@ function set_not_seen() {
 
     if ($("#judgement_wrapper").data("sub_region") !== undefined) {
         var sub_region = $("#judgement_wrapper").data("sub_region");
-        console.log(sub_region);
         sub_region["candidate"] = false;
         sub_region.setOptions(not_seen_template);
         selection_manager(sub_region);
@@ -168,12 +187,17 @@ function toggle_overlay() {
     var toggle = $("#toggle_overlay");
     if (!toggle.data("hidden")) {
         Object.keys(worker_subregions).forEach(function (id) {
+            backup_style(worker_subregions[id]);
             worker_subregions[id].setOptions({fillOpacity: 0, strokeOpacity: 0});
         });
         toggle.data("hidden", true);
         toggle.text("Show All Overlays");
     } else {
-
+        Object.keys(worker_subregions).forEach(function (id) {
+            revert_style(worker_subregions[id]);
+        });
+        toggle.data("hidden", false);
+        toggle.text("Hide All Overlays");
     }
 
 
