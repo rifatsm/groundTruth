@@ -143,8 +143,10 @@ function sub_center_in_view(inner_rectangle, outer_rectangle) {
 }
 
 function set_not_seen() {
+
     if ($("#judgement_wrapper").data("sub_region") !== undefined) {
         var sub_region = $("#judgement_wrapper").data("sub_region");
+        console.log(sub_region);
         sub_region["candidate"] = false;
         sub_region.setOptions(not_seen_template);
         selection_manager(sub_region);
@@ -160,6 +162,21 @@ function unset_not_seen() {
         sub_region.setOptions(possible_template);
         selection_manager(sub_region);
     }
+}
+
+function toggle_overlay() {
+    var toggle = $("#toggle_overlay");
+    if (!toggle.data("hidden")) {
+        Object.keys(worker_subregions).forEach(function (id) {
+            worker_subregions[id].setOptions({fillOpacity: 0, strokeOpacity: 0});
+        });
+        toggle.data("hidden", true);
+        toggle.text("Show All Overlays");
+    } else {
+
+    }
+
+
 }
 
 function selection_manager(sub_region) {
@@ -197,15 +214,15 @@ function view_tracker() {
             } else if (in_view.length === 0) {
                 var sub_regions = Object.keys(worker_subregions);
                 var i = -1;
-                while (i+1 < sub_regions.length && !sub_center_in_view(map, worker_subregions[sub_regions[i+1]])) {
+                while (i + 1 < sub_regions.length && !sub_center_in_view(map, worker_subregions[sub_regions[i + 1]])) {
                     i++;
                 }
-                if (i+1 < sub_regions.length && i > -1) {
+                if (i + 1 < sub_regions.length && i > -1) {
                     console.log("view contained");
                     selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
-                    worker_subregions[sub_regions[i+1]].setOptions(selection_template);
+                    worker_subregions[sub_regions[i + 1]].setOptions(selection_template);
                     delete selection_template['zIndex'];
-                    selection_manager(worker_subregions[sub_regions[i+1]]);
+                    selection_manager(worker_subregions[sub_regions[i + 1]]);
                 }
             } else {
                 Object.keys(worker_subregions).forEach(function (sub_key) {
@@ -225,6 +242,8 @@ $(document).ready(function () {
     $(window).resize(map_height);
     $("#not_seen").click(set_not_seen);
     $("#unset_not_seen").click(unset_not_seen);
+    $("#toggle_overlay").click(toggle_overlay);
+    $("#toggle_overlay").data("hidden", false);
 });
 
 
@@ -377,8 +396,10 @@ function initMap() {
                     }
                 });
                 worker_subregions[id].setOptions(sub_region_template);
-                worker_subregions[id].setOptions({fillOpacity:0});
+                worker_subregions[id].setOptions({fillOpacity: 0});
                 worker_subregions[id]["candidate"] = true;
+                worker_subregions[id]["style_backup"] = {};
+                backup_style(worker_subregions[id]);
 
 
             }
