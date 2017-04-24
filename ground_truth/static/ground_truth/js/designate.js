@@ -40,8 +40,8 @@ var start_drawing_template = "Draw Investigation";
 var stop_drawing_template = "Disable Drawing";
 var remove_drawing_template = "Remove Investigation";
 
-var show_judgements_template = "Show Suggestions";
-var hide_judgements_template = "Hide Suggestions";
+var show_judgements_template = "Show All Suggestions";
+var hide_judgements_template = "Hide All Suggestions";
 
 var hide_overlays_template = "Hide All Overlays";
 var show_overlays_template = "Show All Overlays";

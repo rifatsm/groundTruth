@@ -27,11 +27,12 @@
 .btn-toolbar {
     text-align: center;
 }
-#judgement_wrapper{
-    margin-top: 10px;
-    margin-bottom: 10px;
+
+#judgement_wrapper, #drawing_wrapper {
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
-#judgement_wrapper .btn-group {
-  float: none !important;
+#judgement_wrapper .btn-group, #drawing_wrapper{
+    float: none !important;
 }
