@@ -491,10 +491,12 @@ function initMap() {
             if (!can_afford(res["regions"].length)) {
                 rectangle.setOptions(too_expensive_template);
                 $("#add_investigation").addClass("disabled");
+                $("#add_investigation").prop("disabled", true);
                 $("#too_much").removeAttr("hidden");
             } else {
 
                 $("#add_investigation").removeClass("disabled");
+                $("#add_investigation").prop("disabled", false);
             }
         });
         drawingManager.setDrawingMode(null);
