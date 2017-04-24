@@ -31,7 +31,7 @@ var worker_density = 3;
 // Map variables
 var worker_subregions = {};
 var map;
-var canidates = 0;
+var not_canidates = 0;
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
@@ -40,11 +40,11 @@ var start_drawing_template = "Draw Investigation";
 var stop_drawing_template = "Disable Drawing";
 var remove_drawing_template = "Remove Investigation";
 
-var show_judgements_template = "Show All Suggestions";
-var hide_judgements_template = "Hide All Suggestions";
+var show_judgements_template = "Show all Suggestions";
+var hide_judgements_template = "Hide all Suggestions";
 
-var hide_overlays_template = "Hide All Overlays";
-var show_overlays_template = "Show All Overlays";
+var hide_overlays_template = "Hide all Overlays";
+var show_overlays_template = "Show all Overlays";
 
 var canidate_template = "Include in Search";
 var not_canidate_template = "Exclude from Search";
@@ -204,7 +204,36 @@ function sub_center_in_view(inner_rectangle, outer_rectangle) {
 }
 
 ///////////////////////////////////////////////
+///////////////////////////////////////////////
+// hid and show worker and expert judgements
+function toggle_suggestions() {
+    var toggle = $("#toggle_suggestions_btn");
+    if (!toggle.data("hidden")) { // this is a state where there is polygones and the are hidden
+        Object.keys(worker_subregions).forEach(function (id) {
+            backup_style(worker_subregions[id]);
+            worker_subregions[id].setOptions({fillOpacity: 0});
+        });
+        toggle.data("hidden", true);
+        toggle.text(show_judgements_template);
+    } else {
+        Object.keys(worker_subregions).forEach(function (id) {
+            revert_style(worker_subregions[id]);
+        });
+        toggle.data("hidden", false);
+        toggle.text(hide_judgements_template);
+    }
 
+}
+
+function suggestions_manager() {
+    var toggle = $("#toggle_suggestions_btn");
+    if (not_canidates <= 0) {
+        toggle.prop('disabled', true);
+    } else {
+        toggle.prop('disabled', false);
+    }
+}
+///////////////////////////////////////////////
 ///////////////////////////////////////////////
 // manage expert judements
 
@@ -216,6 +245,11 @@ function selection_manager(sub_region) {
         toggle.removeData("sub_region");
         toggle.prop('disabled', true);
     } else {
+        if (sub_region["candidate"]){
+            toggle.text(not_canidate_template);
+        } else {
+            toggle.text(canidate_template);
+        }
         toggle.data("sub_region", sub_region);
         toggle.prop('disabled', false);
     }
@@ -226,52 +260,44 @@ function judge() {
 
     if (toggle.data("sub_region") === undefined || toggle.data("sub_region") === null) {
         toggle.prop('disabled', true);
+        suggestions_manager();
     } else {
         if (toggle.data("sub_region")["candidate"]) {
             var sub_region = toggle.data("sub_region");
             sub_region["candidate"] = false;
-            canidates++;
-            judgements_manager();
+            not_canidates++;
+            suggestions_manager();
+
+            /////////////////////////////////////////////
             sub_region.setOptions(not_seen_template);
+            if ($("#toggle_suggestions_btn").data("hidden")) {
+                backup_style(sub_region);
+                sub_region.setOptions({fillOpacity: 0});
+            }
+            /////////////////////////////////////////////
+
             selection_manager(sub_region);
             toggle.text(canidate_template)
         } else {
             var sub_region = toggle.data("sub_region");
             sub_region["candidate"] = true;
-            canidates--;
-            judgements_manager();
+            not_canidates--;
+            suggestions_manager();
             sub_region.setOptions(sub_region_template);
             sub_region.setOptions(selection_template);
             sub_region.setOptions(possible_template);
+
+            /////////////////////////////////////////////
+            if ($("#toggle_suggestions_btn").data("hidden")) {
+                backup_style(sub_region);
+                sub_region.setOptions({fillOpacity: 0});
+            }
+            /////////////////////////////////////////////
             selection_manager(sub_region);
             toggle.text(not_canidate_template);
         }
     }
 }
-
-// function set_not_seen() {
-//     if ($("#toggle_seen_btn").data("sub_region") !== undefined) {
-//         var sub_region = $("#toggle_seen_btn").data("sub_region");
-//         sub_region["candidate"] = false;
-//         sub_region_candidates++;
-//         judgements_manager();
-//         sub_region.setOptions(not_seen_template);
-//         selection_manager(sub_region);
-//     }
-// }
-
-// function unset_not_seen() {
-//     if ($("#judgement_wrapper").data("sub_region") !== undefined) {
-//         var sub_region = $("#judgement_wrapper").data("sub_region");
-//         sub_region["candidate"] = true;
-//         sub_region_candidates--;
-//         judgements_manager();
-//         sub_region.setOptions(sub_region_template);
-//         sub_region.setOptions(selection_template);
-//         sub_region.setOptions(possible_template);
-//         selection_manager(sub_region);
-//     }
-// }
 
 function view_tracker() {
     google.maps.event.addListener(map, "bounds_changed", function () {
@@ -340,38 +366,6 @@ function toggle_overlay() {
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
-// hid and show worker and expert judgements
-function toggle_judgements() {
-    var toggle = $("#toggle_judgements_btn");
-    if (!toggle.data("hidden")) {
-        Object.keys(worker_subregions).forEach(function (id) {
-            backup_style(worker_subregions[id]);
-            worker_subregions[id].setOptions({fillOpacity: 0});
-        });
-        toggle.data("hidden", true);
-        toggle.text(show_judgements_template);
-    } else {
-        Object.keys(worker_subregions).forEach(function (id) {
-            revert_style(worker_subregions[id]);
-        });
-        toggle.data("hidden", false);
-        toggle.text(hide_judgements_template);
-    }
-
-}
-
-function judgements_manager() {
-    var toggle = $("#toggle_judgements_btn");
-    if (canidates <= 0) {
-        toggle.prop('disabled', true);
-        toggle.text(hide_judgements_template);
-    } else {
-        toggle.prop('disabled', false);
-        toggle.text(hide_judgements_template);
-    }
-}
-///////////////////////////////////////////////
-///////////////////////////////////////////////
 $(document).ready(function () {
 
     $("#add_investigation").addClass("disabled");
@@ -389,9 +383,9 @@ $(document).ready(function () {
     overlay_btn.data("hidden", false);
 
     // manage showing and hiding all judgements (keep grid)
-    var judgements_btn = $("#toggle_judgements_btn");
-    judgements_btn.click(toggle_judgements);
-    judgements_btn.data("hidden", true);
+    var judgements_btn = $("#toggle_suggestions_btn");
+    judgements_btn.click(toggle_suggestions);
+    judgements_btn.data("hidden", false);
 
     $("#toggle_draw_erase_btn").text(start_drawing_template);
     judgements_btn.text(hide_judgements_template);
