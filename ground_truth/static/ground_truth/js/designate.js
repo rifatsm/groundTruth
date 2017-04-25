@@ -49,7 +49,7 @@ var show_overlays_template = "Show all Overlays";
 var canidate_template = "Include in Search";
 var not_canidate_template = "Exclude from Search";
 
-var budeget_template = "You may use up to " + max_workers + " to complete your investigation";
+var budeget_template = "You may use up to " + max_workers + " workers to complete your investigation";
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
@@ -152,6 +152,20 @@ function zoom_style_tracker() {
     });
 }
 
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+// query args
+function getUrlVars() {
+    // obtained from: http://stackoverflow.com/questions/4656843/jquery-get-querystring-from-url
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 // set map height
@@ -424,12 +438,33 @@ function found_it() {
     var url = "/foundit?diagram_image=" + $("#diagram_image").attr("src") + "&ground_image=" + $("#ground_image").attr("src");
     url = url + "&lat=" + sub_region.getBounds().getCenter().lat();
     url = url + "&lon=" + sub_region.getBounds().getCenter().lng();
-    window.location.replace(url);
+    window.location.href = url;
 
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
+//images 
+function set_images() {
+    var ground = "https://images-na.ssl-images-amazon.com/images/G/01/img15/pet-products/small-tiles/30423_pets-products_january-site-flip_3-cathealth_short-tile_592x304._CB286975940_.jpg";
+    var diagram = "https://d4n5pyzr6ibrc.cloudfront.net/media/27FB7F0C-9885-42A6-9E0C19C35242B5AC/4785B1C2-8734-405D-96DC23A6A32F256B/thul-90efb785-97af-5e51-94cf-503fc81b6940.jpg?response-content-disposition=inline";
+
+    var ground_image = getUrlVars()["ground_image"];
+    var diagram_image = getUrlVars()["diagram_image"];
+    if (ground_image === undefined || ground_image === null) {
+        ground_image = ground;
+    }
+    if (diagram_image === undefined || diagram_image === null) {
+        diagram_image = diagram;
+    }
+    $("#ground_image").attr("src", ground_image);
+    $("#diagram_image").attr("src", diagram_image);
+    console.log("called");
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
 $(document).ready(function () {
+
+    set_images();
 
     $("#budget").text(budeget_template);
     $("#description_form").hide();
@@ -480,9 +515,20 @@ $(document).ready(function () {
 //Initialize the map and event handlers
 function initMap() {
     //Create the map according to the API
+
+    var latitude = getUrlVars()["lat"];
+    var longitude = getUrlVars()["lat"];
+
+    if (latitude === null || latitude === undefined) {
+        latitude = 33.678;
+    }
+    if (longitude === null || longitude === undefined) {
+        longitude = -116.243;
+    }
+
     map = new google.maps.Map(document.getElementById('mainView'), {
         zoom: 11,
-        center: {lat: 33.678, lng: -116.243},
+        center: {lat: latitude, lng: longitude},
         mapTypeId: 'satellite',
         draggable: true,
         scrollwheel: true,
@@ -624,9 +670,6 @@ function initMap() {
         $("#add_investigation_btn").prop("disabled", true);
         $("#add_invest").hide();
         $("#search").show();
-
-        $("#ground_image").attr("src", $("#img_url").val());
-        $("#diagram_image").attr("src", $("#diagram_url").val());
 
         var draw_erase_btn = $("#toggle_draw_erase_btn");
         var investigation = draw_erase_btn.data("investigation");

@@ -17,7 +17,7 @@ def login_manager(request):
             request.session["logged_in"] = True
             request.session['username'] = post["username"]
             request.session["user_id"] = expert.pk
-            return HttpResponseRedirect("/designate/")
+            return HttpResponseRedirect("/instructions/")
         else:
             return HttpResponseRedirect("/")
     except User.DoesNotExist:

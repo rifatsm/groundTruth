@@ -76,3 +76,6 @@ def found_it(request):
                "diagram_image": diagram_image
                }
     return render(request, 'ground_truth/found_it.html', context)
+
+def instructions(request):
+    return render(request, 'ground_truth/instructions.html')
