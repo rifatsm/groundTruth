@@ -36,3 +36,20 @@
 #judgement_wrapper .btn-group, #drawing_wrapper{
     float: none !important;
 }
+
+.gm-tilt {
+    display: none;
+}
+
+#search{
+    text-align: center;
+}
+
+#ground_image, #diagram_image {
+
+    max-width: 75%;
+}
+
+.navbar{
+    margin-bottom: 5px;
+}

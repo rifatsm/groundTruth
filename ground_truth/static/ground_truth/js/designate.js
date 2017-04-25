@@ -23,7 +23,7 @@ var can_decide = false;
 
 ///////////////////////////////////////////////
 // Worker pay and cost parameters
-var max_workers = 30.00;
+var max_workers = 30;
 var worker_density = 3;
 ///////////////////////////////////////////////
 
@@ -48,6 +48,8 @@ var show_overlays_template = "Show all Overlays";
 
 var canidate_template = "Include in Search";
 var not_canidate_template = "Exclude from Search";
+
+var budeget_template = "You may use up to " + max_workers + " to complete your investigation";
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
@@ -251,14 +253,18 @@ function judgement_manager(sub_region) {
     if (sub_region === null || sub_region === undefined) { // we want to disable the button
         toggle.removeData("sub_region");
         toggle.prop('disabled', true);
+        $("#found_it_btn").prop("disabled", true);
     } else if ($("#toggle_overlay_btn").data("hidden")
         || $("#toggle_suggestions_btn").data("hidden")) { // should not be able to click in this state
         toggle.prop('disabled', true);
+        $("#found_it_btn").prop("disabled", true);
     } else { // its clickable, let it flip states.
         if (sub_region["candidate"]) {
             toggle.text(not_canidate_template);
+            $("#found_it_btn").prop("disabled", false);
         } else {
             toggle.text(canidate_template);
+            $("#found_it_btn").prop("disabled", true);
         }
         toggle.data("sub_region", sub_region);
         toggle.prop('disabled', false);
@@ -275,6 +281,7 @@ function judge() {
     // no subregion selected, should never get here because of the management function
     if (toggle.data("sub_region") === undefined || toggle.data("sub_region") === null) {
         toggle.prop('disabled', true);
+        $("#found_it_btn").prop("disabled", true);
         suggestions_manager(); // tell suggestions manager to turn itself off.
     } else {
         if (toggle.data("sub_region")["candidate"]) { // we are looking a sub_region that has not been outlawed
@@ -392,6 +399,7 @@ function toggle_overlay() {
 
         $("#toggle_suggestions_btn").prop("disabled", true);
         $("#toggle_seen_btn").prop("disabled", true);
+        $("#found_it_btn").prop("disabled", true);
 
     } else {
         Object.keys(worker_subregions).forEach(function (id) {
@@ -407,7 +415,20 @@ function toggle_overlay() {
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
+// found it
+function found_it() {
+    var data_binding = $("#toggle_seen_btn");
+    var sub_region = data_binding.data("sub_region");
+    console.log(sub_region);
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
 $(document).ready(function () {
+
+    $("#budget").text(budeget_template);
+    $("#description_form").hide();
+
+    $("#search").hide();
 
     $("#add_investigation").addClass("disabled");
     $(window).resize(map_height);
@@ -416,6 +437,20 @@ $(document).ready(function () {
     seen_btn.click(judge);
     seen_btn.text(not_canidate_template);
     seen_btn.data("sub_region", null);
+
+
+    $('#rot-left').on('click', function (event) {
+        event.preventDefault();
+        $('#diagram_image').rotate(-45);
+
+    });
+    $('#rot-right').on('click', function (event) {
+        event.preventDefault();
+        $('#diagram_image').rotate(45);
+
+    });
+
+    $("#found_it_btn").click(found_it);
 
 
     // manage the showing and hiding of all map overlays.
@@ -443,9 +478,9 @@ function initMap() {
         zoom: 11,
         center: {lat: 33.678, lng: -116.243},
         mapTypeId: 'satellite',
-        streetViewControl: false,
         draggable: true,
         scrollwheel: true,
+        streetViewControl: false,
         tilt: 0
 
     });
@@ -487,7 +522,7 @@ function initMap() {
             $("#add_investigation").addClass("disabled");
             draw_erase_btn.text(start_drawing_template);
             $("#too_much").attr("hidden", true);
-            $("#cost").text("Total investigation cost: $0.00");
+            $("#cost").text("Workers required for investigation: 0");
             var invest = draw_erase_btn.data("investigation");
             invest.setMap(null);
             draw_erase_btn.data("investigation", null);
@@ -549,6 +584,13 @@ function initMap() {
         if (!have_investigation()) {
             return
         }
+        $("#add_investigation").prop("disabled", true);
+        $("#add_invest").hide();
+        $("#search").show();
+
+        $("#ground_image").attr("src", $("#img_url").val());
+        $("#diagram_image").attr("src", $("#diagram_url").val());
+
         var draw_erase_btn = $("#toggle_draw_erase_btn");
         var investigation = draw_erase_btn.data("investigation");
 
