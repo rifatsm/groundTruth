@@ -62,7 +62,7 @@ var sub_region_template = {
 // used to modify selection and sub_region templates at high zoom levels
 var high_zoom_template = {
     strokeOpacity: .8,
-    strokeWeight: 3
+    strokeWeight: 2
 };
 
 // used to modify selection and sub_region templates at low zoom levels
@@ -73,7 +73,7 @@ var low_zoom_template = {
 
 var selection_template = {
     strokeColor: '#0000FF',
-    strokeOpacity: 0.5
+    strokeOpacity: 0.8
 };
 
 var designate_template = {
@@ -116,7 +116,7 @@ function backup_style(sub_region) {
             backup[properties[i]] = sub_region[properties[i]];
         }
     }
-    sub_region["style_backup"] = backup;
+    sub_region["style_backup"].push(backup);
 }
 
 /**
@@ -125,14 +125,19 @@ function backup_style(sub_region) {
  * @param sub_region
  */
 function revert_style(sub_region) {
-    for (var prop in sub_region["style_backup"]) {
-        if (sub_region["style_backup"].hasOwnProperty(prop)) {
+    if (sub_region["style_backup"].length <= 0) {
+        var backup = sub_region_template; // TODO if the style is bad then look here
+    } else {
+        var backup = sub_region["style_backup"].pop();
+    }
+
+    for (var prop in backup) {
+        if (backup.hasOwnProperty(prop)) {
             var set = {};
-            set[prop] = sub_region["style_backup"][prop];
+            set[prop] = backup[prop];
             sub_region.setOptions(set);
         }
     }
-    sub_region["style_backup"] = {};
 }
 
 /**
@@ -140,19 +145,8 @@ function revert_style(sub_region) {
  */
 function zoom_style_tracker() {
     google.maps.event.addListener(map, "zoom_changed", function () {
-
         //TODO  this is not me being a bad dev, this is also a global used other places
         can_decide = map.getZoom() >= zoom_threshold;
-        if (!can_decide) {
-            Object.keys(worker_subregions).forEach(function (sub_key) {
-                worker_subregions[sub_key].setOptions(sub_region_template);
-                worker_subregions[sub_key].setOptions(high_zoom_template);
-            });
-        } else if (can_decide) {
-            Object.keys(worker_subregions).forEach(function (sub_key) {
-                worker_subregions[sub_key].setOptions(low_zoom_template);
-            });
-        }
     });
 }
 
@@ -206,25 +200,36 @@ function sub_center_in_view(inner_rectangle, outer_rectangle) {
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 // hid and show worker and expert judgements
+
+/**
+ * handles users showing and hiding suggestions
+ */
 function toggle_suggestions() {
     var toggle = $("#toggle_suggestions_btn");
-    if (!toggle.data("hidden")) { // this is a state where there is polygones and the are hidden
-        Object.keys(worker_subregions).forEach(function (id) {
+    if (!toggle.data("hidden")) { // suggestions are shown, we hide them now
+        Object.keys(worker_subregions).forEach(function (id) { // set all suggestions centers to clear
             backup_style(worker_subregions[id]);
             worker_subregions[id].setOptions({fillOpacity: 0});
         });
-        toggle.data("hidden", true);
-        toggle.text(show_judgements_template);
-    } else {
+        toggle.data("hidden", true); // update state to hidden (we flip states)
+        toggle.text(show_judgements_template); // update text to show that we have flipped state
+    } else { // suggestions are hidden now, we show them now
         Object.keys(worker_subregions).forEach(function (id) {
-            revert_style(worker_subregions[id]);
+            revert_style(worker_subregions[id]); // update all suggestions back to the old style
         });
-        toggle.data("hidden", false);
+        toggle.data("hidden", false); // set button states back to showing everything.
         toggle.text(hide_judgements_template);
+
     }
+
+    // reactivate judgement manager, it should active right back up if there was sub_region already in view.
+    judgement_manager($("#toggle_seen_btn").data("sub_region"));
 
 }
 
+/**
+ * activate or deactive the button based off of the global number of "not candidates"
+ */
 function suggestions_manager() {
     var toggle = $("#toggle_suggestions_btn");
     if (not_canidates <= 0) {
@@ -237,15 +242,20 @@ function suggestions_manager() {
 ///////////////////////////////////////////////
 // manage expert judements
 
-// TODO i need to update the inits for these data bindings
-// TODO i need to set the text on these buttons
-function selection_manager(sub_region) {
+/**
+ * manages if judgements should be allowed to be made based off of user state.
+ * @param sub_region
+ */
+function judgement_manager(sub_region) {
     var toggle = $("#toggle_seen_btn");
-    if (sub_region === null || sub_region === undefined) {
+    if (sub_region === null || sub_region === undefined) { // we want to disable the button
         toggle.removeData("sub_region");
         toggle.prop('disabled', true);
-    } else {
-        if (sub_region["candidate"]){
+    } else if ($("#toggle_overlay_btn").data("hidden")
+        || $("#toggle_suggestions_btn").data("hidden")) { // should not be able to click in this state
+        toggle.prop('disabled', true);
+    } else { // its clickable, let it flip states.
+        if (sub_region["candidate"]) {
             toggle.text(not_canidate_template);
         } else {
             toggle.text(canidate_template);
@@ -255,31 +265,29 @@ function selection_manager(sub_region) {
     }
 }
 
+/**
+ * toggles judgement of sub regions
+ */
 function judge() {
     var toggle = $("#toggle_seen_btn");
+    var sub_region = toggle.data("sub_region");
 
+    // no subregion selected, should never get here because of the management function
     if (toggle.data("sub_region") === undefined || toggle.data("sub_region") === null) {
         toggle.prop('disabled', true);
-        suggestions_manager();
+        suggestions_manager(); // tell suggestions manager to turn itself off.
     } else {
-        if (toggle.data("sub_region")["candidate"]) {
-            var sub_region = toggle.data("sub_region");
-            sub_region["candidate"] = false;
+        if (toggle.data("sub_region")["candidate"]) { // we are looking a sub_region that has not been outlawed
+
+            sub_region["candidate"] = false; // its no good now
             not_canidates++;
-            suggestions_manager();
+            suggestions_manager(); // update sugestions since we have changed the nubmer of canidates.
 
-            /////////////////////////////////////////////
-            sub_region.setOptions(not_seen_template);
-            if ($("#toggle_suggestions_btn").data("hidden")) {
-                backup_style(sub_region);
-                sub_region.setOptions({fillOpacity: 0});
-            }
-            /////////////////////////////////////////////
+            sub_region.setOptions(not_seen_template); // make it blacked out
 
-            selection_manager(sub_region);
+            judgement_manager(sub_region); // TODO do i really need to call this here
             toggle.text(canidate_template)
         } else {
-            var sub_region = toggle.data("sub_region");
             sub_region["candidate"] = true;
             not_canidates--;
             suggestions_manager();
@@ -287,52 +295,77 @@ function judge() {
             sub_region.setOptions(selection_template);
             sub_region.setOptions(possible_template);
 
-            /////////////////////////////////////////////
-            if ($("#toggle_suggestions_btn").data("hidden")) {
-                backup_style(sub_region);
-                sub_region.setOptions({fillOpacity: 0});
-            }
-            /////////////////////////////////////////////
-            selection_manager(sub_region);
+            judgement_manager(sub_region); // TODO do i really need to call this here.
             toggle.text(not_canidate_template);
         }
     }
+
 }
 
+/**
+ * set all sub_regions outlines back to the default
+ */
+function reset_outlines() {
+    Object.keys(worker_subregions).forEach(function (key) {
+        worker_subregions[key].setOptions(sub_region_template);
+        worker_subregions[key].setOptions({"zIndex": 0});
+    });
+}
+
+/**
+ * update judgement function based off what is inside the map
+ */
 function view_tracker() {
     google.maps.event.addListener(map, "bounds_changed", function () {
-        selection_manager(null);
-        if (can_decide && Object.keys(worker_subregions).length > 0) {
-            var in_view = [];
+        judgement_manager(null); // the map moved, we start from scratch
+        if (can_decide && Object.keys(worker_subregions).length > 0) { // we are allowed to look for subregions and there are some
+            var in_view = []; // how many sub_regions are in the map view
             Object.keys(worker_subregions).forEach(function (sub_key) {
                 if (sub_center_in_view(worker_subregions[sub_key], map)) {
                     in_view.push(sub_key);
                 }
             });
-            if (in_view.length === 1) {
-                console.log("sub contained");
-                selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
-                worker_subregions[in_view[0]].setOptions(selection_template);
-                delete selection_template['zIndex'];
-                selection_manager(worker_subregions[in_view[0]]);
-            } else if (in_view.length === 0) {
+            if (in_view.length === 1) { // only one is in view, this must be the one
+
+                // if the overlay button is selected then we should not work
+                // TOdo is this the best way to do this? if not then why are we, if it is, then why are we not doing this
+                // for the suggestions
+                if (!$("#toggle_overlay_btn").data("hidden")) {
+                    reset_outlines();
+                    worker_subregions[in_view[0]].setOptions({"zIndex": Object.keys(worker_subregions).length + 1});
+                    worker_subregions[in_view[0]].setOptions(selection_template);
+                }
+
+                judgement_manager(worker_subregions[in_view[0]]);
+            } else if (in_view.length === 0) { // not are in view, check that we are zoomed in enough (too much)
                 var sub_regions = Object.keys(worker_subregions);
                 var i = -1;
                 while (i + 1 < sub_regions.length && !sub_center_in_view(map, worker_subregions[sub_regions[i + 1]])) {
-                    i++;
+                    i++; // keep looking for sub_regions that we could be in
                 }
                 if (i + 1 < sub_regions.length && i > -1) {
-                    console.log("view contained");
-                    selection_template['zIndex'] = Object.keys(worker_subregions).length - 1;
-                    worker_subregions[sub_regions[i + 1]].setOptions(selection_template);
-                    delete selection_template['zIndex'];
-                    selection_manager(worker_subregions[sub_regions[i + 1]]);
+
+                    // if the overlay button is selected then we should not work
+                    // TOdo is this the best way to do this? if not then why are we, if it is, then why are we not doing this
+                    // for the suggestions
+                    if (!$("#toggle_overlay_btn").data("hidden")) {
+                        reset_outlines();
+                        worker_subregions[sub_regions[i + 1]].setOptions({"zIndex": Object.keys(worker_subregions).length + 1});
+                        worker_subregions[sub_regions[i + 1]].setOptions(selection_template);
+                    }
+                    judgement_manager(worker_subregions[sub_regions[i + 1]]);
                 }
             } else {
-                Object.keys(worker_subregions).forEach(function (sub_key) {
-                    worker_subregions[sub_key].setOptions(sub_region_template);
-                    worker_subregions[sub_key].setOptions(high_zoom_template);
-                });
+                // no acceptable sub region, we revert back if overlay is not selected.
+                // TOdo is this the best way to do this? if not then why are we, if it is, then why are we not doing this
+                // for the suggestions
+                if (!$("#toggle_overlay_btn").data("hidden")) {
+                    Object.keys(worker_subregions).forEach(function (sub_key) {
+                        worker_subregions[sub_key].setOptions(sub_region_template);
+                        worker_subregions[sub_key].setOptions(high_zoom_template);
+                    });
+                }
+
             }
 
         }
@@ -343,6 +376,7 @@ function view_tracker() {
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 // All polygon control
+
 /**
  * Controls hiding and showing all expert, worker and grid polygons
  */
@@ -355,12 +389,19 @@ function toggle_overlay() {
         });
         toggle.data("hidden", true);
         toggle.text(show_overlays_template);
+
+        $("#toggle_suggestions_btn").prop("disabled", true);
+        $("#toggle_seen_btn").prop("disabled", true);
+
     } else {
         Object.keys(worker_subregions).forEach(function (id) {
             revert_style(worker_subregions[id]);
         });
         toggle.data("hidden", false);
         toggle.text(hide_overlays_template);
+        suggestions_manager();
+        judgement_manager($("#toggle_seen_btn").data("sub_region"));
+
     }
 
 }
@@ -560,7 +601,7 @@ function initMap() {
                 worker_subregions[id].setOptions(sub_region_template);
                 worker_subregions[id].setOptions({fillOpacity: 0});
                 worker_subregions[id]["candidate"] = true;
-                worker_subregions[id]["style_backup"] = {};
+                worker_subregions[id]["style_backup"] = [];
                 backup_style(worker_subregions[id]);
             }
 
