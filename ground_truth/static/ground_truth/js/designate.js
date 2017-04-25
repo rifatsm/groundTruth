@@ -394,6 +394,7 @@ function toggle_overlay() {
             backup_style(worker_subregions[id]);
             worker_subregions[id].setOptions({fillOpacity: 0, strokeOpacity: 0});
         });
+
         toggle.data("hidden", true);
         toggle.text(show_overlays_template);
 
@@ -407,6 +408,7 @@ function toggle_overlay() {
         });
         toggle.data("hidden", false);
         toggle.text(hide_overlays_template);
+        reset_outlines();
         suggestions_manager();
         judgement_manager($("#toggle_seen_btn").data("sub_region"));
 
@@ -419,7 +421,11 @@ function toggle_overlay() {
 function found_it() {
     var data_binding = $("#toggle_seen_btn");
     var sub_region = data_binding.data("sub_region");
-    console.log(sub_region);
+    var url = "/foundit?diagram_image=" + $("#diagram_image").attr("src") + "&ground_image=" + $("#ground_image").attr("src");
+    url = url + "&lat=" + sub_region.getBounds().getCenter().lat();
+    url = url + "&lon=" + sub_region.getBounds().getCenter().lng();
+    window.location.replace(url);
+
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
@@ -430,7 +436,7 @@ $(document).ready(function () {
 
     $("#search").hide();
 
-    $("#add_investigation").addClass("disabled");
+    $("#add_investigation_btn").addClass("disabled");
     $(window).resize(map_height);
 
     var seen_btn = $("#toggle_seen_btn");
@@ -507,20 +513,38 @@ function initMap() {
 
         // there is no investigation on the map
         if (!have_investigation()) {
+            $("#add_investigation_btn").removeClass("btn-success");
+            $("#add_investigation_btn").addClass("btn-default");
 
             // not Drawing on the map yet
             if (drawingManager.getDrawingMode() === null || drawingManager.getDrawingMode() === undefined) {
                 drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
                 draw_erase_btn.text(stop_drawing_template);
+                draw_erase_btn.removeClass("btn-primary");
+                draw_erase_btn.removeClass("btn-danger");
+                draw_erase_btn.removeClass("btn-success");
+                draw_erase_btn.addClass("btn-default");
+
 
             } else { // they are drawing on the map, they can disable it
                 drawingManager.setDrawingMode(null);
                 draw_erase_btn.text(start_drawing_template);
+                draw_erase_btn.removeClass("btn-primary");
+                draw_erase_btn.removeClass("btn-danger");
+                draw_erase_btn.removeClass("btn-default");
+                draw_erase_btn.addClass("btn-success");
             }
 
         } else {
-            $("#add_investigation").addClass("disabled");
+            $("#add_investigation_btn").addClass("disabled");
             draw_erase_btn.text(start_drawing_template);
+            $("#add_investigation_btn").removeClass("btn-success");
+            $("#add_investigation_btn").addClass("btn-default");
+            draw_erase_btn.removeClass("btn-primary");
+            draw_erase_btn.removeClass("btn-danger");
+            draw_erase_btn.removeClass("btn-default");
+            draw_erase_btn.addClass("btn-success");
+
             $("#too_much").attr("hidden", true);
             $("#cost").text("Workers required for investigation: 0");
             var invest = draw_erase_btn.data("investigation");
@@ -539,6 +563,10 @@ function initMap() {
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
         var draw_erase_btn = $("#toggle_draw_erase_btn");
         draw_erase_btn.text(remove_drawing_template);
+        draw_erase_btn.removeClass("btn-success");
+        draw_erase_btn.removeClass("btn-danger");
+        draw_erase_btn.removeClass("btn-default");
+        draw_erase_btn.addClass("btn-primary");
 
         //Get the size and bounds of the drawn region
         var desigArea = rectangle.getBounds();
@@ -564,15 +592,24 @@ function initMap() {
 
             draw_erase_btn.data("investigation", rectangle);
 
+
+            var add_investigation = $("#add_investigation_btn");
             if (!can_afford(res["regions"].length)) {
                 rectangle.setOptions(too_expensive_template);
-                $("#add_investigation").addClass("disabled");
-                $("#add_investigation").prop("disabled", true);
+
+                add_investigation.addClass("disabled");
+                add_investigation.prop("disabled", true);
                 $("#too_much").removeAttr("hidden");
+
+                draw_erase_btn.removeClass("btn-primary");
+                draw_erase_btn.removeClass("btn-default");
+                draw_erase_btn.addClass("btn-danger");
             } else {
 
-                $("#add_investigation").removeClass("disabled");
-                $("#add_investigation").prop("disabled", false);
+                add_investigation.removeClass("disabled");
+                add_investigation.prop("disabled", false);
+                add_investigation.addClass("btn-success");
+
             }
         });
         drawingManager.setDrawingMode(null);
@@ -584,7 +621,7 @@ function initMap() {
         if (!have_investigation()) {
             return
         }
-        $("#add_investigation").prop("disabled", true);
+        $("#add_investigation_btn").prop("disabled", true);
         $("#add_invest").hide();
         $("#search").show();
 
@@ -676,7 +713,7 @@ function initMap() {
 
     }
 
-    $("#add_investigation").click(send_investigation);
+    $("#add_investigation_btn").click(send_investigation);
 
     drawingManager.setDrawingMode(null);
 }

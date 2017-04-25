@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'designate/$', views.designate, name="designate"),
     url(r'^$', views.login_form, name="login"),
     url(r'^user/investigations/$', views.my_investigations, name='my_investigations'),
-    url(r'^signup/', views.singup_form, name="signup"),
+    url(r'^signup/$', views.singup_form, name="signup"),
+    url(r'^foundit/$', views.found_it, name="foundit"),
 
     # worker views
     url(r'^search/$', views.search, name="search")

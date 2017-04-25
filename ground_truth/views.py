@@ -4,6 +4,7 @@ from .models import Region, Subregion, Judgement, CompletedTasks, Investigation
 from .auth import is_logged_in, get_username, not_logged_in_redirect, get_expert_id
 from django.http import HttpResponseRedirect
 
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -58,3 +59,20 @@ def my_investigations(request):
         return HttpResponse(status=404)
     context = {'investigations': investigations, "username": get_username(request)}
     return render(request, 'ground_truth/my_investigations.html', context)
+
+
+@csrf_exempt
+def found_it(request):
+    if not is_logged_in(request):
+        return HttpResponseRedirect("/")
+    ground_image = request.GET.get('ground_image', '')
+    diagram_image = request.GET.get('diagram_image', '')
+    lat = float(request.GET.get('lat', "22.00"))
+    lon = float(request.GET.get('lon', "22.00"))
+    context = {"lat": lat,
+               "lon": lon,
+               "username": get_username(request),
+               "ground_image": ground_image,
+               "diagram_image": diagram_image
+               }
+    return render(request, 'ground_truth/found_it.html', context)
