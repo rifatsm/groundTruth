@@ -97,13 +97,34 @@ var too_expensive_template = {
 
 var not_seen_template = {
     fillColor: "#000000",
-    fillOpacity: 0.5
+    fillOpacity: 0.6
 };
 
 var possible_template = {
     fillColor: "#000000",
     fillOpacity: 0
 };
+
+var nnn_temlate = {
+    fillColor: "#ff343f",
+    fillOpacity: 0.6
+};
+
+var yyy_template = {
+    fillColor: "#24d613",
+    fillOpacity: 0.7
+};
+
+var yyn_template = {
+    fillColor: "#24d613",
+    fillOpacity: 0.5
+};
+
+var ynn_template = {
+    fillColor: "#24d613",
+    fillOpacity: 0.3
+};
+
 
 /**
  * save the set styles for a sub_region
@@ -435,7 +456,7 @@ function toggle_overlay() {
 function found_it() {
     var data_binding = $("#toggle_seen_btn");
     var sub_region = data_binding.data("sub_region");
-    var url = "/foundit?diagram_image=" + $("#diagram_image").attr("src") + "&ground_image=" + $("#ground_image").attr("src");
+    var url = "/foundit/?diagram_image=" + $("#diagram_image").attr("src") + "&ground_image=" + $("#ground_image").attr("src");
     url = url + "&lat=" + sub_region.getBounds().getCenter().lat();
     url = url + "&lon=" + sub_region.getBounds().getCenter().lng();
     window.location.href = url;
@@ -476,7 +497,7 @@ function is_tutorial() {
         return true;
     }
 
-    if (name === undefined || undefined === null) {
+    if (name === undefined || name === null) {
         return true;
     }
 
@@ -542,8 +563,9 @@ $(document).ready(function () {
 function initMap() {
     //Create the map according to the API
 
-    var latitude = parseFloat(getUrlVars()["lat"]);
-    var longitude = parseFloat(getUrlVars()["lat"]);
+    var latitude = getUrlVars()["lat"];
+    var longitude = getUrlVars()["lon"];
+
 
     if (latitude === null || latitude === undefined) {
         latitude = 33.678;
@@ -552,6 +574,13 @@ function initMap() {
         longitude = -116.243;
     }
 
+    if (typeof latitude === "string") {
+        latitude = parseFloat(latitude)
+    }
+
+    if (typeof longitude === "string") {
+        longitude = parseFloat(longitude)
+    }
 
     map = new google.maps.Map(document.getElementById('mainView'), {
         zoom: 11,
@@ -770,24 +799,27 @@ function initMap() {
 
 
             if (!is_tutorial()) {
-                // setInterval(function () {
-                //     var sub_regions = Object.keys(worker_subregions);
-                //     for (var i = 0; i < sub_regions.length; i++) {
-                //
-                //         $.get("/judgement/" + sub_regions[i] + "/", function (res) {
-                //             var region = worker_subregions[res["sub_region_id"]];
-                //             if (res.status === "no") {
-                //                 region.setOptions({fillColor: "#ff343f"});
-                //             } else if (res.status === "yes") {
-                //                 region.setOptions({fillColor: "#24d613"});
-                //             } else {
-                //                 region.setOptions({fillColor: "#ffffff"});
-                //             }
-                //
-                //
-                //         });
-                //     }
-                // }, 5000);
+                setInterval(function () {
+                    var sub_regions = Object.keys(worker_subregions);
+                    for (var i = 0; i < sub_regions.length; i++) {
+
+                        $.get("/judgement/" + sub_regions[i] + "/", function (res) {
+                            var region = worker_subregions[res["sub_region_id"]];
+                            if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
+                                if (res.status === 3) {
+                                    region.setOptions(yyy_template);
+                                } else if (res.status === 2) {
+                                    region.setOptions(yyn_template);
+                                } else if (res.status === 1) {
+                                    region.setOptions(ynn_template);
+                                } else if (res.status === 0) {
+                                    region.setOptions(nnn_temlate);
+                                }
+                            }
+
+                        });
+                    }
+                }, 5000);
             }
 
         });

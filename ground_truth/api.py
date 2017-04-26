@@ -338,20 +338,14 @@ def get_sub_region_status(request, sub_region_id):
         HttpResponseRedirect("/")
 
     judgments = Judgement.objects.filter(subregion_id=sub_region_id)
-    if len(judgments) > 0:
+    if len(judgments) == 3:
         yes = 0
-        no = 0
         for judge in judgments:
             if judge.is_plausible():
                 yes += 1
-            else:
-                no += 1
-        if yes >= no:
-            return JsonResponse({"status": "yes", "sub_region_id": sub_region_id})
-        else:
-            return JsonResponse({"status": "no", "sub_region_id": sub_region_id})
+        return JsonResponse({"status": yes, "sub_region_id": sub_region_id})
 
-    return JsonResponse({"status": "none", "sub_region_id": sub_region_id})
+    return JsonResponse({"status": -1, "sub_region_id": sub_region_id})
 
 
 def get_region(request):
@@ -374,7 +368,7 @@ def get_region(request):
                 'lat_end': region.lat_end,
                 'lon_end': region.lon_end
             },
-            'img': region.investigation.image,
+            'img': region.investigation.diagram_image,
             'zoom': region.zoom
         }
         sub_regions = []

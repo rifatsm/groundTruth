@@ -85,7 +85,10 @@ def add_expert(request):
     elif is_expert(request.POST["username"]):
         return login_manager(request)
     else:
-        new_expert = User(username=request.POST["username"])
-        new_expert.set_password(request.POST["password"])
-        new_expert.save()
-        return login_manager(request)
+        if "magic_pass" in request.POST and "MAGIC_PASS" in os.environ and os.environ["MAGIC_PASS"] == request.POST["magic_pass"]:
+            new_expert = User(username=request.POST["username"])
+            new_expert.set_password(request.POST["password"])
+            new_expert.save()
+            return login_manager(request)
+        else:
+            return HttpResponseRedirect("/signup/")
