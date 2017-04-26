@@ -17,7 +17,8 @@ from django.views.decorators.csrf import csrf_exempt
 from decimal import *
 
 ADD_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
-                     u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height', u'img', u'zoom']
+                     u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height', u'ground_image',
+                     u'diagram_image', u'zoom', u'is_tutorial']
 
 DRAW_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
                       u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height']
@@ -161,7 +162,7 @@ def draw_investigation(request):
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
                                    expert_id=get_expert_object(request),
                                    datetime_str=datetime.datetime.now().isoformat(),
-                                   image="did you really try to save this?")
+                                   ground_image="did you really try to save this?")
             regions = build_regions(invest, HEIGHT, WIDTH, -1)  # TODO please dont save this
 
             res = {
@@ -277,24 +278,32 @@ def add_investigation(request):
 
             now = datetime.datetime.now()
 
-            img_url = post[u'img']
+            ground_image = post[u'ground_image']
+            diagram_image = post[u'diagram_image']
 
-            if "https://www.dropbox.com" in img_url:
-                img_url = img_url.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
+            if "https://www.dropbox.com" in ground_image:
+                ground_image = ground_image.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
+
+            if "https://www.dropbox.com" in diagram_image:
+                diagram_image = diagram_image.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
 
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
-                                   expert_id=get_expert_object(request), datetime_str=now.isoformat(), image=img_url,
-                                   name=post[u"invest_name"], description=post[u"description"])
-            invest.save()
+                                   expert_id=get_expert_object(request), datetime_str=now.isoformat(),
+                                   ground_image=ground_image, diagram_image=diagram_image,
+                                   name=post[u"invest_name"].strip())
+            if not bool(post[u'is_tutorial']):
+                invest.save()
 
             regions = build_regions(invest, HEIGHT, WIDTH, zoom)
 
             sub_regions = []
 
             for region in regions:
-                region.save()
+                if not bool(post[u'is_tutorial']):
+                    region.save()
                 for sub in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
-                    sub.save()
+                    if not bool(post[u'is_tutorial']):
+                        sub.save()
                     sub_regions.append({'lat_start': sub.lat_start, 'lon_start': sub.lon_start, 'lat_end': sub.lat_end,
                                         'lon_end': sub.lon_end, 'id': sub.pk})
 
@@ -302,7 +311,8 @@ def add_investigation(request):
                 'expert_id': invest.expert_id.pk,
                 'datetime': invest.datetime_str,
                 'status': invest.status,
-                'image': invest.image,
+                'ground_image': invest.ground_image,
+                'diagram_image': invest.diagram_image,
                 'bounds': {
                     'lat_start': invest.lat_start,
                     'lon_start': invest.lon_start,

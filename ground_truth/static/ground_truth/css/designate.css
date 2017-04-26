@@ -14,9 +14,9 @@
 }
 
 #add_invest {
-    padding-top: 8%;
-    padding-left: 10%;
-    padding-right: 10%;
+    /*padding-top: 5%;*/
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 #logout {
@@ -37,13 +37,14 @@
     float: none !important;
 }
 
-#search{
+#add_invest{
     text-align: center;
 }
 
 #ground_image, #diagram_image {
 
-    max-width: 75%;
+    max-width: 80%;
+    margin-bottom: 5px;
 }
 
 .navbar{

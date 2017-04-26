@@ -458,7 +458,35 @@ function set_images() {
     }
     $("#ground_image").attr("src", ground_image);
     $("#diagram_image").attr("src", diagram_image);
-    console.log("called");
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
+function is_tutorial() {
+    var latitude = getUrlVars()["lat"];
+    var longitude = getUrlVars()["lat"];
+    var ground_image = getUrlVars()["ground_image"];
+    var diagram_image = getUrlVars()["diagram_image"];
+    var name = getUrlVars()["name"];
+
+    if (latitude === null || latitude === undefined) {
+        return true;
+    }
+    if (longitude === null || longitude === undefined) {
+        return true;
+    }
+
+    if (name === undefined || undefined === null) {
+        return true;
+    }
+
+    if (ground_image === undefined || ground_image === null) {
+        return true;
+    }
+    if (diagram_image === undefined || diagram_image === null) {
+        return true;
+    }
+    return false;
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
@@ -468,8 +496,6 @@ $(document).ready(function () {
 
     $("#budget").text(budeget_template);
     $("#description_form").hide();
-
-    $("#search").hide();
 
     $("#add_investigation_btn").addClass("disabled");
     $(window).resize(map_height);
@@ -525,6 +551,7 @@ function initMap() {
     if (longitude === null || longitude === undefined) {
         longitude = -116.243;
     }
+
 
     map = new google.maps.Map(document.getElementById('mainView'), {
         zoom: 11,
@@ -667,9 +694,12 @@ function initMap() {
         if (!have_investigation()) {
             return
         }
-        $("#add_investigation_btn").prop("disabled", true);
-        $("#add_invest").hide();
-        $("#search").show();
+        $("#add_investigation_btn").hide();
+        $("#define_title").hide();
+        $("#budget").hide();
+        $("#cost").hide();
+
+        $("#crowd_title").show();
 
         var draw_erase_btn = $("#toggle_draw_erase_btn");
         var investigation = draw_erase_btn.data("investigation");
@@ -681,6 +711,12 @@ function initMap() {
         var bottomLeft = investigation_area.getSouthWest();
         var topRight = investigation_area.getNorthEast();
 
+
+        var name = getUrlVars()["name"];
+        if (name === undefined || undefined === null) {
+            name = "Tutorial Investigation";
+        }
+
         var send = {
             'lat_start': bottomLeft.lat(),
             'lon_start': bottomLeft.lng(),
@@ -690,12 +726,12 @@ function initMap() {
             'sub_region_height': sub_region_height,
             'num_sub_regions_width': num_sub_regions_width,
             'num_sub_regions_height': num_sub_regions_height,
-            'description': $("#description").val(),
-            'invest_name': $("#invest_name").val(),
+            'invest_name': name,
             'zoom': zoom,
-            'img': $("#img_url").val()
+            'ground_image': $("#ground_image").attr("src"),
+            "diagram_image": $("#diagram_image").attr("src"),
+            'is_tutorial': is_tutorial()
         };
-
 
         $.post("/add_investigation/", send, function (res) {
 
@@ -731,25 +767,27 @@ function initMap() {
             $("#judgement_wrapper").show();
             map_height();
 
-            // setInterval(function () {
-            //     var sub_regions = Object.keys(worker_subregions);
-            //     for (var i = 0; i < sub_regions.length; i++) {
-            //
-            //         $.get("/judgement/" + sub_regions[i] + "/", function (res) {
-            //             var region = worker_subregions[res["sub_region_id"]];
-            //             if (res.status === "no") {
-            //                 region.setOptions({fillColor: "#ff343f"});
-            //             } else if (res.status === "yes") {
-            //                 region.setOptions({fillColor: "#24d613"});
-            //             } else {
-            //                 region.setOptions({fillColor: "#ffffff"});
-            //             }
-            //
-            //
-            //         });
-            //     }
-            // }, 5000);
 
+            if (!is_tutorial()) {
+                // setInterval(function () {
+                //     var sub_regions = Object.keys(worker_subregions);
+                //     for (var i = 0; i < sub_regions.length; i++) {
+                //
+                //         $.get("/judgement/" + sub_regions[i] + "/", function (res) {
+                //             var region = worker_subregions[res["sub_region_id"]];
+                //             if (res.status === "no") {
+                //                 region.setOptions({fillColor: "#ff343f"});
+                //             } else if (res.status === "yes") {
+                //                 region.setOptions({fillColor: "#24d613"});
+                //             } else {
+                //                 region.setOptions({fillColor: "#ffffff"});
+                //             }
+                //
+                //
+                //         });
+                //     }
+                // }, 5000);
+            }
 
         });
 

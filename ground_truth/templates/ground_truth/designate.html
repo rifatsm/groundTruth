@@ -39,51 +39,31 @@
 </nav>
 <div>
     <div class="col-sm-4">
+
         <div id="add_invest">
-            <h4>Please Define Your Investigation</h4>
-            <h5 id="budget"></h5>
-            <br>
-            <div class="form-group">
-                <label for="invest_name">Investigation Name</label>
-                <input class="form-control" id="invest_name" placeholder="Name">
+            <h4 id="define_title">Please Define Your Investigation</h4>
+            <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images</h4>
+            <div id="image_wrapper">
+                <img id="ground_image"></img>
+                <img id="diagram_image"></img>
+                <div class="col-md-12 text-center" style="margin-bottom:15px;">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
+                                                                                        aria-hidden="true"></i>
+                        </button>
+                        <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
+                                                                                       aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
 
             </div>
-            <div class="form-group">
-                <label for="img_url">Image URL</label>
-                <input class="form-control" id="img_url" placeholder="Image web address">
-            </div>
-            <div class="form-group">
-                <label for="diagram_url">Diagram URL</label>
-                <input class="form-control" id="diagram_url" placeholder="Diagram web address">
-            </div>
-            <br>
-            <div class="form-group" id="description_form">
-                <label for="description">Description</label>
-                <textarea class="form-control" rows="1" id="description"></textarea>
-            </div>
+            <h5 id="budget"></h5>
             <h5 id="cost">Workers required for investigation: 0</h5>
             <h4 hidden id="too_much">You have selected an investigation with bounds that exceeds the allotted number of
                 workers.
                 Please draw an investigation with smaller bounds.</h4>
             <button class="btn btn-default" id="add_investigation_btn">Start Investigation</button>
-
-        </div>
-        <div id="search">
-            <h4>Work with the Crowd to Geolocate the Ground Image</h4>
-            <h5>Ground Image</h5>
-            <img id="ground_image"></img>
-            <h5>Diagram</h5>
-            <img id="diagram_image"></img>
-            <div class="col-md-12 text-center" style="margin-bottom:15px;">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
-                                                                                    aria-hidden="true"></i>
-                    </button>
-                    <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
-                                                                                   aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
     <div id="map_outter" class="col-sm-8">

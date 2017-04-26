@@ -36,7 +36,8 @@ class Investigation(models.Model):
 
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_1)
 
-    image = models.TextField(blank=True)
+    ground_image = models.TextField(blank=True)
+    diagram_image = models.TextField(blank=True)
 
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  expert_id: {4}  " \
