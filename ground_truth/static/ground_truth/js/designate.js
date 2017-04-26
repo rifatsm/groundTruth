@@ -542,8 +542,8 @@ $(document).ready(function () {
 function initMap() {
     //Create the map according to the API
 
-    var latitude = getUrlVars()["lat"];
-    var longitude = getUrlVars()["lat"];
+    var latitude = parseFloat(getUrlVars()["lat"]);
+    var longitude = parseFloat(getUrlVars()["lat"]);
 
     if (latitude === null || latitude === undefined) {
         latitude = 33.678;
@@ -732,6 +732,7 @@ function initMap() {
             "diagram_image": $("#diagram_image").attr("src"),
             'is_tutorial': is_tutorial()
         };
+
 
         $.post("/add_investigation/", send, function (res) {
 

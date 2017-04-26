@@ -291,7 +291,9 @@ def add_investigation(request):
                                    expert_id=get_expert_object(request), datetime_str=now.isoformat(),
                                    ground_image=ground_image, diagram_image=diagram_image,
                                    name=post[u"invest_name"].strip())
-            if not bool(post[u'is_tutorial']):
+
+            is_tutorial = True if post[u'is_tutorial'] == u"true" else False
+            if not is_tutorial:
                 invest.save()
 
             regions = build_regions(invest, HEIGHT, WIDTH, zoom)
@@ -299,10 +301,10 @@ def add_investigation(request):
             sub_regions = []
 
             for region in regions:
-                if not bool(post[u'is_tutorial']):
+                if not is_tutorial:
                     region.save()
                 for sub in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
-                    if not bool(post[u'is_tutorial']):
+                    if not is_tutorial:
                         sub.save()
                     sub_regions.append({'lat_start': sub.lat_start, 'lon_start': sub.lon_start, 'lat_end': sub.lat_end,
                                         'lon_end': sub.lon_end, 'id': sub.pk})
