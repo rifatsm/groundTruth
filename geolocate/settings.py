@@ -24,7 +24,7 @@ SECRET_KEY = 'hzf#dz1=mg%__(@#7s5o4jq1b%=$bw1$9$*bi7da!f8dxa$jzb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', u'127.0.0.1', u'localhost']
+ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', u'127.0.0.1', u'localhost', u'groundtruth-study3.herokuapp.com']
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
