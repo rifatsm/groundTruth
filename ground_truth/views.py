@@ -33,7 +33,7 @@ def search(request):
         if worker_id == id["worker"]:
             return (render(request, "ground_truth/no_search.html", {}))
 
-    return (render(request, "ground_truth/search.html", {}))
+    return (render(request, "ground_truth/Search.html", {}))
 
 
 def designate(request):
