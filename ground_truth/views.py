@@ -10,14 +10,20 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def search(request):
-    region_id = request.GET.get('region', '-1')
-    worker_id = request.GET.get('workerId', '0')
+    everything = request.GET.get("everything", '')
+    everything = everything.split("_")
+
+    # region_id = request.GET.get('region', '-1')
+    # worker_id = request.GET.get('workerId', '0')
+    region_id = everything[0]
+    worker_id = everything[2]
+    token = everything[1]
 
     if (region_id == "-1"):
         return (render(request, "ground_truth/no_search.html", {}))
 
     region = get_object_or_404(Region, pk=region_id)
-    token = request.GET.get('token', '-1')
+    # token = request.GET.get('token', '-1')
 
     if region.access_token != token:
         return HttpResponse(status=400)

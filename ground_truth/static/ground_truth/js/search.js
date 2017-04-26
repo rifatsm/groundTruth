@@ -61,10 +61,11 @@ $(document).ready(function () {
 function initMap() {
 
 
+    var everyhting = getUrlVars()["everything"].split("_")
 
-    var token = getUrlVars()["token"];
+    var token = everyhting[1];
 
-    var region = getUrlVars()["region"];
+    var region = everyhting[0];
 
     var task = getUrlVars()["hitId"];
     if (task == null) {
