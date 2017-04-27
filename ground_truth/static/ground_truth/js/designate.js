@@ -49,7 +49,7 @@ var show_overlays_template = "Show all Overlays";
 var canidate_template = "Include in Search";
 var not_canidate_template = "Exclude from Search";
 
-var budeget_template = "You may use up to " + max_workers + " workers to complete your investigation";
+var budeget_template = "You may use up to <strong>" + max_workers + "</strong> workers to complete your investigation";
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
@@ -207,7 +207,7 @@ function map_height() {
 }
 
 function can_afford(num_regions) {
-    $("#cost").text("Workers required for investigation: " + (num_regions * worker_density));
+    $("#cost").html("Workers required for investigation: <strong>" + (num_regions * worker_density)+"</strong>");
     return (num_regions * worker_density) <= max_workers;
 
 }
@@ -454,12 +454,24 @@ function toggle_overlay() {
 ///////////////////////////////////////////////
 // found it
 function found_it() {
-    var data_binding = $("#toggle_seen_btn");
-    var sub_region = data_binding.data("sub_region");
-    var url = "/foundit/?diagram_image=" + $("#diagram_image").attr("src") + "&ground_image=" + $("#ground_image").attr("src");
-    url = url + "&lat=" + sub_region.getBounds().getCenter().lat();
-    url = url + "&lon=" + sub_region.getBounds().getCenter().lng();
-    window.location.href = url;
+
+    swal({
+            title: "Are you sure that you would like to end the search?",
+            text: "Click yes to be taken to the solution of the search",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: false
+        },
+        function () {
+            var data_binding = $("#toggle_seen_btn");
+            var sub_region = data_binding.data("sub_region");
+            var url = "/foundit/?diagram_image=" + $("#diagram_image").attr("src") + "&ground_image=" + $("#ground_image").attr("src");
+            url = url + "&lat=" + sub_region.getBounds().getCenter().lat();
+            url = url + "&lon=" + sub_region.getBounds().getCenter().lng();
+            window.location.href = url;
+        });
 
 }
 ///////////////////////////////////////////////
@@ -524,6 +536,8 @@ function worker_zoom() {
 // timer stuff
 
 function timer() {
+    // http://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+
     var hourLabel = document.getElementById("hours");
     var minutesLabel = document.getElementById("minutes");
     var secondsLabel = document.getElementById("seconds");
@@ -555,7 +569,7 @@ $(document).ready(function () {
     set_images();
     worker_zoom();
 
-    $("#budget").text(budeget_template);
+    $("#budget").html(budeget_template);
     $("#description_form").hide();
 
     $("#add_investigation_btn").addClass("disabled");

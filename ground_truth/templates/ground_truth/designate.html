@@ -12,7 +12,8 @@
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+    <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
     <script src="{% static 'ground_truth/js/designate.js' %}"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -21,7 +22,9 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"
             async defer></script>
+
     <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
+
 
 </head>
 <body>
@@ -41,7 +44,8 @@
     <div class="col-sm-4">
         <div id="add_invest">
             <h4 id="define_title">Please Define Your Investigation</h4>
-            <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images<br> Duration: <label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></h4>
+            <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images<br> Duration: <label
+                    id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></h4>
             <div id="image_wrapper">
 
                 <img id="ground_image"></img>
@@ -59,7 +63,7 @@
                 </div>
             </div>
             <h5 id="budget"></h5>
-            <h5 id="cost">Workers required for investigation: 0</h5>
+            <h5 id="cost">Workers required for investigation: <strong>0</strong></h5>
             <h4 hidden id="too_much">You have selected an investigation with bounds that exceeds the allotted number of
                 workers.
                 Please draw an investigation with smaller bounds.</h4>
