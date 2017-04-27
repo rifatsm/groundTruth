@@ -35,7 +35,7 @@ def add_mturk_task(region, token):
     request_parameters = '{"HITTypeId": "' + HITTypeId + '","HITLayoutId": "' + HITLayoutId + '"'
     request_parameters += ',"HITLayoutParameters": [{"Name":"Task", "Value":'
     request_parameters += '"https://groundtruth-study3.herokuapp.com/search/?everything=' + param + '"}],'
-    request_parameters += '"LifetimeInSeconds": 604800,"MaxAssignments": 1}'
+    request_parameters += '"LifetimeInSeconds": 604800,"MaxAssignments": 3}'
 
     t = datetime.datetime.utcnow()
     amz_date = t.strftime('%Y%m%dT%H%M%SZ')
