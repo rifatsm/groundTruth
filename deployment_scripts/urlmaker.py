@@ -1,6 +1,6 @@
 base_url = "http://localhost:8000/designate/?"
 # base_url = "http://groundtruth-study3.herokuapp.com/designate/?"
-# diagram_image_3 = "https://dl.dropboxusercontent.com/s/637pp5xae2xuf3w/BR_2.png"
+# diagram_image_3 = "https://dl.dropboxusercontent.com/s/"
 
 ###############################################################
 # CLT
