@@ -15,11 +15,12 @@ def search(request):
 
     # region_id = request.GET.get('region', '-1')
     worker_id = request.GET.get('workerId', '-1')
+
     if len(everything) == 2:
         region_id = everything[0]
         token = everything[1]
     else:
-        HttpResponse(status=400)
+        return HttpResponse(status=400)
 
     if (region_id == "-1"):
         return (render(request, "ground_truth/no_search.html", {}))

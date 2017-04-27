@@ -73,24 +73,24 @@
     <div id="map_outter" class="col-sm-8">
         <div id="mainView"></div>
         <div id="drawing_wrapper" class="row" role="group">
-            My awesome text that says how to use this
-            <div class="col-xs-12">
+            <h5 id="width_zoom_notifier" hidden>250-500m &nbsp;&nbsp; 850-1500ft</h5>
+            <div id="width_zoom" class="col-xs-12">
                 <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009">500-1000m 1500-3200ft
+                    <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009" data-text="500-1000m &nbsp;&nbsp; 1500-3200ft
+                    (0.3-0.6miles)">500-1000m<br>1500-3200ft
                     (0.3-0.6miles)
                 </label>
                 <label class="radio-inline active">
-                    <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="">250-500m
-                    850-1500ft
+                    <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="" data-text="250-500m &nbsp;&nbsp; 850-1500ft">250-500m<br>850-1500ft
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025">100-250m 35o-850ft
+                    <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025" data-text="100-250m &nbsp;&nbsp; 350-850ft">100-250m<br>350-850ft
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012">50-100m 150-350ft
+                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006">30-50m 100-150ft
+                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft
                 </label>
             </div>
             <div class="col-xs-12">

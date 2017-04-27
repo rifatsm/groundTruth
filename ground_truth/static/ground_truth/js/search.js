@@ -232,7 +232,7 @@ function initMap() {
             var subRegionOutlines = new google.maps.Rectangle({
                 strokeColor: 'white',
                 strokeOpacity: 0.3,
-                strokeWeight: 6,
+                strokeWeight: 2,
                 fillOpacity: 0.0,
                 map: map,
                 bounds: subRegionsList[i].bounds
@@ -241,8 +241,8 @@ function initMap() {
         //add a highlight to the current subregion
         highlightSubRegion = new google.maps.Rectangle({
             strokeColor: 'white',
-            strokeOpacity: 0.4,
-            strokeWeight: 15,
+            strokeOpacity: 0.3,
+            strokeWeight: 8,
             fillOpacity: 0.0,
             map: map,
             bounds: subRegionsList[currentSubRegionNumber].bounds
@@ -372,7 +372,7 @@ function initMap() {
                 var subRegionOutlines = new google.maps.Rectangle({
                     strokeColor: 'white',
                     strokeOpacity: 0.3,
-                    strokeWeight: 6,
+                    strokeWeight: 2,
                     fillOpacity: 0.0,
                     map: map,
                     bounds: subRegionsList[i].bounds
@@ -416,8 +416,8 @@ function initMap() {
 
                     highlightSubRegion = new google.maps.Rectangle({
                         strokeColor: 'white',
-                        strokeOpacity: 0.4,
-                        strokeWeight: 15,
+                        strokeOpacity: 0.3,
+                        strokeWeight: 8,
                         fillOpacity: 0.0,
                         map: map,
                         bounds: subRegionsList[currentSubRegionNumber].bounds

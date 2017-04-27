@@ -478,8 +478,8 @@ function found_it() {
 ///////////////////////////////////////////////
 //images 
 function set_images() {
-    var ground = "https://images-na.ssl-images-amazon.com/images/G/01/img15/pet-products/small-tiles/30423_pets-products_january-site-flip_3-cathealth_short-tile_592x304._CB286975940_.jpg";
-    var diagram = "https://d4n5pyzr6ibrc.cloudfront.net/media/27FB7F0C-9885-42A6-9E0C19C35242B5AC/4785B1C2-8734-405D-96DC23A6A32F256B/thul-90efb785-97af-5e51-94cf-503fc81b6940.jpg?response-content-disposition=inline";
+    var ground = "https://placeholdit.imgix.net/~text?txtsize=10&txt=ground+level+image+here&w=300&h=200&txttrack=0";
+    var diagram = "https://placeholdit.imgix.net/~text?txtsize=13&txt=your+diagram+here&w=300&h=300&txttrack=0";
 
     var ground_image = getUrlVars()["ground_image"];
     var diagram_image = getUrlVars()["diagram_image"];
@@ -527,6 +527,7 @@ function worker_zoom() {
     $(".col-xs-12 label input").click(function () {
         zoom = parseInt($(this).attr("data-zoom"));
         sub_region_width = parseFloat($(this).attr("data-bounds"));
+        $("#width_zoom_notifier").text($(this).attr("data-text"));
         sub_region_height = sub_region_width;
 
     });
@@ -637,7 +638,7 @@ function initMap() {
     }
 
     map = new google.maps.Map(document.getElementById('mainView'), {
-        zoom: 11,
+        zoom: 13,
         center: {lat: latitude, lng: longitude},
         mapTypeId: 'satellite',
         draggable: true,
@@ -680,6 +681,9 @@ function initMap() {
                 draw_erase_btn.removeClass("btn-danger");
                 draw_erase_btn.removeClass("btn-success");
                 draw_erase_btn.addClass("btn-default");
+                $("#width_zoom").hide();
+                $("#width_zoom_notifier").show();
+                map_height();
 
 
             } else { // they are drawing on the map, they can disable it
@@ -689,6 +693,9 @@ function initMap() {
                 draw_erase_btn.removeClass("btn-danger");
                 draw_erase_btn.removeClass("btn-default");
                 draw_erase_btn.addClass("btn-success");
+                $("#width_zoom").show();
+                $("#width_zoom_notifier").hide();
+                map_height();
             }
 
         } else {
@@ -700,6 +707,9 @@ function initMap() {
             draw_erase_btn.removeClass("btn-danger");
             draw_erase_btn.removeClass("btn-default");
             draw_erase_btn.addClass("btn-success");
+            $("#width_zoom").show();
+            $("#width_zoom_notifier").hide();
+            map_height();
 
             $("#too_much").attr("hidden", true);
             $("#cost").text("Workers required for investigation: 0");
@@ -723,6 +733,8 @@ function initMap() {
         draw_erase_btn.removeClass("btn-danger");
         draw_erase_btn.removeClass("btn-default");
         draw_erase_btn.addClass("btn-primary");
+        $("#width_zoom").hide();
+        $("#width_zoom_notifier").show();
 
         //Get the size and bounds of the drawn region
         var desigArea = rectangle.getBounds();
