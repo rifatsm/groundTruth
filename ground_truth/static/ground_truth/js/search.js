@@ -61,19 +61,19 @@ $(document).ready(function () {
 function initMap() {
 
 
-    var everyhting = getUrlVars()["everything"].split("_")
+    var everyhting = getUrlVars()["everything"].split("_");
 
     var token = everyhting[1];
 
     var region = everyhting[0];
 
     var task = getUrlVars()["hitId"];
-    if (task == null) {
+    if (task === null || task === undefined) {
         task = -1;
     }
 
     var workerid = getUrlVars()['workerId'];
-    if (workerid == null) {
+    if (workerid === null || workerid === undefined) {
         workerid = -1;
     }
 
@@ -338,7 +338,7 @@ function initMap() {
             //TODO John is testing the db on only the first subregion
 
             var send = {
-                "judgment": judgementRectangle.yesNo,
+                "judgment": judgementRectangle.yesNo, // TODO there is a bug here
                 "worker": workerid,
                 "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
                 // "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
