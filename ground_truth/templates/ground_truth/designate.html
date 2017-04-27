@@ -39,12 +39,13 @@
 </nav>
 <div>
     <div class="col-sm-4">
-
         <div id="add_invest">
             <h4 id="define_title">Please Define Your Investigation</h4>
-            <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images</h4>
+            <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images<br> Duration: <label id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label></h4>
             <div id="image_wrapper">
+
                 <img id="ground_image"></img>
+                <br>
                 <img id="diagram_image"></img>
                 <div class="col-md-12 text-center" style="margin-bottom:15px;">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -56,7 +57,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
             <h5 id="budget"></h5>
             <h5 id="cost">Workers required for investigation: 0</h5>
@@ -68,8 +68,31 @@
     </div>
     <div id="map_outter" class="col-sm-8">
         <div id="mainView"></div>
-        <div id="drawing_wrapper" class="btn-toolbar" role="group">
-            <button id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>
+        <div id="drawing_wrapper" class="row" role="group">
+            My awesome text that says how to use this
+            <div class="col-xs-12">
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009">500-1000m 1500-3200ft
+                    (0.3-0.6miles)
+                </label>
+                <label class="radio-inline active">
+                    <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="">250-500m
+                    850-1500ft
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025">100-250m 35o-850ft
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012">50-100m 150-350ft
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006">30-50m 100-150ft
+                </label>
+            </div>
+            <div class="col-xs-12">
+                <button id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>
+            </div>
+
         </div>
         <div id="judgement_wrapper" class="btn-toolbar" role="group" style="display: none">
             <div class="btn-group" role="group">

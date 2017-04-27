@@ -33,11 +33,15 @@
     padding-top: 10px;
 }
 
-#judgement_wrapper .btn-group, #drawing_wrapper{
+#judgement_wrapper .btn-group, #drawing_wrapper {
     float: none !important;
 }
 
-#add_invest{
+#drawing_wrapper {
+    text-align: center;
+}
+
+#add_invest {
     text-align: center;
 }
 
@@ -47,6 +51,6 @@
     margin-bottom: 5px;
 }
 
-.navbar{
+.navbar {
     margin-bottom: 5px;
 }

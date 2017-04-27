@@ -8,8 +8,8 @@
 ///////////////////////////////////////////////
 // investigation parameters
 
-var sub_region_width = 0.003;
-var sub_region_height = 0.003;
+var sub_region_width = 0.005;
+var sub_region_height = 0.005;
 var num_sub_regions_width = 4;
 var num_sub_regions_height = 4;
 var zoom = 17;
@@ -36,8 +36,8 @@ var not_canidates = 0;
 
 ///////////////////////////////////////////////
 // text templates
-var start_drawing_template = "Draw Investigation";
-var stop_drawing_template = "Disable Drawing";
+var start_drawing_template = "Drawing Mode";
+var stop_drawing_template = "Viewing Mode";
 var remove_drawing_template = "Remove Investigation";
 
 var show_judgements_template = "Show all Suggestions";
@@ -485,7 +485,7 @@ function set_images() {
 
 function is_tutorial() {
     var latitude = getUrlVars()["lat"];
-    var longitude = getUrlVars()["lat"];
+    var longitude = getUrlVars()["lon"];
     var ground_image = getUrlVars()["ground_image"];
     var diagram_image = getUrlVars()["diagram_image"];
     var name = getUrlVars()["name"];
@@ -511,9 +511,49 @@ function is_tutorial() {
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
+function worker_zoom() {
+    $(".col-xs-12 label input").click(function () {
+        zoom = parseInt($(this).attr("data-zoom"));
+        sub_region_width = parseFloat($(this).attr("data-bounds"));
+        sub_region_height = sub_region_width;
+
+    });
+}
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+// timer stuff
+
+function timer() {
+    var hourLabel = document.getElementById("hours");
+    var minutesLabel = document.getElementById("minutes");
+    var secondsLabel = document.getElementById("seconds");
+    var totalSeconds = 0;
+    setInterval(setTime, 1000);
+
+    function setTime() {
+        ++totalSeconds;
+        secondsLabel.innerHTML = pad(totalSeconds % 60);
+        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+        hourLabel.innerHTML = pad(parseInt(totalSeconds / 3600));
+    }
+
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+}
+
+///////////////////////////////////////////////
+///////////////////////////////////////////////
 $(document).ready(function () {
 
     set_images();
+    worker_zoom();
 
     $("#budget").text(budeget_template);
     $("#description_form").hide();
@@ -765,6 +805,7 @@ function initMap() {
 
         $.post("/add_investigation/", send, function (res) {
 
+            timer();
             // remove the drawing
             investigation.setMap(null);
             investigation = null;
@@ -795,6 +836,7 @@ function initMap() {
 
             $("#drawing_wrapper").hide();
             $("#judgement_wrapper").show();
+            $("#toggle_overlay_btn").hide();
             map_height();
 
 
