@@ -60,6 +60,7 @@ def add_mturk_task(region, token):
            'Authorization': authorization_header}
     r = requests.post(endpoint, data=request_parameters, headers=headers)
     if r.status_code != 200 and r.status_code !="200":
+        print(r.text)
         return False
     else:
         return True
