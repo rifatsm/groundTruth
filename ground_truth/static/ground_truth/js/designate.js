@@ -23,7 +23,7 @@ var can_decide = false;
 
 ///////////////////////////////////////////////
 // Worker pay and cost parameters
-var max_workers = 30;
+var max_workers = 50;
 var worker_density = 3;
 ///////////////////////////////////////////////
 
@@ -40,8 +40,8 @@ var start_drawing_template = "Drawing Mode";
 var stop_drawing_template = "Viewing Mode";
 var remove_drawing_template = "Remove Investigation";
 
-var show_judgements_template = "Show all Suggestions";
-var hide_judgements_template = "Hide all Suggestions";
+var show_judgements_template = "Show Color";
+var hide_judgements_template = "Hide Color";
 
 var hide_overlays_template = "Hide all Overlays";
 var show_overlays_template = "Show all Overlays";
@@ -638,7 +638,7 @@ function initMap() {
     }
 
     map = new google.maps.Map(document.getElementById('mainView'), {
-        zoom: 13,
+        zoom: 12,
         center: {lat: latitude, lng: longitude},
         mapTypeId: 'satellite',
         draggable: true,

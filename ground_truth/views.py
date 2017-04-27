@@ -88,3 +88,6 @@ def found_it(request):
 
 def instructions(request):
     return render(request, 'ground_truth/instructions.html')
+
+def how_to(request):
+    return render(request, 'ground_truth/how_to_do.html')

@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    <link href=cle"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
@@ -86,12 +88,12 @@
                 <label class="radio-inline">
                     <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025" data-text="100-250m &nbsp;&nbsp; 350-850ft">100-250m<br>350-850ft
                 </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft
-                </label>
+{#                <label class="radio-inline" hidden>#}
+{#                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft#}
+{#                </label>#}
+{#                <label class="radio-inline" hidden>#}
+{#                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft#}
+{#                </label>#}
             </div>
             <div class="col-xs-12">
                 <button id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>

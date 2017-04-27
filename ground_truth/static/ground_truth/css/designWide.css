@@ -46,6 +46,10 @@ html, body {
     float: left;
 }
 
+.gm-tilt {
+    display: none;
+}
+
 #mysteryImage {
     display: block;
     width: 100%;

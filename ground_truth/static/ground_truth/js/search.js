@@ -222,6 +222,7 @@ function initMap() {
             mapTypeId: 'satellite',
             draggable: true,
             scrollwheel: true,
+            streetViewControl: false,
             minZoom: ZOOM,
             bounds: subRegionsList[currentSubRegionNumber].bounds
 
