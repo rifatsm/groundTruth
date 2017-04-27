@@ -12,7 +12,7 @@ var sub_region_width = 0.003;
 var sub_region_height = 0.003;
 var num_sub_regions_width = 4;
 var num_sub_regions_height = 4;
-var zoom = 16;
+var zoom = 17;
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////

@@ -10,8 +10,8 @@ urlpatterns = [
 
     # map API endpoints
     url(r'^add_judgment/$', api.add_judgment, name='add_judgment'),
-    url(r'add_investigation/$', api.add_investigation, name="add_investigation"),
-    url(r'draw_investigation/$', api.draw_investigation, name="draw_investigation"),
+    url(r'^add_investigation/$', api.add_investigation, name="add_investigation"),
+    url(r'^draw_investigation/$', api.draw_investigation, name="draw_investigation"),
     url(r'^region/$', api.get_region, name='get_region'),
     url(r'^get_code/$', api.get_code, name='get_code'),
 
@@ -30,5 +30,8 @@ urlpatterns = [
     url(r'^instructions/$', views.instructions, name="instructions"),
 
     # worker views
-    url(r'^search/$', views.search, name="search")
+    url(r'^search/$', views.search, name="search"),
+
+    # util
+    url(r'^load_archive_task/$', api.load_archive_task, name="load_archive_task")
 ]

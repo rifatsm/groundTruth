@@ -7,7 +7,7 @@ import dateutil.parser
 import datetime
 import hashlib
 from .util import isfloat, build_regions, build_sub_regions, verify_in
-
+from .turk import add_mturk_task
 from django.http import HttpResponseRedirect
 
 from .auth import is_logged_in, get_expert_id, get_expert_object, get_username
@@ -22,6 +22,22 @@ ADD_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_r
 
 DRAW_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
                       u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height']
+
+
+@csrf_exempt
+def load_archive_task(request):
+    post = request.POST
+    if u'worker' in post and u'task' in post and u'hash_token' in post and u'comments' in post:
+        task = post[u'task'].strip()
+        token = post[u'hash_token'].strip()
+        worker = post[u'worker'].strip()
+        comment = post[u'comments'].strip()
+        task = CompletedTasks(worker=worker, task_id=task, token=token, comment=comment)
+        task.save()
+        return HttpResponse(status=200)
+    else:
+        print("bad args")
+        return HttpResponse(status=400)
 
 
 @csrf_exempt
@@ -303,9 +319,14 @@ def add_investigation(request):
             for region in regions:
                 if not is_tutorial:
                     region.save()
+                    if not add_mturk_task(region.pk, region.access_token):
+                        print("failed to add turk task")
+                        return HttpResponse(status=400)
+
                 for sub in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
                     if not is_tutorial:
                         sub.save()
+
                     sub_regions.append({'lat_start': sub.lat_start, 'lon_start': sub.lon_start, 'lat_end': sub.lat_end,
                                         'lon_end': sub.lon_end, 'id': sub.pk})
 
