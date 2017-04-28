@@ -160,22 +160,22 @@ import requests
 #     u'zoom': 18
 # }
 
-payload = {
-    u'lat_start': 34.0318975,
-    u'lon_start': -118.27242150000001,
-    u'lat_end': 34.0618975,
-    u'lon_end': -118.2224215,
-    u'sub_region_width': 0.0025,
-    u'sub_region_height': 0.0025,
-    u'num_sub_regions_width': 4,
-    u'num_sub_regions_height': 4,
-    u'expert_id': 1,
-    u'ground_image': "https://dl.dropboxusercontent.com/s/j45inpalpgg345d/cmd_ground_blur.png",
-    u'diagram_image': 'https://dl.dropboxusercontent.com/s/hu6e6tdnxb4bxsl/cmd_la_std3.jpeg',
-    u'zoom': 18,
-    u'is_tutorial': "false",
-    u'invest_name': "cause i need one for testing",
-}
+# payload = {
+#     u'lat_start': 34.0318975,
+#     u'lon_start': -118.27242150000001,
+#     u'lat_end': 34.0618975,
+#     u'lon_end': -118.2224215,
+#     u'sub_region_width': 0.0025,
+#     u'sub_region_height': 0.0025,
+#     u'num_sub_regions_width': 4,
+#     u'num_sub_regions_height': 4,
+#     u'expert_id': 1,
+#     u'ground_image': "https://dl.dropboxusercontent.com/s/j45inpalpgg345d/cmd_ground_blur.png",
+#     u'diagram_image': 'https://dl.dropboxusercontent.com/s/hu6e6tdnxb4bxsl/cmd_la_std3.jpeg',
+#     u'zoom': 18,
+#     u'is_tutorial': "false",
+#     u'invest_name': "cause i need one for testing",
+# }
 
 # payload = {
 #     u'lat_start': 34.053287 - 0.005,
@@ -193,8 +193,47 @@ payload = {
 
 
 
+
+
+
 #############################################
 
-# r = requests.post("https://groundtruth.herokuapp.com/add_investigation/", data=payload)
+# # cape town
+payload = {
+    u'lat_start': -33.9474785,
+    u'lon_start': 18.402071500000034,
+    u'lat_end': -33.9074785,
+    u'lon_end': 18.442071499999997,
+    u'sub_region_width': 0.0025,
+    u'sub_region_height': 0.0025,
+    u'num_sub_regions_width': 4,
+    u'num_sub_regions_height': 4,
+    u'expert_id': 1,
+    u'ground_image': "https://dl.dropboxusercontent.com/s/k01rcvj1479fcr8/Image1.png",
+    u'diagram_image': 'https://dl.dropboxusercontent.com/s/9rlaxisrtm9d2xj/captown_std3.jpeg',
+    u'zoom': 18,
+    u'is_tutorial': "false",
+    u'invest_name': "cause i need one for testing",
+}
+
+# saudi
+# payload = {
+#     u'lat_start': 24.692951,
+#     u'lon_start': 46.66368549999993,
+#     u'lat_end': 24.772951,
+#     u'lon_end': 46.74368549999997,
+#     u'sub_region_width': 0.005,
+#     u'sub_region_height': 0.005,
+#     u'num_sub_regions_width': 4,
+#     u'num_sub_regions_height': 4,
+#     u'expert_id': 1,
+#     u'ground_image': "https://dl.dropboxusercontent.com/s/bw6tqow3ddu9h2d/SA_blur.PNG",
+#     u'diagram_image': 'https://dl.dropboxusercontent.com/s/1441pncuo5a290z/saudi_std3.jpeg?dl=0',
+#     u'zoom': 17,
+#     u'is_tutorial': "false",
+#     u'invest_name': "cause i need one for testing",
+# }
+
+# r = requests.post(" https://groundtruth-study3.herokuapp.com/add_investigation/", data=payload)
 r = requests.post("http://127.0.0.1:8000/add_investigation/", data=payload)
 print(r.text)

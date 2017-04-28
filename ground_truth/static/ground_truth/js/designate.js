@@ -242,6 +242,7 @@ function sub_center_in_view(inner_rectangle, outer_rectangle) {
  * handles users showing and hiding suggestions
  */
 function toggle_suggestions() {
+    console.log("clicked");
     var toggle = $("#toggle_suggestions_btn");
     if (!toggle.data("hidden")) { // suggestions are shown, we hide them now
         Object.keys(worker_subregions).forEach(function (id) { // set all suggestions centers to clear
@@ -769,176 +770,176 @@ function initMap() {
     $("#toggle_draw_erase_btn").data("investigation", null);
 
     //Convert a drawn region into designated areas
-    google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
-        var draw_erase_btn = $("#toggle_draw_erase_btn");
-        draw_erase_btn.text(remove_drawing_template);
-        draw_erase_btn.removeClass("btn-success");
-        draw_erase_btn.removeClass("btn-danger");
-        draw_erase_btn.removeClass("btn-default");
-        draw_erase_btn.addClass("btn-primary");
-        $("#width_zoom").hide();
-        $("#width_zoom_notifier").show();
-
-        //Get the size and bounds of the drawn region
-        var desigArea = rectangle.getBounds();
-
-        var bottomLeft = desigArea.getSouthWest();
-        var topRight = desigArea.getNorthEast();
-
-        var send = {
-            'lat_start': bottomLeft.lat(),
-            'lon_start': bottomLeft.lng(),
-            'lat_end': topRight.lat(),
-            'lon_end': topRight.lng(),
-            'sub_region_width': sub_region_width,
-            'sub_region_height': sub_region_height,
-            'num_sub_regions_width': num_sub_regions_width,
-            'num_sub_regions_height': num_sub_regions_height
-        };
-
-        $.post("/draw_investigation/", send, function (res) {
-            var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
-            var newNorthEast = new google.maps.LatLng(res.investigation_bounds.lat_end, res.investigation_bounds.lon_end);
-            rectangle.setBounds(new google.maps.LatLngBounds(newSouthWest, newNorthEast));
-
-            draw_erase_btn.data("investigation", rectangle);
-
-
-            var add_investigation = $("#add_investigation_btn");
-            if (!can_afford(res["regions"].length)) {
-                rectangle.setOptions(too_expensive_template);
-
-                add_investigation.addClass("disabled");
-                add_investigation.prop("disabled", true);
-                $("#too_much").removeAttr("hidden");
-
-                draw_erase_btn.removeClass("btn-primary");
-                draw_erase_btn.removeClass("btn-default");
-                draw_erase_btn.addClass("btn-danger");
-            } else {
-
-                add_investigation.removeClass("disabled");
-                add_investigation.prop("disabled", false);
-                add_investigation.addClass("btn-success");
-
-            }
-        });
-        drawingManager.setDrawingMode(null);
-
-    });
-
-
-    function send_investigation() {
-        if (!have_investigation()) {
-            return
-        }
-        $("#add_investigation_btn").hide();
-        $("#define_title").hide();
-        $("#budget").hide();
-        $("#cost").hide();
-
-        $("#crowd_title").show();
-
-        var draw_erase_btn = $("#toggle_draw_erase_btn");
-        var investigation = draw_erase_btn.data("investigation");
-
-        // This is where we stop people from spending too much money
-
-        var investigation_area = investigation.getBounds();
-
-        var bottomLeft = investigation_area.getSouthWest();
-        var topRight = investigation_area.getNorthEast();
+    // google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
+    //     var draw_erase_btn = $("#toggle_draw_erase_btn");
+    //     draw_erase_btn.text(remove_drawing_template);
+    //     draw_erase_btn.removeClass("btn-success");
+    //     draw_erase_btn.removeClass("btn-danger");
+    //     draw_erase_btn.removeClass("btn-default");
+    //     draw_erase_btn.addClass("btn-primary");
+    //     $("#width_zoom").hide();
+    //     $("#width_zoom_notifier").show();
+    //
+    //     //Get the size and bounds of the drawn region
+    //     var desigArea = rectangle.getBounds();
+    //
+    //     var bottomLeft = desigArea.getSouthWest();
+    //     var topRight = desigArea.getNorthEast();
+    //
+    //     var send = {
+    //         'lat_start': bottomLeft.lat(),
+    //         'lon_start': bottomLeft.lng(),
+    //         'lat_end': topRight.lat(),
+    //         'lon_end': topRight.lng(),
+    //         'sub_region_width': sub_region_width,
+    //         'sub_region_height': sub_region_height,
+    //         'num_sub_regions_width': num_sub_regions_width,
+    //         'num_sub_regions_height': num_sub_regions_height
+    //     };
+    //
+    //     $.post("/draw_investigation/", send, function (res) {
+    //         var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
+    //         var newNorthEast = new google.maps.LatLng(res.investigation_bounds.lat_end, res.investigation_bounds.lon_end);
+    //         rectangle.setBounds(new google.maps.LatLngBounds(newSouthWest, newNorthEast));
+    //
+    //         draw_erase_btn.data("investigation", rectangle);
+    //
+    //
+    //         var add_investigation = $("#add_investigation_btn");
+    //         if (!can_afford(res["regions"].length)) {
+    //             rectangle.setOptions(too_expensive_template);
+    //
+    //             add_investigation.addClass("disabled");
+    //             add_investigation.prop("disabled", true);
+    //             $("#too_much").removeAttr("hidden");
+    //
+    //             draw_erase_btn.removeClass("btn-primary");
+    //             draw_erase_btn.removeClass("btn-default");
+    //             draw_erase_btn.addClass("btn-danger");
+    //         } else {
+    //
+    //             add_investigation.removeClass("disabled");
+    //             add_investigation.prop("disabled", false);
+    //             add_investigation.addClass("btn-success");
+    //
+    //         }
+    //     });
+    //     drawingManager.setDrawingMode(null);
+    //
+    // });
 
 
-        var name = getUrlVars()["name"];
-        if (name === undefined || undefined === null) {
-            name = "Tutorial Investigation";
-        }
+    // function send_investigation() {
+    //     if (!have_investigation()) {
+    //         return
+    //     }
+    //     $("#add_investigation_btn").hide();
+    //     $("#define_title").hide();
+    //     $("#budget").hide();
+    //     $("#cost").hide();
+    //
+    //     $("#crowd_title").show();
+    //
+    //     var draw_erase_btn = $("#toggle_draw_erase_btn");
+    //     var investigation = draw_erase_btn.data("investigation");
+    //
+    //     // This is where we stop people from spending too much money
+    //
+    //     var investigation_area = investigation.getBounds();
+    //
+    //     var bottomLeft = investigation_area.getSouthWest();
+    //     var topRight = investigation_area.getNorthEast();
+    //
+    //
+    //     var name = getUrlVars()["name"];
+    //     if (name === undefined || undefined === null) {
+    //         name = "Tutorial Investigation";
+    //     }
+    //
+    //     var send = {
+    //         'lat_start': bottomLeft.lat(),
+    //         'lon_start': bottomLeft.lng(),
+    //         'lat_end': topRight.lat(),
+    //         'lon_end': topRight.lng(),
+    //         'sub_region_width': sub_region_width,
+    //         'sub_region_height': sub_region_height,
+    //         'num_sub_regions_width': num_sub_regions_width,
+    //         'num_sub_regions_height': num_sub_regions_height,
+    //         'invest_name': name,
+    //         'zoom': zoom,
+    //         'ground_image': $("#ground_image").attr("src"),
+    //         "diagram_image": $("#diagram_image").attr("src"),
+    //         'is_tutorial': is_tutorial()
+    //     };
+    //
+    //
+    //     $.post("/add_investigation/", send, function (res) {
+    //
+    //         timer();
+    //         // remove the drawing
+    //         investigation.setMap(null);
+    //         investigation = null;
+    //         draw_erase_btn.data("investigation", investigation);
+    //
+    //         // Disable all ability to add another investigation
+    //         drawingManager.setDrawingMode(null);
+    //
+    //         for (var i = 0; i < res.sub_regions.length; i++) {
+    //
+    //             var sub_region = res.sub_regions[i];
+    //             var id = sub_region.id;
+    //             worker_subregions[id] = new google.maps.Rectangle({
+    //                 map: map,
+    //                 bounds: {
+    //                     north: Number(sub_region.lat_end),
+    //                     south: Number(sub_region.lat_start),
+    //                     east: Number(sub_region.lon_end),
+    //                     west: Number(sub_region.lon_start)
+    //                 }
+    //             });
+    //             worker_subregions[id].setOptions(sub_region_template);
+    //             worker_subregions[id].setOptions({fillOpacity: 0});
+    //             worker_subregions[id]["candidate"] = true;
+    //             worker_subregions[id]["style_backup"] = [];
+    //             backup_style(worker_subregions[id]);
+    //         }
+    //
+    //         $("#drawing_wrapper").hide();
+    //         $("#judgement_wrapper").show();
+    //         $("#toggle_overlay_btn").hide();
+    //         map_height();
+    //
+    //
+    //         if (!is_tutorial()) {
+    //             setInterval(function () {
+    //                 var sub_regions = Object.keys(worker_subregions);
+    //                 for (var i = 0; i < sub_regions.length; i++) {
+    //
+    //                     $.get("/judgement/" + sub_regions[i] + "/", function (res) {
+    //                         var region = worker_subregions[res["sub_region_id"]];
+    //                         if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
+    //                             if (res.status === 3) {
+    //                                 region.setOptions(yyy_template);
+    //                             } else if (res.status === 2) {
+    //                                 region.setOptions(yyn_template);
+    //                             } else if (res.status === 1) {
+    //                                 region.setOptions(ynn_template);
+    //                             } else if (res.status === 0) {
+    //                                 region.setOptions(nnn_temlate);
+    //                             }
+    //                         }
+    //
+    //                     });
+    //                 }
+    //             }, 5000);
+    //         }
+    //
+    //     });
+    //
+    //
+    // }
 
-        var send = {
-            'lat_start': bottomLeft.lat(),
-            'lon_start': bottomLeft.lng(),
-            'lat_end': topRight.lat(),
-            'lon_end': topRight.lng(),
-            'sub_region_width': sub_region_width,
-            'sub_region_height': sub_region_height,
-            'num_sub_regions_width': num_sub_regions_width,
-            'num_sub_regions_height': num_sub_regions_height,
-            'invest_name': name,
-            'zoom': zoom,
-            'ground_image': $("#ground_image").attr("src"),
-            "diagram_image": $("#diagram_image").attr("src"),
-            'is_tutorial': is_tutorial()
-        };
-
-
-        $.post("/add_investigation/", send, function (res) {
-
-            timer();
-            // remove the drawing
-            investigation.setMap(null);
-            investigation = null;
-            draw_erase_btn.data("investigation", investigation);
-
-            // Disable all ability to add another investigation
-            drawingManager.setDrawingMode(null);
-
-            for (var i = 0; i < res.sub_regions.length; i++) {
-
-                var sub_region = res.sub_regions[i];
-                var id = sub_region.id;
-                worker_subregions[id] = new google.maps.Rectangle({
-                    map: map,
-                    bounds: {
-                        north: Number(sub_region.lat_end),
-                        south: Number(sub_region.lat_start),
-                        east: Number(sub_region.lon_end),
-                        west: Number(sub_region.lon_start)
-                    }
-                });
-                worker_subregions[id].setOptions(sub_region_template);
-                worker_subregions[id].setOptions({fillOpacity: 0});
-                worker_subregions[id]["candidate"] = true;
-                worker_subregions[id]["style_backup"] = [];
-                backup_style(worker_subregions[id]);
-            }
-
-            $("#drawing_wrapper").hide();
-            $("#judgement_wrapper").show();
-            $("#toggle_overlay_btn").hide();
-            map_height();
-
-
-            if (!is_tutorial()) {
-                setInterval(function () {
-                    var sub_regions = Object.keys(worker_subregions);
-                    for (var i = 0; i < sub_regions.length; i++) {
-
-                        $.get("/judgement/" + sub_regions[i] + "/", function (res) {
-                            var region = worker_subregions[res["sub_region_id"]];
-                            if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
-                                if (res.status === 3) {
-                                    region.setOptions(yyy_template);
-                                } else if (res.status === 2) {
-                                    region.setOptions(yyn_template);
-                                } else if (res.status === 1) {
-                                    region.setOptions(ynn_template);
-                                } else if (res.status === 0) {
-                                    region.setOptions(nnn_temlate);
-                                }
-                            }
-
-                        });
-                    }
-                }, 5000);
-            }
-
-        });
-
-
-    }
-
-    $("#add_investigation_btn").click(send_investigation);
+    // $("#add_investigation_btn").click(send_investigation);
 
     drawingManager.setDrawingMode(null);
 }
