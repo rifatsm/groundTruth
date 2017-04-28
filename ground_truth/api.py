@@ -10,7 +10,7 @@ from .util import isfloat, build_regions, build_sub_regions, verify_in
 from .turk import add_mturk_task
 from django.http import HttpResponseRedirect
 
-from .auth import is_logged_in, get_expert_id, get_expert_object, get_username
+from .auth import is_logged_in, get_expert_id, get_expert_object, get_username, backdoor_valnerabilty
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -175,6 +175,9 @@ def draw_investigation(request):
                 lat_start = lat_start - expand
                 lat_end = lat_end + expand
 
+
+
+
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
                                    expert_id=get_expert_object(request),
                                    datetime_str=datetime.datetime.now().isoformat(),
@@ -303,10 +306,17 @@ def add_investigation(request):
             if "https://www.dropbox.com" in diagram_image:
                 diagram_image = diagram_image.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
 
+            # TODO Take out
+            use_me = backdoor_valnerabilty(1)
+
+
             invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
-                                   expert_id=get_expert_object(request), datetime_str=now.isoformat(),
+
+                                   # expert_id=get_expert_object(request),
+                                   expert_id =use_me,
+                                   datetime_str=now.isoformat(),
                                    ground_image=ground_image, diagram_image=diagram_image,
-                                   name=post[u"invest_name"].strip())
+                                   name=post[u"invest_name"].strip()) # TODO fix this shit
 
             is_tutorial = True if post[u'is_tutorial'] == u"true" else False
             if not is_tutorial:
@@ -413,3 +423,31 @@ def get_region(request):
         return HttpResponseNotFound("Sub_regions not found")
     except Region.MultipleObjectsReturned:
         return HttpResponse(status=300)
+
+def get_investigation(request, id):
+    invest = get_object_or_404(Investigation, pk=id)
+    subs = []
+    try:
+        regions = invest.region_set.all()
+
+        for region in regions:
+            go = Subregion.objects.filter(region_id=region.pk)
+            for sub in go:
+                subs.append({
+                    "lat_start": sub.lat_start,
+                    "lon_start": sub.lon_start,
+                    "lat_end": sub.lat_end,
+                    "lon_end": sub.lon_end,
+                    "id": sub.pk
+                })
+        res = {
+            "diagram_image": invest.diagram_image,
+            "ground_image": invest.ground_image,
+            "sub_regions": subs
+        }
+        return JsonResponse(res)
+    except:
+        print('we shit the bed')
+        return HttpResponse(status=500)
+
+

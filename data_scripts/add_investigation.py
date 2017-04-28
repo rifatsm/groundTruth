@@ -125,21 +125,21 @@ import requests
 #     u'zoom': 17
 # }
 
-payload = {
-    u'lat_start': -15.797342 - 0.01,
-    u'lon_start': -47.871063 - 0.01,
-    u'lat_end': -15.797342 + 0.01,
-    u'lon_end': -47.871063 + 0.01,
-    u'sub_region_width': 0.006,
-    u'sub_region_height': 0.006,
-    u'num_sub_regions_width': 4,
-    u'num_sub_regions_height': 4,
-    u'expert_id': 1,
-    u'img': "https://www.dropbox.com/s/o6ctfbwgyb3iutk/Brasilia_level6_rotate.jpg?dl=0",
-    u'zoom': 17,
-    u'invest_name': "test invest",
-    u'description': "test investigation"
-}
+# payload = {
+#     u'lat_start': -15.797342 - 0.01,
+#     u'lon_start': -47.871063 - 0.01,
+#     u'lat_end': -15.797342 + 0.01,
+#     u'lon_end': -47.871063 + 0.01,
+#     u'sub_region_width': 0.006,
+#     u'sub_region_height': 0.006,
+#     u'num_sub_regions_width': 4,
+#     u'num_sub_regions_height': 4,
+#     u'expert_id': 1,
+#     u'img': "https://www.dropbox.com/s/o6ctfbwgyb3iutk/Brasilia_level6_rotate.jpg?dl=0",
+#     u'zoom': 17,
+#     u'invest_name': "test invest",
+#     u'description': "test investigation"
+# }
 
 #########
 #########
@@ -160,19 +160,22 @@ payload = {
 #     u'zoom': 18
 # }
 
-# payload = {
-#     u'lat_start': 34.053287 - 0.005,
-#     u'lon_start': -118.268999 - 0.005,
-#     u'lat_end': 34.053287 + 0.005,
-#     u'lon_end': -118.268999 + 0.005,
-#     u'sub_region_width': 0.0024,
-#     u'sub_region_height': 0.0024,
-#     u'num_sub_regions_width': 4,
-#     u'num_sub_regions_height': 4,
-#     u'expert_id': 1,
-#     u'img': "https://www.dropbox.com/s/ah71bf1hrigptiz/Comodore_level3_rotate.jpg?dl=0",
-#     u'zoom': 18
-# }
+payload = {
+    u'lat_start': 34.0318975,
+    u'lon_start': -118.27242150000001,
+    u'lat_end': 34.0618975,
+    u'lon_end': -118.2224215,
+    u'sub_region_width': 0.0025,
+    u'sub_region_height': 0.0025,
+    u'num_sub_regions_width': 4,
+    u'num_sub_regions_height': 4,
+    u'expert_id': 1,
+    u'ground_image': "https://dl.dropboxusercontent.com/s/j45inpalpgg345d/cmd_ground_blur.png",
+    u'diagram_image': 'https://dl.dropboxusercontent.com/s/hu6e6tdnxb4bxsl/cmd_la_std3.jpeg',
+    u'zoom': 18,
+    u'is_tutorial': "false",
+    u'invest_name': "cause i need one for testing",
+}
 
 # payload = {
 #     u'lat_start': 34.053287 - 0.005,

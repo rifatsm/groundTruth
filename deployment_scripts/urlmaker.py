@@ -1,11 +1,11 @@
-base_url = "http://localhost:8000/designate/?"
-# base_url = "http://groundtruth-study3.herokuapp.com/designate/?"
+# base_url = "http://localhost:8000/designate/?"
+base_url = "http://groundtruth-study3.herokuapp.com/designate/?"
 # diagram_image_3 = "https://dl.dropboxusercontent.com/s/"
 
 ###############################################################
 # CLT
 
-diagram_image_1 = "https://dl.dropboxusercontent.com/s/m2d4swthc9hos45/study2_CLT.png"
+diagram_image_1 = "https://dl.dropboxusercontent.com/s/kure4ysetp6jd78/clt.JPG"
 
 ground_image_1 = "https://dl.dropboxusercontent.com/s/pontqtv2xv9qvk9/clt_ground_blur.png"
 
@@ -17,7 +17,7 @@ name_1 = "CLT_pilot"
 ###############################################################
 # CMD
 
-diagram_image_2 = "https://dl.dropboxusercontent.com/s/0ud01xsanoytg6a/study2_CMD.png"
+diagram_image_2 = "https://dl.dropboxusercontent.com/s/j38hklzgesfd7xd/cmd.JPG"
 
 ground_image_2 = "https://dl.dropboxusercontent.com/s/j45inpalpgg345d/cmd_ground_blur.png"
 
@@ -29,7 +29,7 @@ name_2 = "CMD_pilot"
 ###############################################################
 # BR
 
-diagram_image_3 = "https://dl.dropboxusercontent.com/s/637pp5xae2xuf3w/BR_2.png"
+diagram_image_3 = "https://dl.dropboxusercontent.com/s/ym8tut0tsydf13w/br.JPG?"
 
 ground_image_3 = "https://dl.dropboxusercontent.com/s/ro4ivlbiraezw49/BR_ground.jpg"
 

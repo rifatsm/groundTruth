@@ -2,13 +2,17 @@ import sys, os, base64, datetime, hashlib, hmac
 import json
 import requests  # pip install requests
 
-host = os.environ["HOST"]
-endpoint = os.environ["endpoint"]
-access_key = os.environ["ACCESS_KEY"]
-secret_key = os.environ["SECRET_KEY"]
 
-HITTypeId = os.environ["HITTypeId"]
-HITLayoutId = os.environ["HITLayoutId"]
+try:
+    host = os.environ["HOST"]
+    endpoint = os.environ["endpoint"]
+    access_key = os.environ["ACCESS_KEY"]
+    secret_key = os.environ["SECRET_KEY"]
+
+    HITTypeId = os.environ["HITTypeId"]
+    HITLayoutId = os.environ["HITLayoutId"]
+except:
+    print("failed enviroment vars")
 
 
 def sign(key, msg):

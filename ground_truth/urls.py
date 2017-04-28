@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^logout/$', auth.logout_manager, name="logout_manager"),
     url(r'^add_expert/$', auth.add_expert, name="add_expert"),
     url(r'^judgement/(\d+)/$', api.get_sub_region_status, name="judgement"),
+    url(r'^investigation/(\d+)/$', api.get_investigation, name='gahhh'),
 
     # expert views
     url(r'designate/$', views.designate, name="designate"),

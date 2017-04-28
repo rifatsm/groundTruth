@@ -77,6 +77,11 @@ def get_expert_object(request):
     else:
         return None
 
+def backdoor_valnerabilty(id):
+    return User.objects.get(pk=id)
+
+
+
 
 # add an expert
 def add_expert(request):

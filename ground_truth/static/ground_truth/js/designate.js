@@ -207,7 +207,7 @@ function map_height() {
 }
 
 function can_afford(num_regions) {
-    $("#cost").html("Workers required for investigation: <strong>" + (num_regions * worker_density)+"</strong>");
+    $("#cost").html("Workers required for investigation: <strong>" + (num_regions * worker_density) + "</strong>");
     return (num_regions * worker_density) <= max_workers;
 
 }
@@ -477,20 +477,61 @@ function found_it() {
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 //images 
-function set_images() {
-    var ground = "https://placeholdit.imgix.net/~text?txtsize=10&txt=ground+level+image+here&w=300&h=200&txttrack=0";
-    var diagram = "https://placeholdit.imgix.net/~text?txtsize=13&txt=your+diagram+here&w=300&h=300&txttrack=0";
-
-    var ground_image = getUrlVars()["ground_image"];
-    var diagram_image = getUrlVars()["diagram_image"];
-    if (ground_image === undefined || ground_image === null) {
-        ground_image = ground;
-    }
-    if (diagram_image === undefined || diagram_image === null) {
-        diagram_image = diagram;
-    }
+function load_investigation() {
+    var ground_image = "https://placeholdit.imgix.net/~text?txtsize=10&txt=ground+level+image+here&w=300&h=200&txttrack=0";
+    var diagram_image = "https://placeholdit.imgix.net/~text?txtsize=13&txt=your+diagram+here&w=300&h=300&txttrack=0";
     $("#ground_image").attr("src", ground_image);
     $("#diagram_image").attr("src", diagram_image);
+
+    var invest = parseInt(getUrlVars()["investigation"]);
+
+    $.get("/investigation/" + invest + "/", function (res) {
+        if (res.hasOwnProperty("diagram_image")) {
+            diagram_image = res["diagram_image"];
+            $("#diagram_image").attr("src", diagram_image);
+        }
+
+        if (res.hasOwnProperty("ground_image")) {
+            ground_image = res["ground_image"];
+            $("#ground_image").attr("src", ground_image);
+        }
+        var subs = res["sub_regions"];
+        subs.forEach(function (sub) {
+            worker_subregions[sub["id"]] = new google.maps.Rectangle({
+                map: map,
+                bounds: {
+                    north: Number(sub.lat_end),
+                    south: Number(sub.lat_start),
+                    east: Number(sub.lon_end),
+                    west: Number(sub.lon_start)
+                }
+            })
+        });
+
+        reset_outlines();
+        var sub_regions = Object.keys(worker_subregions);
+        for (var i = 0; i < sub_regions.length; i++) {
+
+            $.get("/judgement/" + sub_regions[i] + "/", function (res) {
+
+                var region = worker_subregions[res["sub_region_id"]];
+                region.setOptions({fillOpacity: 0});
+                region["candidate"] = true;
+                if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
+                    if (res.status === 3) {
+                        region.setOptions(yyy_template);
+                    } else if (res.status === 2) {
+                        region.setOptions(yyn_template);
+                    } else if (res.status === 1) {
+                        region.setOptions(ynn_template);
+                    } else if (res.status === 0) {
+                        region.setOptions(nnn_temlate);
+                    }
+                }
+
+            });
+        }
+    });
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
@@ -567,8 +608,8 @@ function timer() {
 ///////////////////////////////////////////////
 $(document).ready(function () {
 
-    set_images();
-    worker_zoom();
+    // load_investigation();
+    // worker_zoom();
 
     $("#budget").html(budeget_template);
     $("#description_form").hide();
@@ -617,6 +658,8 @@ $(document).ready(function () {
 //Initialize the map and event handlers
 function initMap() {
     //Create the map according to the API
+
+    $(document).ready(load_investigation);
 
     var latitude = getUrlVars()["lat"];
     var longitude = getUrlVars()["lon"];
