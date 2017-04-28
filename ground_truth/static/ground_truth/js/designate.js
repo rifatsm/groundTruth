@@ -529,7 +529,7 @@ function load_investigation() {
                     } else if (res.status === 0) {
                         region.setOptions(nnn_temlate);
                     } else {
-                        console.log(res["sub_region_id"]);
+                        console.log(res.status);
                     }
                 }
 
