@@ -369,13 +369,13 @@ def get_sub_region_status(request, sub_region_id):
         HttpResponseRedirect("/")
 
     judgments = Judgement.objects.filter(subregion_id=sub_region_id)
-    if len(judgments) == 3:
+    if len(judgments) >= 3:
         yes = 0
         for judge in judgments:
             if judge.is_plausible():
                 yes += 1
         return JsonResponse({"status": yes, "sub_region_id": sub_region_id})
-    return JsonResponse({"status": len(judgments), "sub_region_id": sub_region_id})
+    return JsonResponse({"status": -1, "sub_region_id": sub_region_id})
 
 
 def get_region(request):
