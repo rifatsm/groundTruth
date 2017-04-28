@@ -528,6 +528,8 @@ function load_investigation() {
                         region.setOptions(ynn_template);
                     } else if (res.status === 0) {
                         region.setOptions(nnn_temlate);
+                    } else {
+                        console.log(res["sub_region_id"]);
                     }
                 }
 
