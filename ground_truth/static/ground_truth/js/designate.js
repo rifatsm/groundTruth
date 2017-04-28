@@ -518,6 +518,7 @@ function load_investigation() {
                 var region = worker_subregions[res["sub_region_id"]];
                 region.setOptions({fillOpacity: 0});
                 region["candidate"] = true;
+                region["style_backup"] = [];
                 if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
                     if (res.status === 3) {
                         region.setOptions(yyy_template);
