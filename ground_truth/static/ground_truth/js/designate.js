@@ -520,7 +520,7 @@ function load_investigation() {
                 region["candidate"] = true;
                 region["style_backup"] = [];
                 if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
-                    if (res.status === 3) {
+                    if (res.status >= 3) {
                         region.setOptions(yyy_template);
                     } else if (res.status === 2) {
                         region.setOptions(yyn_template);
@@ -528,8 +528,6 @@ function load_investigation() {
                         region.setOptions(ynn_template);
                     } else if (res.status === 0) {
                         region.setOptions(nnn_temlate);
-                    } else {
-                        console.log(res.status);
                     }
                 }
 
