@@ -28,8 +28,10 @@ def getSignatureKey(key, date_stamp, regionName, serviceName):
 
 
 def add_mturk_task(region, token):
-    param = str(region) + "_" + str(token)
 
+    return True
+
+    param = str(region) + "_" + str(token)
 
     method = 'POST'
     service = 'mturk-requester'
