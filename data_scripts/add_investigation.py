@@ -274,6 +274,6 @@ payload = { ####################################################################
 # }
 
 
-# r = requests.post(" https://groundtruth-study3.herokuapp.com/add_investigation/", data=payload) #rachel this sends it
+# r = requests.post("https://groundtruth-study3.herokuapp.com/add_investigation/", data=payload) #rachel this sends it
 r = requests.post("http://127.0.0.1:8000/add_investigation/", data=payload)
 print(r.text)
