@@ -433,6 +433,7 @@ function toggle_overlay() {
         toggle.data("hidden", true);
         toggle.text(show_overlays_template);
 
+        console.log("since the overlay button is hidden we should never see this"); // TODO for debuging of hide color
         $("#toggle_suggestions_btn").prop("disabled", true);
         $("#toggle_seen_btn").prop("disabled", true);
         $("#found_it_btn").prop("disabled", true);
@@ -597,6 +598,7 @@ $(document).ready(function () {
 
 
     // manage the showing and hiding of all map overlays.
+    // TODO not being used but its good to leave it here for now
     var overlay_btn = $("#toggle_overlay_btn");
     overlay_btn.click(toggle_overlay);
     overlay_btn.data("hidden", false);
@@ -824,7 +826,7 @@ function initMap() {
             'invest_name': name,
             'zoom': zoom,
             'ground_image': $("#ground_image").attr("src"),
-            "diagram_image": $("#diagram_image").attr("src"),
+            "diagram_image": getUrlVars()["diagram_image"], // Because the rotation of the images messes with things
             'is_tutorial': is_tutorial()
         };
 
@@ -874,7 +876,7 @@ function initMap() {
                         $.get("/judgement/" + sub_regions[i] + "/", function (res) {
                             var region = worker_subregions[res["sub_region_id"]];
                             if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
-                                if (res.status === 3) {
+                                if (res.status >= 3) {
                                     region.setOptions(yyy_template);
                                 } else if (res.status === 2) {
                                     region.setOptions(yyn_template);

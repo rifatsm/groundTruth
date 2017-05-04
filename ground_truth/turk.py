@@ -24,8 +24,10 @@ def getSignatureKey(key, date_stamp, regionName, serviceName):
 
 
 def add_mturk_task(region, token):
-    param = str(region) + "_" + str(token)
 
+    return True # TODO we don't want to spend any more money
+
+    param = str(region) + "_" + str(token)
 
     method = 'POST'
     service = 'mturk-requester'
@@ -55,11 +57,11 @@ def add_mturk_task(region, token):
     signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
     authorization_header = algorithm + ' ' + 'Credential=' + access_key + '/' + credential_scope + ', ' + 'SignedHeaders=' + signed_headers + ', ' + 'Signature=' + signature
     headers = {'Content-Type': content_type,
-           'X-Amz-Date': amz_date,
-           'X-Amz-Target': amz_target,
-           'Authorization': authorization_header}
+               'X-Amz-Date': amz_date,
+               'X-Amz-Target': amz_target,
+               'Authorization': authorization_header}
     r = requests.post(endpoint, data=request_parameters, headers=headers)
-    if r.status_code != 200 and r.status_code !="200":
+    if r.status_code != 200 and r.status_code != "200":
         print(r.text)
         return False
     else:

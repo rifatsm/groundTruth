@@ -359,7 +359,7 @@ def get_sub_region_status(request, sub_region_id):
         HttpResponseRedirect("/")
 
     judgments = Judgement.objects.filter(subregion_id=sub_region_id)
-    if len(judgments) == 3:
+    if len(judgments) >= 3:
         yes = 0
         for judge in judgments:
             if judge.is_plausible():
