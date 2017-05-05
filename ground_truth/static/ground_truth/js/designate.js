@@ -537,32 +537,32 @@ function worker_zoom() {
 ///////////////////////////////////////////////
 // timer stuff
 
-function timer() {
-    // http://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
-
-    var hourLabel = document.getElementById("hours");
-    var minutesLabel = document.getElementById("minutes");
-    var secondsLabel = document.getElementById("seconds");
-    var totalSeconds = 0;
-    setInterval(setTime, 1000);
-
-    function setTime() {
-        ++totalSeconds;
-        secondsLabel.innerHTML = pad(totalSeconds % 60);
-        minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-        hourLabel.innerHTML = pad(parseInt(totalSeconds / 3600));
-    }
-
-    function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-            return "0" + valString;
-        }
-        else {
-            return valString;
-        }
-    }
-}
+// function timer() {
+//     // http://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+//
+//     var hourLabel = document.getElementById("hours");
+//     var minutesLabel = document.getElementById("minutes");
+//     var secondsLabel = document.getElementById("seconds");
+//     var totalSeconds = 0;
+//     setInterval(setTime, 1000);
+//
+//     function setTime() {
+//         ++totalSeconds;
+//         secondsLabel.innerHTML = pad(totalSeconds % 60);
+//         minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+//         hourLabel.innerHTML = pad(parseInt(totalSeconds / 3600));
+//     }
+//
+//     function pad(val) {
+//         var valString = val + "";
+//         if (valString.length < 2) {
+//             return "0" + valString;
+//         }
+//         else {
+//             return valString;
+//         }
+//     }
+// }
 
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
