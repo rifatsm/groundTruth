@@ -15,7 +15,7 @@ class Investigation(models.Model):
     lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
     lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
-    expert_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    expert_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     datetime_str = models.CharField(max_length=200)
 

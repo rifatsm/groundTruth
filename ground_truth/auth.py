@@ -74,6 +74,8 @@ def get_expert_object(request):
     if is_logged_in(request):
         if is_expert(get_username(request)):
             return User.objects.get(username=get_username(request))
+        else:
+            return None
     else:
         return None
 

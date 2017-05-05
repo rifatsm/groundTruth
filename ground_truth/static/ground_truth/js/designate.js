@@ -826,7 +826,7 @@ function initMap() {
             'invest_name': name,
             'zoom': zoom,
             'ground_image': $("#ground_image").attr("src"),
-            "diagram_image": getUrlVars()["diagram_image"], // Because the rotation of the images messes with things
+            "diagram_image": getUrlVars()["diagram_image"], // TODO Because the rotation of the images messes with things
             'is_tutorial': is_tutorial()
         };
 

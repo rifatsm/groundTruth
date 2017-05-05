@@ -18,7 +18,7 @@ from decimal import *
 
 ADD_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
                      u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height', u'ground_image',
-                     u'diagram_image', u'zoom', u'is_tutorial']
+                     u'diagram_image', u'zoom', u'is_tutorial', u"invest_name"]
 
 DRAW_INVESTIGATION = [u'lat_start', u'lon_start', u'lat_end', u'lon_end', u'sub_region_width',
                       u'sub_region_height', u'num_sub_regions_width', u'num_sub_regions_height']
@@ -296,6 +296,7 @@ def add_investigation(request):
 
             ground_image = post[u'ground_image']
             diagram_image = post[u'diagram_image']
+            name = post[u"invest_name"].strip()
 
             if "https://www.dropbox.com" in ground_image:
                 ground_image = ground_image.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
@@ -303,10 +304,16 @@ def add_investigation(request):
             if "https://www.dropbox.com" in diagram_image:
                 diagram_image = diagram_image.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
 
-            invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
-                                   expert_id=get_expert_object(request), datetime_str=now.isoformat(),
-                                   ground_image=ground_image, diagram_image=diagram_image,
-                                   name=post[u"invest_name"].strip())
+            expert = get_expert_id(request)
+            if expert != None:
+                invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
+                                       expert_id=expert, datetime_str=now.isoformat(),
+                                       ground_image=ground_image, diagram_image=diagram_image,
+                                       name=name)
+            else:
+                invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
+                                       datetime_str=now.isoformat(), ground_image=ground_image,
+                                       diagram_image=diagram_image, name=name)
 
             is_tutorial = True if post[u'is_tutorial'] == u"true" else False
             if not is_tutorial:
@@ -331,7 +338,6 @@ def add_investigation(request):
                                         'lon_end': sub.lon_end, 'id': sub.pk})
 
             res = {
-                'expert_id': invest.expert_id.pk,
                 'datetime': invest.datetime_str,
                 'status': invest.status,
                 'ground_image': invest.ground_image,
@@ -344,6 +350,8 @@ def add_investigation(request):
                 },
                 'sub_regions': sub_regions
             }
+            if invest.expert_id != None:
+                res['expert_id'] = invest.expert_id.pk
             return JsonResponse(res)
 
         else:
