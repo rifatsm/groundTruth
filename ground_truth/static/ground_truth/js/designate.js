@@ -833,7 +833,7 @@ function initMap() {
 
         $.post("/add_investigation/", send, function (res) {
 
-            timer();
+            //timer();
             // remove the drawing
             investigation.setMap(null);
             investigation = null;
