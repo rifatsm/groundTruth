@@ -502,6 +502,11 @@ function is_tutorial() {
     var ground_image = getUrlVars()["ground_image"];
     var diagram_image = getUrlVars()["diagram_image"];
     var name = getUrlVars()["name"];
+    console.log(name);
+    console.log(diagram_image);
+    console.log(ground_image);
+    console.log(latitude);
+    console.log(longitude);
 
     if (latitude === null || latitude === undefined) {
         return true;
@@ -870,6 +875,7 @@ function initMap() {
 
             if (!is_tutorial()) {
                 setInterval(function () {
+                    console.log("called");
                     var sub_regions = Object.keys(worker_subregions);
                     for (var i = 0; i < sub_regions.length; i++) {
 
