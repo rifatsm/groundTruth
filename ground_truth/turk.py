@@ -10,8 +10,19 @@ try:
 
     HITTypeId = os.environ["HITTypeId"]
     HITLayoutId = os.environ["HITLayoutId"]
-except:
-    print("Failed to load mturk vars")
+except KeyError:
+    print("\nFailed to load mturk config vars\n")
+
+USE_MTURK = False
+
+try:
+    if os.environ["USE_MTURK"] == "True":
+        USE_MTURK = True
+        print("\nusing mturk\n")
+    else:
+        print("\nnot using mturk\n")
+except KeyError:
+    print("\nnot using mturk\n")
 
 
 def sign(key, msg):
@@ -28,7 +39,9 @@ def getSignatureKey(key, date_stamp, regionName, serviceName):
 
 def add_mturk_task(region, token):
 
-    return True # TODO we don't want to spend any more money
+    if not USE_MTURK:
+        # TODO this returns the value from this function that is expected without creating tasks
+        return True
 
     param = str(region) + "_" + str(token)
 

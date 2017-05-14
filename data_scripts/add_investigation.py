@@ -74,7 +74,7 @@ import requests
 # }
 
 # CMD
-payload = { ##########################################################################
+payload = {  ##########################################################################
     u'lat_start': 34.03708986127088 + 0.005,
     u'lon_start': -118.27226132154465,
     u'lat_end': 34.0547983317786,
@@ -89,7 +89,6 @@ payload = { ####################################################################
     u'is_tutorial': "false",
     u'invest_name': "cause i need one for testing",
 }
-
 
 # r = requests.post(" https://groundtruth-study3.herokuapp.com/add_investigation/", data=payload) #rachel this sends it
 r = requests.post("http://127.0.0.1:8000/add_investigation/", data=payload)

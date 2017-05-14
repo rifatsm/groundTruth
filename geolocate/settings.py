@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -22,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hzf#dz1=mg%__(@#7s5o4jq1b%=$bw1$9$*bi7da!f8dxa$jzb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False  # TODo Turn off
 
 ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', u'127.0.0.1', u'localhost', u'groundtruth-study3.herokuapp.com']
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 ]
 
@@ -78,27 +81,45 @@ WSGI_APPLICATION = 'geolocate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
+# try:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': "ground_truth",
+#             'PASSWORD': os.environ["DB_PASS"],
+#             'HOST': 'localhost',
+#             'PORT': '',
+#         }
+#     }
+# except KeyError:
+#     # TODO this is not a great way to to do this.
+#     user = 'John'
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': "ground_truth",
+#             'USER': user,
+#             'PASSWORD': '',
+#             'HOST': 'localhost',
+#             'PORT': '',
+#         }
+#     }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "ground_truth",
+        'PASSWORD': os.environ["DB_PASS"],
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
 try:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': "ground_truth",
-            'PASSWORD': os.environ["DB_PASS"],
-            'HOST': 'localhost',
-            'PORT': '',
-        }
-    }
+    u = os.environ["DB_USER"]
+    DATABASES['default']["USER"] = u
 except KeyError:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': "ground_truth",
-            'USER': 'John',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '',
-        }
-    }
+    pass  # Some configs do not need a database user. if you have trouble connecting to a database you may need this.
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -131,16 +152,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-STATIC_URL = '/static/'
-
-import dj_database_url
-
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
@@ -152,8 +169,4 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-from django.core.wsgi import get_wsgi_application
-from whitenoise.django import DjangoWhiteNoise
 
-application = get_wsgi_application()
-application = DjangoWhiteNoise(application)

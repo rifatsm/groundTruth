@@ -304,8 +304,8 @@ def add_investigation(request):
             if "https://www.dropbox.com" in diagram_image:
                 diagram_image = diagram_image.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
 
-            expert = get_expert_id(request)
-            if expert != None:
+            expert = get_expert_object(request)
+            if expert is not None:
                 invest = Investigation(lat_start=lat_start, lon_start=lon_start, lat_end=lat_end, lon_end=lon_end,
                                        expert_id=expert, datetime_str=now.isoformat(),
                                        ground_image=ground_image, diagram_image=diagram_image,
@@ -358,7 +358,7 @@ def add_investigation(request):
             print("wrong types")
             return HttpResponse(status=400)
     else:
-        print("missing args or they are wrong")
+        print("Debugging Info: query args are missing or are wrong for adding an investigation")
         return HttpResponse(status=400)
 
 
