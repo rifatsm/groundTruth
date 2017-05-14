@@ -24,7 +24,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = 'hzf#dz1=mg%__(@#7s5o4jq1b%=$bw1$9$*bi7da!f8dxa$jzb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # TODo Turn off
+DEBUG = True  # TODo Turn off
 
 ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', u'127.0.0.1', u'localhost', u'groundtruth-study3.herokuapp.com']
 
@@ -109,17 +109,16 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': "ground_truth",
-        'PASSWORD': os.environ["DB_PASS"],
         'HOST': 'localhost',
         'PORT': '',
     }
 }
 
-try:
-    u = os.environ["DB_USER"]
-    DATABASES['default']["USER"] = u
-except KeyError:
-    pass  # Some configs do not need a database user. if you have trouble connecting to a database you may need this.
+# try:
+#     u = os.environ["DB_USER"]
+#     DATABASES['default']["USER"] = u
+# except KeyError:
+#     pass  # Some configs do not need a database user. if you have trouble connecting to a database you may need this.
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
