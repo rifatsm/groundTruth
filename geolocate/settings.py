@@ -24,14 +24,14 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = 'hzf#dz1=mg%__(@#7s5o4jq1b%=$bw1$9$*bi7da!f8dxa$jzb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # TODo Turn off
+DEBUG = True  # TODO I was not able to get this fixed. debug still needs to be ran.
 
 ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', '127.0.0.1', 'localhost', u'groundtruth-study3.herokuapp.com']
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Application definition
@@ -49,13 +49,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'geolocate.urls'
@@ -92,7 +92,6 @@ WSGI_APPLICATION = 'geolocate.wsgi.application'
 #         }
 #     }
 # except KeyError:
-#     # TODO this is not a great way to to do this.
 #     user = 'John'
 #     DATABASES = {
 #         'default': {
@@ -105,6 +104,7 @@ WSGI_APPLICATION = 'geolocate.wsgi.application'
 #         }
 #     }
 
+# TODO The rest of the database values are received lower in the code.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -166,6 +166,6 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

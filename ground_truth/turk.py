@@ -2,6 +2,7 @@ import sys, os, base64, datetime, hashlib, hmac
 import json
 import requests  # pip install requests
 
+# Not all builds will have Mturk
 try:
     host = os.environ["HOST"]
     endpoint = os.environ["endpoint"]
@@ -13,8 +14,8 @@ try:
 except KeyError:
     print("\nFailed to load mturk config vars\n")
 
+# Determine if we can use MTURK
 USE_MTURK = False
-
 try:
     if os.environ["USE_MTURK"] == "True":
         USE_MTURK = True
@@ -23,6 +24,17 @@ try:
         print("\nnot using mturk\n")
 except KeyError:
     print("\nnot using mturk\n")
+
+
+#####################################################################################!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# TODO this code is modified from:
+# http://docs.aws.amazon.com/general/latest/gr/sigv4-signed-request-examples.html#sig-v4-examples-post
+# TODO I suggest you read the the above python guide before modifying this code
+
+# TODO this code does this operation:
+# http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CreateHITWithHITTypeOperation.html
 
 
 def sign(key, msg):
@@ -38,20 +50,23 @@ def getSignatureKey(key, date_stamp, regionName, serviceName):
 
 
 def add_mturk_task(region, token):
-
     if not USE_MTURK:
         # TODO this returns the value from this function that is expected without creating tasks
         return True
 
+    # region id `underscore` token for region
     param = str(region) + "_" + str(token)
 
     method = 'POST'
     service = 'mturk-requester'
     region = 'us-east-1'
     content_type = 'application/x-amz-json-1.1'
-    amz_target = 'MTurkRequesterServiceV20170117.CreateHITWithHITType'
-    request_parameters = '{"HITTypeId": "' + HITTypeId + '","HITLayoutId": "' + HITLayoutId + '"'
+    amz_target = 'MTurkRequesterServiceV20170117.CreateHITWithHITType'  # the api call that we want to make
+    request_parameters = '{"HITTypeId": "' + HITTypeId + '","HITLayoutId": "' + HITLayoutId + '"'  # the task template
     request_parameters += ',"HITLayoutParameters": [{"Name":"Task", "Value":'
+
+    # TODO the 'everything' value is used because MTURK does not allow '&' to be in the strings for the API call
+    # TODO instead we seporate the region number and toke to access it by an underscore
     request_parameters += '"https://groundtruth-study3.herokuapp.com/search/?everything=' + param + '"}],'
     request_parameters += '"LifetimeInSeconds": 604800,"MaxAssignments": 3}'
 
@@ -77,8 +92,14 @@ def add_mturk_task(region, token):
                'X-Amz-Target': amz_target,
                'Authorization': authorization_header}
     r = requests.post(endpoint, data=request_parameters, headers=headers)
+
+    # if the request failed for any reason then return false.
     if r.status_code != 200 and r.status_code != "200":
         print(r.text)
         return False
     else:
         return True
+
+##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+##!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

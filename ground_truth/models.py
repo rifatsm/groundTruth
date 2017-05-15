@@ -9,9 +9,11 @@ getcontext().rounding = ROUND_HALF_UP
 
 
 class Investigation(models.Model):
+    # lower left corner of the investigation
     lat_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
     lon_start = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
+    # upper right corner of the investigation
     lat_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
     lon_end = models.DecimalField(blank=False, default=(+Decimal(0.0)), max_digits=9, decimal_places=6)
 
@@ -23,8 +25,7 @@ class Investigation(models.Model):
 
     description = models.TextField(blank=True)
 
-    # TODO Give meaning
-    # TODO idk how this works, this was from a guide
+    # TODO Give meaning, this is not used yet. This is to describe if a investigation has completed
     STATUS_1 = 1
     STATUS_2 = 2
     STATUS_3 = 3
@@ -34,11 +35,13 @@ class Investigation(models.Model):
         (STATUS_3, 'status 3'),
     )
 
+    # currenly not in use
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_1)
 
     ground_image = models.TextField(blank=True)
     diagram_image = models.TextField(blank=True)
 
+    # TODO out of date and will throw an exception
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  expert_id: {4}  " \
                "datetime: {5}  status: {6}  image: {7}\n".format(
@@ -50,6 +53,7 @@ class Investigation(models.Model):
 class Region(models.Model):
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
 
+    # lower left
     lat_start = models.DecimalField(blank=False,
                                     default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                     max_digits=9, decimal_places=6)
@@ -58,6 +62,7 @@ class Region(models.Model):
                                     default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                     max_digits=9, decimal_places=6)
 
+    # upper right
     lat_end = models.DecimalField(blank=False,
                                   default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                   max_digits=9, decimal_places=6)
@@ -78,10 +83,10 @@ class Region(models.Model):
         )
 
 
-# TODO Rename
 class Subregion(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
+    # lower left
     lat_start = models.DecimalField(blank=False,
                                     default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                     max_digits=9, decimal_places=6)
@@ -90,6 +95,7 @@ class Subregion(models.Model):
                                     default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                     max_digits=9, decimal_places=6)
 
+    # upper right
     lat_end = models.DecimalField(blank=False,
                                   default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                   max_digits=9, decimal_places=6)
@@ -116,12 +122,11 @@ class Judgement(models.Model):
     NO = 2
     YES = 3
     STATUS_CHOICES = (
-        (NOT_SEEN, 'Not Seen'),
-        (NO, 'No'),
-        (YES, 'Yes'),
+        (NOT_SEEN, 'Not Seen'),  # not used by the API or front end
+        (NO, 'No'),  # marked as no by the crowd
+        (YES, 'Yes'),  # marked as yes by the crowd
     )
 
-    # TODO rename
     subregion = models.ForeignKey(Subregion, on_delete=models.CASCADE)
 
     result = models.IntegerField(choices=STATUS_CHOICES, default=NOT_SEEN)
@@ -130,8 +135,8 @@ class Judgement(models.Model):
 
     # datetime_completed_str = models.CharField(max_length=200)
 
-    start_time_sec = models.IntegerField(blank=False, default=-1) # from epoch
-    end_time_sec = models.IntegerField(blank=False, default=-1) # from epoch
+    start_time_sec = models.IntegerField(blank=False, default=-1)  # from epoch
+    end_time_sec = models.IntegerField(blank=False, default=-1)  # from epoch
 
     rotation = models.IntegerField(blank=False, default=0)
 
