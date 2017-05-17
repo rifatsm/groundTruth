@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [u'groundtruth.herokuapp.com', '127.0.0.1', 'localhost', u'groun
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Application definition
