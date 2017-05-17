@@ -104,6 +104,7 @@ class Subregion(models.Model):
                                   default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
                                   max_digits=9, decimal_places=6)
 
+    # where it sits in the in the work that workers do
     # go up, then right, then down, then right, then up.....
     index = models.IntegerField(
         blank=False,
