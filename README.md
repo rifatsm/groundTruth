@@ -1,8 +1,8 @@
-#GroundTruth
+# GroundTruth
 
-##Refer to the study specific branches for studies 1, 2 and 3
+## Refer to the study specific branches for studies 1, 2 and 3
  
-##Project
+## Project
 This is a python Django project. If you are unfamiliar with 
 Django then this is a good starting point: 
 https://docs.djangoproject.com/en/1.11/intro/tutorial01/
@@ -11,14 +11,14 @@ All development was done in PyCharm. Student licenses are free for the professio
 I recommend the professional version because it includes database connectors and HTML/CSS/JS support.
 https://www.jetbrains.com/pycharm/download/
 
-###Database Schema
+### Database Schema
 ![Schema](schema.png?raw=true "Database Schema")
 
-###Environment Variables
+### Environment Variables
 This project makes heavy use of environment variables. 
 The environment variables for local builds and on Heroku differ.
 
-#####Local Build Variables
+##### Local Build Variables
 Other variables may already exist if you are using pycharm. Just leave them. 
 **DO NOT** use non-sandbox urs for local dev.
 ```bash
@@ -35,7 +35,7 @@ DB_PASS = __local_database_password__
 HITTypeId = __mturk_hit_type_id__
 ```
 
-#####Heroku Build Variables
+##### Heroku Build Variables
 ```bash
 ACCESS_KEY = __aws_access_key__
 DATABASE_URL = __heroku_will_add_this_you_dont_need_to__
@@ -50,7 +50,7 @@ DISABLE_COLLECTSTATIC = __the_deployment_scripts_set_this__
 USE_MTURK = True
 ```
 
-###Deployment
+### Deployment
 For local builds Pycharm should automatically detect that it is a Django project. If it does hit the 'play' button to run.
 To make database management easier `build_db_from_migration.sh` and `build_db_from_no_migration.sh` have been provided.
 
@@ -66,12 +66,12 @@ script needs to have the correct local branch set.
 It is **NOT** recommended to change the database scheme on heroku. `heroku_build_db.sh` will setup all the tables from an empty database. 
 Use that script when first setting up the project on heroku or when deleting and making a new database.
 
-###Project Notes:
+### Project Notes:
 * Python's decimal class is used liberally in this project. Use it wherever lat/lon needs to be represented.  
 * Python's internal floating point precession has trouble representing certain values. 
 * URL's for the expert view, worker search view and MTURK vary across branches. 
 
-###URLS
+### URLS
 The expert URL is: 
 `http://your_domein/designate/?ground_image=__ground_image_url__&diagram_image=__diagram_image_url__&lat=__number__&lon=__numer__3&name=name`
 
@@ -83,7 +83,7 @@ An underscore is used instead of & because mturk does not allow that character.
 The keyword `everythin=` has a vlaue of `"region_id"_"token"` for the task that a worker is complete. if the token does not
 match the region then it cannot be completed. 
 
-###TODO'S
+### TODO'S
 TODO's are use liberally in the JS and Python. Pycharm will automatically find all of them and allow
 easy navigation to them. 
 
