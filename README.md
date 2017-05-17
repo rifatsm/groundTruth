@@ -25,7 +25,7 @@ Other variables may already exist if you are using pycharm. Just leave them.
 HITLayoutId = __the_mturk_layout_id_for_task__
 MAGIC_PASS = __the_pass_for_making_an_account_on_the_signup_page__
 DB_USER = __database_user_name__
-USE_MTURK = False
+USE_MTURK = False # this not being present or any other value than True will not use Mturk apis. 
 HOST = mturk-requester-sandbox.us-east-1.amazonaws.com
 SECRET_KEY = __aws_secret_key__ 
 ACCESS_KEY = __aws_access_key__
@@ -47,6 +47,7 @@ MAGIC_PASS = __the_pass_for_making_an_account_on_the_signup_page__
 PAPERTRAIL_API_TOKEN = __heroku_will_make_and_set_this_for_you__
 SECRET_KEY = __aws_secret_key__ 
 DISABLE_COLLECTSTATIC = __the_deployment_scripts_set_this__
+USE_MTURK = True
 ```
 
 ###Deployment
