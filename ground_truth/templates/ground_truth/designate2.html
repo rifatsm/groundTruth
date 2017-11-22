@@ -52,9 +52,9 @@
             </h4>
             <div id="image_wrapper">
 
-                <img id="ground_image"></img>
-                <br>
-                <img id="diagram_image"></img>
+                <img src="{% static 'ground_truth/img/expert1/ground_level_img/image_2.jpg' %}" style="height: 200px; width: 300px"/>
+                <br><br>
+                <img src="{% static 'ground_truth/img/expert1/diagram_img/diagram_2.jpg'%}" style="height: 200px; width: 300px"/>
                 <div class="col-md-12 text-center" style="margin-bottom:15px;">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
                         <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
@@ -72,6 +72,10 @@
                 workers.
                 Please draw an investigation with smaller bounds.</h4>
             <button class="btn btn-default" id="add_investigation_btn">Start Investigation (may take a minute...)</button>
+            <br><br>
+            <a href="../image_upload3/">
+                <button class="btn btn-primary">Next</button>
+            </a>
         </div>
     </div>
     <div id="map_outter" class="col-sm-8">

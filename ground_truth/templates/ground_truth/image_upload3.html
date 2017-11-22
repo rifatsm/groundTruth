@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Uploading Image</title>
+</head>
+<body>
+<h1>Get ready to upload an image page 3!!!</h1>
+
+   <!-- <form action="image_upload.html" method="POST"></form> -->
+<!-- image upload by Ri -->
+
+    <img src="{% static 'ground_truth/img/expert1/ground_level_img/image_3.jpg' %}"/>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile">
+        <button type="submit">Upload</button>
+    </form>
+
+  {% if short_url %}
+    <img src="{% static 'ground_truth/img/expert1/diagram_img/'|add:short_url%}"/>
+    <p>File uploaded at: <a href="{{ short_url }}">{{ short_url }}</a></p>
+  {% endif %}
+
+</body>
+
+<script>
+
+</script>
+</html>

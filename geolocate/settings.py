@@ -109,6 +109,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': "ground_truth",
+        'USER': 'groundtruth',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -156,6 +157,10 @@ DATABASES['default'].update(db_from_env)
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+MEDIA_ROOT = '/Users/groundtruth/dev/ground-truth/ground_truth/static/ground_truth/img/expert1/diagram_img/'
+MEDIA_URL = ''
+# MEDIA_URL = '/Users/groundtruth/dev/ground-truth/ground_truth/static/ground_truth/img/expert1/diagram_img/'
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'

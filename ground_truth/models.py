@@ -38,8 +38,11 @@ class Investigation(models.Model):
     # currenly not in use
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_1)
 
-    ground_image = models.TextField(blank=True)
-    diagram_image = models.TextField(blank=True)
+    #ground_image = models.TextField(blank=True)
+    ground_image = models.ImageField(upload_to='ground_truth/static/img/expert1/ground_level_image', null=True, blank=True)
+
+    #diagram_image = models.TextField(blank=True)
+    diagram_image = models.ImageField(upload_to='ground_truth/static/img/expert1/diagram_image', null=True, blank=True)
 
     # TODO out of date and will throw an exception
     def __str__(self):

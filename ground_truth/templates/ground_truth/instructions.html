@@ -44,7 +44,8 @@
                 <p>For this study, you will be asked to geolocate three images using help from crowd workers.
                     As part of this research, we have conducted a series of studies which shed light on
                     what reference material to provide crowd workers for a successful search.</p>
-                <h4>We found that providing an aerial perspective diagram provides the best guidance for workers.</h4>
+                <h4>We found that providing an aerial perspective diagram provides the best guidance for workers.
+                    These will be uploaded on the next page once you are finished.</h4>
                 <p>So to get started, we ask that you produce an aerial perspective diagram representing the below
                     ground level images.</p>
                 <h4>What should you draw?</h4>
@@ -61,12 +62,13 @@
                     Once you've finished drawing, we can sort out the details of getting them to your team of
                     workers.
                     <br>
-                    <strong>jpurviance@vt.edu</strong>
+                    <!--<strong>jpurviance@vt.edu</strong>-->
                 </p>
                 <h4>Don't panic! This isn't an art competition!</h4>
                 <p>Do your best with the diagrams, but don't worry too much. Please try to spend no more than a couple
                     of minutes on each one.
-                    Ideally, no more than 10 minutes for all three.</p>
+                    Ideally, no more than 10 minutes for all three. Once you have completed your diagram click the
+                    button below to move forward.</p>
                 <h2>Questions?</h2>
             </div>
         </div>
@@ -79,7 +81,7 @@
                     </div>
                     <div class="panel-body">
                         <img id="mysteryImage1" style="width:100%;"
-                             src="https://dl.dropboxusercontent.com/s/1p626ode49rgigh/cmd_ground_blur.png?dl=0"></img>
+                             src="{% static 'ground_truth/img/expert1/ground_level_img/image_2.jpg' %}"></img>
                     </div>
                 </div>
 
@@ -90,7 +92,8 @@
                     </div>
                     <div class="panel-body">
                         <img id="mysteryImage2" style="width:100%;"
-                             src="https://dl.dropboxusercontent.com/s/egf81fs01e28mmb/clt_ground_blur.png?dl=0"></img>
+                             src="{% static 'ground_truth/img/expert1/ground_level_img/image_3.jpg' %}"></img>
+                        <input type="image">
                     </div>
                 </div>
                 <br><br><br>
@@ -100,7 +103,7 @@
                     </div>
                     <div class="panel-body">
                         <img id="mysteryImage3" style="width:100%;"
-                             src="https://dl.dropboxusercontent.com/s/ro4ivlbiraezw49/BR_ground.jpg?dl=0"></img>
+                             src="{% static 'ground_truth/img/expert1/ground_level_img/image_4.jpg' %}"></img>
                     </div>
                 </div>
             </div>
@@ -127,7 +130,7 @@
 <script>
     $(document).ready(function () {
         $("#start").click(function () {
-            window.open("/how_to");
+            window.open("/how_to","_self");
         });
     });
 </script>
