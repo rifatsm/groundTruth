@@ -825,8 +825,9 @@ function initMap() {
             'num_sub_regions_height': num_sub_regions_height,
             'invest_name': name,
             'zoom': zoom,
-            'ground_image': $("#ground_image").attr("src"),
-            "diagram_image": getUrlVars()["diagram_image"], // TODO Because the rotation of the images messes with things
+            'ground_image': $('#ground_image_1').attr('src'),
+            'diagram_image': $('#diagram_image_1').attr('src'),
+            // "diagram_image": getUrlVars()["diagram_image"], // TODO Because the rotation of the images messes with things
             'is_tutorial': is_tutorial()
         };
 

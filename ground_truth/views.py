@@ -119,26 +119,27 @@ def image_upload1(request):
     if not is_logged_in(request):
         return HttpResponseRedirect("/")
     # Uploading GroundLevel Image
-    if request.method == 'POST' and request.FILES['myfile_gl']:
+    if request.method == 'POST' and request.FILES['myfile_gl'] and request.FILES['myfile_di']:
         myfile_gl = request.FILES['myfile_gl']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile_gl.name, myfile_gl)
-        uploaded_file_url = fs.url(filename)
-        short_url = uploaded_file_url.rsplit('/', 1)[-1]
-        return render(request, 'ground_truth/image_upload1.html', {
-            'short_url': short_url
-        })
-    # Uploading Diagram Image
-    if request.method == 'POST' and request.FILES['myfile_di']:
         myfile_di = request.FILES['myfile_di']
-        fs = FileSystemStorage()
-        # filename = fs.save(myfile_di.name, myfile_di)
-        filename = fs.save("diagram_1.jpg", myfile_di)
-        uploaded_file_url = fs.url(filename)
-        short_url = uploaded_file_url.rsplit('/', 1)[-1]
-        return render(request, 'ground_truth/designate1.html', {
-            'short_url': short_url
-        })
+        fs = FileSystemStorage('/Users/groundtruth/dev/ground-truth/ground_truth/static/ground_truth/img/expert1/ground_level_img/')
+        filename = fs.save("ground_level_img_1.jpg", myfile_gl)
+        # uploaded_file_url = fs.url(filename)
+        # short_url = uploaded_file_url.rsplit('/', 1)[-1]
+        fs_d = FileSystemStorage()
+        filename = fs_d.save("diagram_1.jpg", myfile_di)
+        return render(request, 'ground_truth/designate1.html')
+    # Uploading Diagram Image
+    # if request.method == 'POST' and request.FILES['myfile_di']:
+    #     myfile_di = request.FILES['myfile_di']
+    #     fs = FileSystemStorage()
+    #     # filename = fs.save(myfile_di.name, myfile_di)
+    #     filename = fs.save("diagram_1.jpg", myfile_di)
+    #     uploaded_file_url = fs.url(filename)
+    #     short_url = uploaded_file_url.rsplit('/', 1)[-1]
+    #     return render(request, 'ground_truth/designate1.html', {
+    #         'short_url': short_url
+    #     })
     return render(request, 'ground_truth/image_upload1.html')
     #("<h1>Hello</h1>")
 

@@ -136,6 +136,11 @@ def build_sub_regions(region, num_tall, num_wide):
     ret = []
     index = 0
 
+    # print ("num_tall: "+ str(num_tall))
+    # print ("num_wide: " + str(num_wide))
+    num_tall = Decimal(num_tall)
+    num_wide = Decimal(num_wide)
+
     sub_width = (Decimal(abs(region.lon_start - region.lon_end))).quantize(Decimal('.000001'),
                                                                            rounding=ROUND_HALF_UP) / num_wide
     sub_height = (Decimal(abs(region.lat_start - region.lat_end))).quantize(Decimal('.000001'),

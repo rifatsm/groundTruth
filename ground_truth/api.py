@@ -203,6 +203,7 @@ def add_investigation(request):
     """
 
     post = request.POST
+    # print post
 
     if not is_logged_in(request):  # don't allow this unless logged in
         HttpResponseRedirect("/")
@@ -267,6 +268,9 @@ def add_investigation(request):
 
             regions = build_regions(invest, HEIGHT, WIDTH, zoom)
 
+            # @Ri
+            print regions
+
             sub_regions = []
 
             for region in regions:
@@ -288,8 +292,8 @@ def add_investigation(request):
             res = {
                 'datetime': invest.datetime_str,
                 'status': invest.status,
-                'ground_image': invest.ground_image,
-                'diagram_image': invest.diagram_image,
+                'ground_image': str(invest.ground_image), #@Ri
+                'diagram_image': str(invest.diagram_image), #@Ri
                 'bounds': {
                     'lat_start': invest.lat_start,
                     'lon_start': invest.lon_start,
