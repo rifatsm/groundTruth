@@ -39,17 +39,18 @@ class Investigation(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=STATUS_1)
 
     #ground_image = models.TextField(blank=True)
-    ground_image = models.ImageField(upload_to='ground_truth/static/img/expert1/ground_level_image', null=True, blank=True)
+    ground_image = models.ImageField(upload_to='ground_truth/static/img/expert1/ground_level_image/', null=True, blank=True)
 
     #diagram_image = models.TextField(blank=True)
-    diagram_image = models.ImageField(upload_to='ground_truth/static/img/expert1/diagram_image', null=True, blank=True)
+    diagram_image = models.ImageField(upload_to='ground_truth/static/img/expert1/diagram_image/', null=True, blank=True)
 
-    # TODO out of date and will throw an exception
+    # TODO out of date and will throw an exception (done)
+    # TODO @Ri Fixed it
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  expert_id: {4}  " \
-               "datetime: {5}  status: {6}  image: {7}\n".format(
+               "datetime: {5}  status: {6}  ground_image: {7} diagram_image: {8}\n".format(
             self.lat_start, self.lon_start, self.lat_end, self.lon_end,
-            self.expert_id, self.datetime_str, self.status, self.image
+            self.expert_id, self.datetime_str, self.status, self.ground_image, self.diagram_image
         )
 
 

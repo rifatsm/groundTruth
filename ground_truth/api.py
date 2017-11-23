@@ -261,22 +261,37 @@ def add_investigation(request):
                                        datetime_str=now.isoformat(), ground_image=ground_image,
                                        diagram_image=diagram_image, name=name)
 
+            # @Ri
+            # print "Invest: "
+            # print invest
+            # invest.save()
+            # print "Post: ", post
+
             # tutorial mode is when a lat, long, diagram_image, ground_image and name are not set for an investigation
-            is_tutorial = True if post[u'is_tutorial'] == u"true" else False
+            # is_tutorial = True if post[u'is_tutorial'] == u"true" else False
+
+            # @Ri
+            is_tutorial = False # if post[u'is_tutorial'] == u"true" else False
             if not is_tutorial:
+                # print "Invest save"
                 invest.save()
 
             regions = build_regions(invest, HEIGHT, WIDTH, zoom)
 
             # @Ri
-            print regions
+            # print regions
 
             sub_regions = []
 
             for region in regions:
+                # @Ri
+                # region.investigation = invest
+                # region.save()
+
                 if not is_tutorial:
                     region.save()
-
+                    # print "Region Saved"
+                    print "Region Pk & Access_Token: ", region.pk, region.access_token
                     # add each region as an MTURK task. (the underlying function handles the configuration)
                     if not add_mturk_task(region.pk, region.access_token):
                         print("failed to add turk task")
@@ -285,6 +300,7 @@ def add_investigation(request):
                 for sub in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
                     if not is_tutorial:
                         sub.save()
+                        # print "Sub Region Saved"
 
                     sub_regions.append({'lat_start': sub.lat_start, 'lon_start': sub.lon_start, 'lat_end': sub.lat_end,
                                         'lon_end': sub.lon_end, 'id': sub.pk})
