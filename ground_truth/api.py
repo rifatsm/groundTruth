@@ -270,7 +270,7 @@ def add_investigation(request):
             # tutorial mode is when a lat, long, diagram_image, ground_image and name are not set for an investigation
             # is_tutorial = True if post[u'is_tutorial'] == u"true" else False
 
-            # @Ri
+            # @Ri is_tutorial is set to False to run the process
             is_tutorial = False # if post[u'is_tutorial'] == u"true" else False
             if not is_tutorial:
                 # print "Invest save"

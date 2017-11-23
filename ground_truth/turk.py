@@ -52,6 +52,7 @@ def getSignatureKey(key, date_stamp, regionName, serviceName):
 def add_mturk_task(region, token):
     if not USE_MTURK:
         # TODO this returns the value from this function that is expected without creating tasks
+        print "Doesn't use mturk"
         return True
 
     # region id `underscore` token for region
