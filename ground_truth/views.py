@@ -123,10 +123,14 @@ def image_upload1(request):
         myfile_gl = request.FILES['myfile_gl']
         myfile_di = request.FILES['myfile_di']
         fs = FileSystemStorage('/Users/groundtruth/dev/ground-truth/ground_truth/static/ground_truth/img/expert1/ground_level_img/')
+        if fs.exists("ground_level_img_1.jpg"):
+            fs.delete("ground_level_img_1.jpg")
         filename = fs.save("ground_level_img_1.jpg", myfile_gl)
         # uploaded_file_url = fs.url(filename)
         # short_url = uploaded_file_url.rsplit('/', 1)[-1]
         fs_d = FileSystemStorage()
+        if fs_d.exists("diagram_1.jpg"):
+            fs_d.delete("diagram_1.jpg")
         filename = fs_d.save("diagram_1.jpg", myfile_di)
         return render(request, 'ground_truth/designate1.html')
     # Uploading Diagram Image
@@ -150,6 +154,8 @@ def image_upload2(request):
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         # filename = fs.save(myfile.name, myfile)
+        if fs.exists("diagram_2.jpg"):
+            fs.delete("diagram_2.jpg")
         filename = fs.save("diagram_2.jpg", myfile)
         uploaded_file_url = fs.url(filename)
         short_url = uploaded_file_url.rsplit('/', 1)[-1]
@@ -165,6 +171,8 @@ def image_upload3(request):
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         # filename = fs.save(myfile.name, myfile)
+        if fs.exists("diagram_3.jpg"):
+            fs.delete("diagram_3.jpg")
         filename = fs.save("diagram_3.jpg", myfile)
         uploaded_file_url = fs.url(filename)
         short_url = uploaded_file_url.rsplit('/', 1)[-1]
@@ -180,6 +188,8 @@ def image_upload4(request):
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         # filename = fs.save(myfile.name, myfile)
+        if fs.exists("diagram_4.jpg"):
+            fs.delete("diagram_4.jpg")
         filename = fs.save("diagram_4.jpg", myfile)
         uploaded_file_url = fs.url(filename)
         short_url = uploaded_file_url.rsplit('/', 1)[-1]
