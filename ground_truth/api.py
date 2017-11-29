@@ -8,6 +8,7 @@ import datetime
 import hashlib
 from .util import isfloat, build_regions, build_sub_regions, verify_in, snap
 from .turk import add_mturk_task
+from .region import add_region_url
 from django.http import HttpResponseRedirect
 
 from .auth import is_logged_in, get_expert_id, get_expert_object, get_username
@@ -292,10 +293,16 @@ def add_investigation(request):
                     region.save()
                     # print "Region Saved"
                     print "Region Pk & Access_Token: ", region.pk, region.access_token
-                    # add each region as an MTURK task. (the underlying function handles the configuration)
-                    if not add_mturk_task(region.pk, region.access_token):
-                        print("failed to add turk task")
+
+                    # @Ri
+                    if not add_region_url(region.pk, region.access_token):
+                        print("failed to add regions to the url")
                         return HttpResponse(status=400)
+
+                    # add each region as an MTURK task. (the underlying function handles the configuration)
+                    # if not add_mturk_task(region.pk, region.access_token):
+                    #     print("failed to add turk task")
+                    #     return HttpResponse(status=400)
 
                 for sub in build_sub_regions(region, num_sub_regions_height, num_sub_regions_width):
                     if not is_tutorial:

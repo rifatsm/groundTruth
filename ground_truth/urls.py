@@ -22,11 +22,12 @@ urlpatterns = [
     url(r'^judgement/(\d+)/$', api.get_sub_region_status, name="judgement"),
 
     # expert views
+    url(r'^$', views.login_form, name="login"),
     url(r'designate1/$', views.designate1, name="designate1"),
     url(r'designate2/$', views.designate2, name="designate2"),
     url(r'designate3/$', views.designate3, name="designate3"),
     url(r'designate4/$', views.designate4, name="designate4"),
-    url(r'^$', views.login_form, name="login"),
+
     # url(r'^user/investigations/$', views.my_investigations, name='my_investigations'),
     url(r'^signup/$', views.singup_form, name="signup"),
     url(r'^foundit/$', views.found_it, name="foundit"),
