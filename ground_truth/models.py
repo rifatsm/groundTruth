@@ -57,6 +57,9 @@ class Investigation(models.Model):
 class Region(models.Model):
     investigation = models.ForeignKey(Investigation, on_delete=models.CASCADE)
 
+    # @Ri: for counting assigned workers
+    workers = models.PositiveSmallIntegerField(blank=False, default=0)
+
     # lower left
     lat_start = models.DecimalField(blank=False,
                                     default=Decimal(0.0).quantize(Decimal('.000001'), rounding=ROUND_HALF_UP),
