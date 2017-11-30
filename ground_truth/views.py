@@ -71,13 +71,13 @@ def designate4(request):
 
 def login_form(request):
     if is_logged_in(request):
-        return HttpResponseRedirect("/image_upload1/")
+        return HttpResponseRedirect("/experiment_choice/")
     return render(request, "ground_truth/login.html", {})
 
 
 def singup_form(request):
     if is_logged_in(request):
-        return HttpResponseRedirect("/image_upload1/")
+        return HttpResponseRedirect("/experiment_choice/")
     return render(request, "ground_truth/signup.html")
 
 
@@ -113,6 +113,9 @@ def instructions(request):
 
 def how_to(request):
     return render(request, 'ground_truth/how_to_do.html')
+
+def experiment_choice(request):
+    return render(request, 'ground_truth/experiment_choice.html')
 
 # The following method uploads the file to the MEDIA_ROOT and returns image name to the same view
 def image_upload1(request):

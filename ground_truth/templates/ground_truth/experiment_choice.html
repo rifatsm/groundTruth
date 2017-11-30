@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Experiment Choice</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+
+
+<div id="outerContainer">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-lg-2">
+                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"></img>
+            </div>
+            <div class="col-lg-10">
+                <h1>GroundTruth</h1>
+                <h3>Experiment Choice</h3>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="col-lg-12">
+
+            <h3>Choose one of the following experiments:</h3>
+            <br><br>
+            <button id="choice1" type="button" class="btn btn-success btn-lg">Expert's Choice</button>
+            <button id="choice2" type="button" class="btn btn-success btn-lg">Image Provided</button>
+
+            <br><br>
+
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $("#choice1").click(function () {
+            window.open("/image_upload1","_self");
+        });
+        $("#choice2").click(function () {
+            window.open("/image_upload4","_self");
+        });
+    });
+</script>
+</html>

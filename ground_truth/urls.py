@@ -23,10 +23,18 @@ urlpatterns = [
 
     # expert views
     url(r'^$', views.login_form, name="login"),
+
+    url(r'experiment_choice/$', views.experiment_choice, name="experiment_choice"),
+
     url(r'designate1/$', views.designate1, name="designate1"),
     url(r'designate2/$', views.designate2, name="designate2"),
     url(r'designate3/$', views.designate3, name="designate3"),
     url(r'designate4/$', views.designate4, name="designate4"),
+
+    url(r'^image_upload1/$', views.image_upload1, name="image_upload1"),
+    url(r'^image_upload2/$', views.image_upload2, name="image_upload2"),
+    url(r'^image_upload3/$', views.image_upload3, name="image_upload3"),
+    url(r'^image_upload4/$', views.image_upload4, name="image_upload4"),
 
     # url(r'^user/investigations/$', views.my_investigations, name='my_investigations'),
     url(r'^signup/$', views.singup_form, name="signup"),
@@ -34,11 +42,7 @@ urlpatterns = [
     url(r'^instructions/$', views.instructions, name="instructions"),
     url(r'^how_to/$', views.how_to, name="how_to"),
 
-    #Addition by Shahmir for api endpoints
-    url(r'^image_upload1/$', views.image_upload1, name="image_upload1"),
-    url(r'^image_upload2/$', views.image_upload2, name="image_upload2"),
-    url(r'^image_upload3/$', views.image_upload3, name="image_upload3"),
-    url(r'^image_upload4/$', views.image_upload4, name="image_upload4"),
+
 
     # worker views
     url(r'^search/$', views.search, name="search"),
