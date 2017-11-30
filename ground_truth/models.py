@@ -84,10 +84,13 @@ class Region(models.Model):
 
     def __str__(self):
         return "lat_start: {0}  lon_start:  {1}  lat_end: {2}  lon_end: {3}  investigation: {4}  zoom: {5}" \
-               "  access_token: {6}\n".format(
+               "  access_token: {6} workers: {7} \n".format(
             self.lat_start, self.lon_start, self.lat_end, self.lon_end, self.investigation.pk,
-            self.zoom, self.access_token
+            self.zoom, self.access_token, self.workers
         )
+
+    def workers_count(self):
+        return self.workers
 
 
 class Subregion(models.Model):

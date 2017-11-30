@@ -294,11 +294,12 @@ def add_investigation(request):
                     # print "Region Saved"
                     print "Region Pk & Access_Token: ", region.pk, region.access_token
 
-                    # @Ri
-                    if not add_region_url(region.pk, region.access_token):
-                        print("failed to add regions to the url")
-                        return HttpResponse(status=400)
+                    # @Ri We don't need to call it from here. Rather we are creating an api to get the list of region and their associated workers in region.py
+                    # if not add_region_url(region.pk, region.access_token):
+                    #     print("failed to add regions to the url")
+                    #     return HttpResponse(status=400)
 
+                    # @deprecated This was in previous version. We are not using it for this version
                     # add each region as an MTURK task. (the underlying function handles the configuration)
                     # if not add_mturk_task(region.pk, region.access_token):
                     #     print("failed to add turk task")
