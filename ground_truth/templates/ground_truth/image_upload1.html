@@ -4,39 +4,64 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Uploading Image</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+
 </head>
 <body>
-<h1>Get ready to upload an image page 1!!!</h1>
 
 
-   <!-- <form action="image_upload.html" method="POST"></form> -->
-<!-- image upload by Ri -->
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="myfile_gl"><br>
-        <input type="file" name="myfile_di"><br><br>
-        <button type="submit">Upload</button>
-    </form>
+<div id="outerContainer">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-lg-2">
+                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"></img>
+            </div>
+            <div class="col-lg-10">
+                <h1>GroundTruth</h1>
+                <h3>Get ready to upload the 1st image! (Expert's Choice)</h3>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="col-lg-12">
 
-{#            Countdown Clock #}
+            <!-- image upload by Ri -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <br><br>
+                <div>Remaining Time: <span id="time"></span> minutes!</div>
+                <br>
+                <h3>Upload your mystery image</h3>
+                <br><br>
+                <input type="file" name="myfile_gl"><br>
+                <br>
+                <h3>Draw a diagram of the mystery image and upload it</h3>
+                <br><br>
+                <input type="file" name="myfile_di"><br><br>
+                <button type="submit" class="btn btn-success btn-lg">Upload</button>
+            </form>
             <br><br>
-            <div>Registration closes in <span id="time"></span> minutes!</div>
 
-{#  {% if short_url %}#}
-{#    <img src="{% static 'ground_truth/img/expert1/ground_level_img/'|add:short_url%}"/>#}
-{#    <p>File uploaded at: <a href="{{ short_url }}">{{ short_url }}</a></p>#}
-{#  {% endif %}#}
-{##}
-{#    <form method="post" enctype="multipart/form-data">#}
-{#        {% csrf_token %}#}
-{#        <input type="file" name="myfile_di">#}
-{#        <button type="submit">Upload</button>#}
-{#    </form>#}
+        </div>
 
-{#  {% if short_url %}#}
-{#    <img src="{% static 'ground_truth/img/expert1/diagram_img/'|add:short_url%}"/>#}
-{#    <p>File uploaded at: <a href="{{ short_url }}">{{ short_url }}</a></p>#}
-{#  {% endif %}#}
+
+
+
+    </div>
+</div>
+
 
 </body>
 

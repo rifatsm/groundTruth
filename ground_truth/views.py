@@ -71,13 +71,13 @@ def designate4(request):
 
 def login_form(request):
     if is_logged_in(request):
-        return HttpResponseRedirect("/designate/")
+        return HttpResponseRedirect("/image_upload1/")
     return render(request, "ground_truth/login.html", {})
 
 
 def singup_form(request):
     if is_logged_in(request):
-        return HttpResponseRedirect("/designate/")
+        return HttpResponseRedirect("/image_upload1/")
     return render(request, "ground_truth/signup.html")
 
 
