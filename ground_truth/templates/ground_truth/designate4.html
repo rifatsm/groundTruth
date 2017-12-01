@@ -22,11 +22,43 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"
+{#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"#}
+{#            async defer></script>#}
+
+    {#    Ri's API #}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-4Jo0nwXyzbskNsLZpdLUjPYMylDLmRs&libraries=drawing,geometry,places&callback=initMap"
             async defer></script>
 
     <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
 
+    {#    Style for Search Box #}
+    <style>
+        .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+    </style>
 
 </head>
 <body>
@@ -84,6 +116,7 @@
         </div>
     </div>
     <div id="map_outter" class="col-sm-8">
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <div id="mainView"></div>
         <div id="drawing_wrapper" class="row" role="group">
             <h5 id="width_zoom_notifier" hidden>250-500m &nbsp;&nbsp; 850-1500ft</h5>
