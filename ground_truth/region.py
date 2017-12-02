@@ -1,6 +1,4 @@
-import requests  # pip install requests
-from django.shortcuts import get_object_or_404, get_list_or_404, render
-from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Region
 from django.db.models import F
 
@@ -28,18 +26,15 @@ def get_region(request):
 
     #TODO read Region model to get all of the regions
 
-    regions = get_list_or_404(Region)
-    for region in regions:
-        print str(region.pk) + " -> " + str(region)
-        worker = region.workers_count()
-        if worker < 3:
-            print "worker assigned\n"
-            # worker += 1
-            Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
-        else:
-            Region.objects.filter(pk=region.pk).update(workers=0)
-    print "# After assigning workers:"
-    regions = get_list_or_404(Region)
-    for region in regions:
-        print str(region.pk) + " -> " + str(region)
-    return render(request, "ground_truth/_region.html", {})
+    region = Region.objects.filter(workers__lte=3)[0]
+    param = str(region.pk) + "_" + str(region.access_token)
+
+    task_link = 'https://groundtruth-study3.herokuapp.com/search/?everything=' + param
+    print task_link
+
+    Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
+
+    return render(request, "ground_truth/_region.html", {
+        'task_link': task_link
+    })
+    # return redirect("https://google.com")
