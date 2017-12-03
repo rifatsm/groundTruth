@@ -41,15 +41,17 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <br><br>
-                <div>Remaining Time: <span id="time"></span> minutes!</div>
+                <div>
+                    <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
+                </div>
                 <br>
                 <h3>Upload your mystery image</h3>
                 <br><br>
-                <input type="file" name="myfile_gl"><br>
+                <input style="font-size:18px" type="file" name="myfile_gl"><br>
                 <br>
                 <h3>Draw a diagram of the mystery image and upload it</h3>
                 <br><br>
-                <input type="file" name="myfile_di"><br><br>
+                <input style="font-size:18px" type="file" name="myfile_di"><br><br>
                 <button type="submit" class="btn btn-success btn-lg">Upload</button>
             </form>
             <br><br>

@@ -31,6 +31,9 @@
 
     <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
 
+
+
+
     {#    Style for Search Box #}
     <style>
         .pac-controls {
@@ -109,12 +112,12 @@
                 Please draw an investigation with smaller bounds.</h4>
             <button class="btn btn-default" id="add_investigation_btn">Start Investigation (may take a minute...)</button>
             <br><br>
-            <a href="../r_designate2/">
+            <a href="../foundit/" target="_blank">
                 <button class="btn btn-primary">Next</button>
             </a>
 {#            Countdown Clock #}
             <br><br>
-            <div>Registration closes in <span id="time"></span> minutes!</div>
+            <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
         </div>
     </div>
     <div id="map_outter" class="col-sm-8">

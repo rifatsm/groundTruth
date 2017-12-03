@@ -39,8 +39,8 @@
         <div class="col-lg-12">
 
             <!-- image upload by Ri -->
+            <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
             <h3>Draw a diagram of the following image</h3>
-            <div>Remaining Time: <span id="time"></span> minutes!</div>
             <br><br>
             <img src="{% static 'ground_truth/img/expert1/ground_level_img/image_4.jpg' %}"/>
             <br><br>
@@ -48,7 +48,7 @@
             <br>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="file" name="myfile">
+                <input style="font-size:18px" type="file" name="myfile">
                 <br><br>
                 <button type="submit" class="btn btn-success btn-lg">Upload</button>
             </form>
