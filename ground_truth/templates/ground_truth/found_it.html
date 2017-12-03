@@ -46,24 +46,26 @@
 <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <h3>Thank You for using GroundTruth!</h3>
-        <div id="map"></div>
-        <h4>The location that you chose: ({{ lat }}, {{ lon }})</h4>
+
+        <img src="{% static 'ground_truth/img/thank_you.png' %}" style="width:100%"></img>
+        <h2>Thank You for using GroundTruth!</h2>
+{#        <div id="map"></div>#}
+{#        <h4>The location that you chose: ({{ lat }}, {{ lon }})</h4>#}
     </div>
     <div class="col-sm-2"></div>
 </div>
-<div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-4">
-        <h4>Diagram Image</h4>
-        <img src="{{ diagram_image }}">
-    </div>
-    <div class="col-sm-4">
-        <h4>Ground Image</h4>
-        <img src="{{ ground_image }}">
-    </div>
-    <div class="col-sm-2"></div>
-</div>
+{#<div class="row">#}
+{#    <div class="col-sm-2"></div>#}
+{#    <div class="col-sm-4">#}
+{#        <h4>Diagram Image</h4>#}
+{#        <img src="{{ diagram_image }}">#}
+{#    </div>#}
+{#    <div class="col-sm-4">#}
+{#        <h4>Ground Image</h4>#}
+{#        <img src="{{ ground_image }}">#}
+{#    </div>#}
+{#    <div class="col-sm-2"></div>#}
+{#</div>#}
 
 </body>
 </html>
