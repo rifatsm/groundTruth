@@ -89,4 +89,27 @@ easy navigation to them.
 
 Some important ones:
 * **DO NOT** publicly publish the project on Github until the Django secret key is an environment variable in settings.py
-* The project does not work without debug mode turned on. Debug mode needs to be turned off. 
+* The project does not work without debug mode turned on. Debug mode needs to be turned off.
+
+
+### @Ri:
+# Git: https://github.com/crowd-lab/ground-truth.git
+
+# WebLink: https://ground-truth-experts-study.herokuapp.com/
+
+
+
+# psql with postgres user:
+psql -U postgres
+
+### Push local DB to heroku ###
+# Emptying the heroku DB:
+heroku pg:reset --confirm ground-truth-experts-study
+# Push DB from local to heroku:
+heroku pg:push ground_truth_experts_study2 postgresql-curved-84557 --app ground-truth-experts-study
+
+### Pull heroku DB to local ###
+# Local database to pull heroku database: ground_truth_experts_study2
+# Completely delete local database: dropdb ground_truth_experts_study2
+# Pull DB from heroku to local:
+heroku pg:pull postgresql-curved-84557 ground_truth_experts_study2 --app ground-truth-experts-study
