@@ -95,6 +95,12 @@ Some important ones:
 ### @Ri:
 # Git: https://github.com/crowd-lab/ground-truth.git
 
+### Git push from 'rifatsm' branch to Heroku:
+heroku config:set DISABLE_COLLECTSTATIC=0
+git push heroku rifatsm:master
+heroku config:unset DISABLE_COLLECTSTATIC
+
+
 # WebLink: https://ground-truth-experts-study.herokuapp.com/
 
 
@@ -103,13 +109,13 @@ Some important ones:
 psql -U postgres
 
 ### Push local DB to heroku ###
-# Emptying the heroku DB:
+# 1. Emptying the heroku DB:
 heroku pg:reset --confirm ground-truth-experts-study
-# Push DB from local to heroku:
+# 2. Push DB from local to heroku:
 heroku pg:push ground_truth_experts_study2 postgresql-curved-84557 --app ground-truth-experts-study
 
 ### Pull heroku DB to local ###
 # Local database to pull heroku database: ground_truth_experts_study2
-# Completely delete local database: dropdb ground_truth_experts_study2
-# Pull DB from heroku to local:
+# 1. Completely delete local database: dropdb ground_truth_experts_study2
+# 2. Pull DB from heroku to local:
 heroku pg:pull postgresql-curved-84557 ground_truth_experts_study2 --app ground-truth-experts-study

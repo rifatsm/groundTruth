@@ -29,7 +29,7 @@ def get_region(request):
     region = Region.objects.filter(workers__lte=3)[0]
     param = str(region.pk) + "_" + str(region.access_token)
 
-    task_link = 'https://groundtruth-study3.herokuapp.com/search/?everything=' + param
+    task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param
     print task_link
 
     Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
