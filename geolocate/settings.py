@@ -109,9 +109,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': "ground_truth",
-        'USER': 'groundtruth',
+        'USER': 'annehoang12',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '8000',
     }
 }
 
