@@ -125,7 +125,8 @@ def image_upload1(request):
     if request.method == 'POST' and request.FILES['myfile_gl'] and request.FILES['myfile_di']:
         myfile_gl = request.FILES['myfile_gl']
         myfile_di = request.FILES['myfile_di']
-        fs = FileSystemStorage('/Users/annehoang12/ground-truth/ground_truth/static/ground_truth/img/expert1/ground_level_img/')
+        # fs = FileSystemStorage('/Users/annehoang12/ground-truth/ground_truth/static/ground_truth/img/expert1/ground_level_img/')
+        fs = FileSystemStorage()
         if fs.exists("ground_level_img_1.jpg"):
             fs.delete("ground_level_img_1.jpg")
         filename = fs.save("ground_level_img_1.jpg", myfile_gl)

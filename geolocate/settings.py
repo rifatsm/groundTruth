@@ -159,9 +159,13 @@ DATABASES['default'].update(db_from_env)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # MEDIA_ROOT = '/Users/groundtruth/dev/ground-truth/ground_truth/static/ground_truth/img/expert1/diagram_img/'
-MEDIA_ROOT = '/Users/annehoang12/ground-truth/ground_truth/static/ground_truth/img/expert1/diagram_img/'
-MEDIA_URL = ''
 # MEDIA_URL = '/Users/groundtruth/dev/ground-truth/ground_truth/static/ground_truth/img/expert1/diagram_img/'
+
+# MEDIA_ROOT = '/Users/annehoang12/ground-truth/ground_truth/static/ground_truth/img/expert1/diagram_img/'
+# MEDIA_URL = ''
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/ground_truth/img/expert1/diagram_img/')
+MEDIA_URL = ''
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
