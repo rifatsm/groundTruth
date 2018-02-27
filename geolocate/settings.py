@@ -167,6 +167,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/ground_truth/img/expert1/diagram_img/')
 MEDIA_URL = ''
 
+FS_IMAGE_UPLOADS = os.path.join(PROJECT_ROOT,'static/ground_truth/img/expert1/ground_level_img/')
+FS_IMAGE_URL = ''
+
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 

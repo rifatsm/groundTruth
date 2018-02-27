@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 
 # Create your views here.
@@ -126,7 +127,7 @@ def image_upload1(request):
         myfile_gl = request.FILES['myfile_gl']
         myfile_di = request.FILES['myfile_di']
         # fs = FileSystemStorage('/Users/annehoang12/ground-truth/ground_truth/static/ground_truth/img/expert1/ground_level_img/')
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location = settings.FS_IMAGE_UPLOADS, base_url= settings.FS_IMAGE_URL)
         if fs.exists("ground_level_img_1.jpg"):
             fs.delete("ground_level_img_1.jpg")
         filename = fs.save("ground_level_img_1.jpg", myfile_gl)
