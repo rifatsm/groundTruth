@@ -45,5 +45,7 @@ fabric.properties
 # Don't want to commit the environment_vars.sh
 deployment_scripts/environment_vars.sh
 
+# Don't want to commit virtual environment
+venv/
 
 
