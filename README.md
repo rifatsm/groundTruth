@@ -95,6 +95,11 @@ Some important ones:
 ### @Ri:
 # Git: https://github.com/crowd-lab/ground-truth.git
 
+# For an existing Heroku app:
+(Reference: https://devcenter.heroku.com/articles/git)
+heroku git:remote -a <app_name>
+heroku git:remote -a ground-truth-experts-study
+
 ### Git push from 'rifatsm' branch to Heroku:
 heroku config:set DISABLE_COLLECTSTATIC=0
 git push heroku rifatsm:master

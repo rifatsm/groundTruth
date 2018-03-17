@@ -26,15 +26,23 @@ def get_region(request):
 
     #TODO read Region model to get all of the regions
 
-    region = Region.objects.filter(workers__lte=3)[0]
-    param = str(region.pk) + "_" + str(region.access_token)
 
-    task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param
-    print task_link
+    if Region.objects.filter(workers__lte=2).exists():
 
-    Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
+        region = Region.objects.filter(workers__lte=2)[0]
+        param = str(region.pk) + "_" + str(region.access_token)
 
-    return render(request, "ground_truth/_region.html", {
-        'task_link': task_link
-    })
+        task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param
+        print task_link
+
+        Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
+
+        return render(request, "ground_truth/_region.html", {
+            'task_link': task_link
+        })
+    else:
+        task_link = "No more regions!"
+        return render(request, "ground_truth/_region.html", {
+            'task_link': task_link
+        })
     # return redirect("https://google.com")
