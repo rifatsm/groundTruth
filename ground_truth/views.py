@@ -72,7 +72,7 @@ def designate4(request):
 
 def login_form(request):
     if is_logged_in(request):
-        return HttpResponseRedirect("/experiment_choice/")
+        return HttpResponseRedirect("/instructions/")
     return render(request, "ground_truth/login.html", {})
 
 
@@ -189,13 +189,19 @@ def image_upload3(request):
 def image_upload4(request):
     if not is_logged_in(request):
         return HttpResponseRedirect("/")
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
+    if request.method == 'POST':
+
+        try:
+            myfile = request.FILES['myfile']
+        except KeyError:
+            myfile = "Empty"
+            return render(request, 'ground_truth/image_upload4.html')
         fs = FileSystemStorage()
         # filename = fs.save(myfile.name, myfile)
         if fs.exists("diagram_4.jpg"):
             fs.delete("diagram_4.jpg")
-        filename = fs.save("diagram_4.jpg", myfile)
+        if myfile != "Empty":
+            filename = fs.save("diagram_4.jpg", myfile)
         uploaded_file_url = fs.url(filename)
         short_url = uploaded_file_url.rsplit('/', 1)[-1]
         return render(request, 'ground_truth/designate4.html', {

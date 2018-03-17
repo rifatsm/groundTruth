@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render
 import dateutil.parser
 import datetime
 import hashlib
+import os
 from .util import isfloat, build_regions, build_sub_regions, verify_in, snap
 from .turk import add_mturk_task
 from .region import add_region_url
@@ -372,6 +373,7 @@ def get_region(request):
     :param request: 
     :return: 
     """
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
     region_id = request.GET.get('region', '-1')
     token = request.GET.get('token', '-1')
     region = get_object_or_404(Region, pk=region_id)
@@ -391,7 +393,7 @@ def get_region(request):
                 'lat_end': region.lat_end,
                 'lon_end': region.lon_end
             },
-            'img': region.investigation.diagram_image,
+            'img': os.path.join(PROJECT_ROOT, str(region.investigation.diagram_image)),
             'zoom': region.zoom
         }
         sub_regions = []
