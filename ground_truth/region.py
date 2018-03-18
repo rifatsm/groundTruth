@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .models import Region
 from django.db.models import F
 
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 # @Ri
 
@@ -21,7 +22,7 @@ def add_region_url(region_pk, access_token):
 
     return True
 
-
+@xframe_options_exempt
 def get_region(request):
 
     #TODO read Region model to get all of the regions
