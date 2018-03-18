@@ -41,8 +41,7 @@ def get_region(request):
             'task_link': task_link
         })
     else:
-        task_link = "No more regions!"
-        return render(request, "ground_truth/_region.html", {
-            'task_link': task_link
-        })
+        # task_link = "NA"
+        return render(request, "ground_truth/_no_region.html"
+                    )
     # return redirect("https://google.com")

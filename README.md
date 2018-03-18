@@ -118,9 +118,18 @@ psql -U postgres
 heroku pg:reset --confirm ground-truth-experts-study
 # 2. Push DB from local to heroku:
 heroku pg:push ground_truth_experts_study2 postgresql-curved-84557 --app ground-truth-experts-study
+heroku pg:push ground_truth postgresql-curved-84557 --app ground-truth-experts-study
 
 ### Pull heroku DB to local ###
 # Local database to pull heroku database: ground_truth_experts_study2
 # 1. Completely delete local database: dropdb ground_truth_experts_study2
 # 2. Pull DB from heroku to local:
 heroku pg:pull postgresql-curved-84557 ground_truth_experts_study2 --app ground-truth-experts-study
+
+### To run query on heroku db:
+heroku pg:psql
+# Then SELECT * FROM public.<table_name>
+
+SELECT * FROM public.auth_user
+SELECT * FROM public.ground_truth_judgement
+SELECT * FROM public.ground_truth_region

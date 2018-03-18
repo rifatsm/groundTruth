@@ -79,18 +79,18 @@ var selection_template = {
 };
 
 var designate_template = {
-    strokeColor: '#4682B4',
+    strokeColor: '#4682B4', //blue
     strokeOpacity: 1,
     strokeWeight: 3,
-    fillColor: '#4682B4',
+    fillColor: '#4682B4',  //blue
     fillOpacity: 0.5,
     clickable: true
 };
 
 var too_expensive_template = {
-    fillColor: "#ff343f",
+    fillColor: "#ff343f",  //red
     fillOpacity: 0.5,
-    strokeColor: "#ff343f",
+    strokeColor: "#ff343f", //red
     strokeOpacity: 1,
     strokeWeight: 3
 };
@@ -111,7 +111,7 @@ var nnn_temlate = {
 };
 
 var yyy_template = {
-    fillColor: "#24d613",
+    fillColor: "#24d613", // green
     fillOpacity: 0.7
 };
 
@@ -252,6 +252,7 @@ function toggle_suggestions() {
         toggle.text(show_judgements_template); // update text to show that we have flipped state
     } else { // suggestions are hidden now, we show them now
         Object.keys(worker_subregions).forEach(function (id) {
+
             revert_style(worker_subregions[id]); // update all suggestions back to the old style
         });
         toggle.data("hidden", false); // set button states back to showing everything.
@@ -933,8 +934,10 @@ function initMap() {
             $("#toggle_overlay_btn").hide();
             map_height();
 
+            console.log("Tutorial: "+is_tutorial);
 
-            if (!is_tutorial()) {
+//            if (!is_tutorial() ) {
+            if (true) {
                 setInterval(function () {
                     var sub_regions = Object.keys(worker_subregions);
                     for (var i = 0; i < sub_regions.length; i++) {
