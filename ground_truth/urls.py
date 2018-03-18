@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^draw_investigation/$', api.draw_investigation, name="draw_investigation"),
     url(r'^region/$', api.get_region, name='get_region'),
     url(r'^region_url/$', region.get_region, name='region'),
+    url(r'^tutorial/$', views.tutorial, name='tutorial'),
     url(r'^get_code/$', api.get_code, name='get_code'),
 
     # expert API endpoints

@@ -118,6 +118,9 @@ def how_to(request):
 def experiment_choice(request):
     return render(request, 'ground_truth/experiment_choice.html')
 
+def tutorial(request):
+    return render(request, 'ground_truth/tutorial_page.html')
+
 # The following method uploads the file to the MEDIA_ROOT and returns image name to the same view
 def image_upload1(request):
     if not is_logged_in(request):
