@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 # Create your views here.
 
@@ -118,6 +120,7 @@ def how_to(request):
 def experiment_choice(request):
     return render(request, 'ground_truth/experiment_choice.html')
 
+@xframe_options_exempt
 def tutorial(request):
     return render(request, 'ground_truth/tutorial_page.html')
 
