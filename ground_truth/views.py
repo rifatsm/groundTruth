@@ -13,6 +13,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 
 # Create your views here.
 
+@xframe_options_exempt
 def search(request):
     everything = request.GET.get("everything", '')
     everything = everything.split("_")
