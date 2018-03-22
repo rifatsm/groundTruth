@@ -96,6 +96,7 @@ def my_investigations(request):
     return render(request, 'ground_truth/my_investigations.html', context)
 
 
+@xframe_options_exempt
 @csrf_exempt
 def found_it(request):
     if not is_logged_in(request):
