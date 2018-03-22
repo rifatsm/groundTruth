@@ -79,6 +79,8 @@ function initMap() {
 
     var assignmentid = getUrlVars()['assignment_id'];
     document.getElementById("assignmentId").value = assignmentid;
+//    document.getElementById("assignmentId").value = 'Hello420';
+    console.log('assId: '+document.getElementById("assignmentId").value);
 
 
     function sub_compare(a, b) {
