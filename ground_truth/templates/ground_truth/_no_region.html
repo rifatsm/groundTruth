@@ -17,22 +17,31 @@
     <script src="{% static 'ground_truth/js/login.js' %}"></script>
 </head>
 <body>
+<div id="outerContainer">
+    <div id="container">
+        <div id="titleBar">
+                    <div class="col-xs-2">
+                        <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <div id="titlePanel">
+                            <h1>GroundTruth</h1>
+                            <h3>This is a mock UI for tutorial purpose</h3>
+                            <!--button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
+                        </div>
+                    </div>
+        </div>
+    <!--<h3>This API does Region Testing</h3>-->
 
-<div id="titleBar">
-            <div class="col-xs-2">
-                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>
+    <center><h4>Sorry! Right now there is no more regions to work on!</h4></center>
+    <div class="row">
+            <hr>
+            <div id="footer">
+                <p class="text-center">Virginia Tech &copy; 2017</p>
             </div>
-            <div class="col-xs-4">
-                <div id="titlePanel">
-                    <h1>GroundTruth</h1>
-                    <h3>This is a mock UI for tutorial purpose</h3>
-                    <!--button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
-                </div>
-            </div>
+        </div>
+    </div>
 </div>
-<!--<h3>This API does Region Testing</h3>-->
-
-<center><h4>Sorry! Right now there is no more regions to work on!</h4></center>
 </body>
 <style type="text/css">
     .vertical-offset-100 {

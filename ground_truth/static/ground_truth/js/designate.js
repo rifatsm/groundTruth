@@ -23,7 +23,7 @@ var can_decide = false;
 
 ///////////////////////////////////////////////
 // Worker pay and cost parameters
-var max_workers = 50;
+var max_workers = 500;
 var worker_density = 3;
 ///////////////////////////////////////////////
 
