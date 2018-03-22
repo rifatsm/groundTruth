@@ -15,9 +15,6 @@ urlpatterns = [
     url(r'^draw_investigation/$', api.draw_investigation, name="draw_investigation"),
     url(r'^region/$', api.get_region, name='get_region'),
     url(r'^region_url/$', region.get_region, name='region'),
-    url(r'^tutorial/$', views.tutorial, name='tutorial'),
-    url(r'^preview_instructions/$', views.preview_instructions, name='preview_instructions'),
-    url(r'^waiting/$', views.waiting, name='waiting'),
     url(r'^get_code/$', api.get_code, name='get_code'),
 
     # expert API endpoints
@@ -51,6 +48,9 @@ urlpatterns = [
 
     # worker views
     url(r'^search/$', views.search, name="search"),
+    url(r'^tutorial/$', views.tutorial, name='tutorial'),
+    url(r'^preview_instructions/$', views.preview_instructions, name='preview_instructions'),
+    url(r'^waiting/$', views.waiting, name='waiting'),
 
     # util
     url(r'^load_archive_task/$', api.load_archive_task, name="load_archive_task")

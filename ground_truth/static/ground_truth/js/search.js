@@ -317,19 +317,19 @@ function initMap() {
                 // this is cause we need a region id on the backend
                 "sub_region": subRegionsList[0].sub_region_id
             };
-            $.post("/get_code/", send, function (res) {
-                swal({
-                    title: "Thank you!",
-                    text: "You have now completed the task! <br>" +
-                    "<br>The code to complete your HIT is:<br><br>" +
-                    "<strong>" + res["passcode"] + "</strong>",
-                    type: "success",
-                    showConfirmButton: false,
-                    html: true
-                });
-            });
+//            $.post("/get_code/", send, function (res) {
+//                swal({
+//                    title: "Thank you!",
+//                    text: "You have now completed the task! <br>" +
+//                    "<br>The code to complete your HIT is:<br><br>" +
+//                    "<strong>" + res["passcode"] + "</strong>",
+//                    type: "success",
+//                    showConfirmButton: false,
+//                    html: true
+//                });
+//            });
 
-//            $("#mturk_form").submit();
+            $("#mturk_form").submit();
         });
 
 
@@ -398,7 +398,7 @@ function initMap() {
                             title: "Thank you!",
                             text: "Please feel free to leave any comments about your experience with the task in " +
                             "the comment box at the bottom of the page.<br><br>" +
-                            "When you are done, click the \"Generate Passcode\" button to receive your completion passcode.",
+                            "When you are done, click the \"Submit Task\" button to submit your task.",
                             type: "success",
                             showConfirmButton: true,
                             html: true
