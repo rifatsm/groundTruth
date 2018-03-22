@@ -28,6 +28,16 @@ def get_region(request):
     #TODO read Region model to get all of the regions
 
 
+    hit_id = request.GET.get('hitId')
+    worker_id = request.GET.get('workerId')
+    assignment_id = request.GET.get('assignmentId')
+
+    # info = {
+    #     'hit_id': hit_id,
+    #     'worker_id': worker_id,
+    #     'assignment_id' : assignment_id,
+    # }
+
     if Region.objects.filter(workers__lte=2).exists():
 
         region = Region.objects.filter(workers__lte=2)[0]
@@ -39,7 +49,10 @@ def get_region(request):
         Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
 
         return render(request, "ground_truth/_region.html", {
-            'task_link': task_link
+            'task_link': task_link,
+            'hit_id': hit_id,
+            'worker_id': worker_id,
+            'assignment_id': assignment_id
         })
     else:
         # task_link = "NA"

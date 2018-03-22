@@ -323,7 +323,7 @@ function initMap() {
                     html: true
                 });
             });
-            
+
             $("#mturk_form").submit();
         });
 
