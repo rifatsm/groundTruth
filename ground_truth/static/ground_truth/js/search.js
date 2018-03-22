@@ -77,7 +77,7 @@ function initMap() {
         workerid = -1;
     }
 
-    var assignmentid = getUrlVars()['assignment_id'];
+    var assignmentid = getUrlVars()['assignmentId'];
     document.getElementById("assignmentId").value = assignmentid;
 //    document.getElementById("assignmentId").value = 'Hello420';
     console.log('assId: '+document.getElementById("assignmentId").value);
