@@ -78,6 +78,7 @@
     <div class="col-sm-4">
         <div id="add_invest">
             <h4 id="define_title">Please Define Your Investigation</h4>
+            <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
             <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images
 {#                <br> Duration: <label#}
 {#                    id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label>#}
@@ -103,6 +104,7 @@
                 </div>
             </div>
             <h5 id="budget"></h5>
+            <img hidden id="legend" src="{% static 'ground_truth/img/legend.jpg' %}" style="width:50%"/>
             <h5 id="cost">Workers required for investigation: <strong>0</strong></h5>
             <h4 hidden id="too_much">You have selected an investigation with bounds that exceeds the allotted number of
                 workers.
@@ -112,9 +114,9 @@
                 <br><br>
                 <!--<button class="btn btn-primary">Next</button>-->
             </a>
-{#            Countdown Clock #}
+
             <br><br>
-            <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
+
         </div>
     </div>
     <div id="map_outter" class="col-sm-8">
