@@ -95,7 +95,7 @@
             Passcode
         </button>
         <!--<form id ="mturk_form"/>-->
-        <form action="/foundit/" method="POST" id="task_submit">
+        <form action="/foundit/" method="POST" id="mturk_form">
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <input type="submit" name="submit" value="Submit">
