@@ -32,19 +32,15 @@ def get_region(request):
     worker_id = request.GET.get('workerId')
     assignment_id = request.GET.get('assignmentId')
 
-    # info = {
-    #     'hit_id': hit_id,
-    #     'worker_id': worker_id,
-    #     'assignment_id' : assignment_id,
-    # }
-
     if Region.objects.filter(workers__lte=2).exists():
 
         region = Region.objects.filter(workers__lte=2)[0]
         param = str(region.pk) + "_" + str(region.access_token)
 
-        task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param
-        print task_link
+        task_param = '&hitId=' + str(hit_id) + '&workerId=' + str(worker_id) + '&assignmentId=' + str(assignment_id)
+
+        task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param + task_param
+        # print task_link
 
         Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
 
@@ -52,7 +48,8 @@ def get_region(request):
             'task_link': task_link,
             'hit_id': hit_id,
             'worker_id': worker_id,
-            'assignment_id': assignment_id
+            'assignment_id': assignment_id,
+            'task_param': task_param
         })
     else:
         # task_link = "NA"
