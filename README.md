@@ -130,7 +130,7 @@ heroku pg:pull postgresql-curved-84557 ground_truth_experts_study2 --app ground-
 heroku pg:psql
 # Then SELECT * FROM public.<table_name>
 
-SELECT * FROM public.auth_user
-SELECT * FROM public.ground_truth_judgement
-SELECT * FROM public.ground_truth_region
-SELECT * FROM public.ground_truth_completedtasks
+SELECT * FROM public.auth_user;
+SELECT * FROM public.ground_truth_judgement;
+SELECT * FROM public.ground_truth_region;
+SELECT * FROM public.ground_truth_completedtasks;

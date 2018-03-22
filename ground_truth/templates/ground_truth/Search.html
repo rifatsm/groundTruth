@@ -94,8 +94,11 @@
                 style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Generate
             Passcode
         </button>
-        <form id ="mturk_form"/>
-
+        <!--<form id ="mturk_form"/>-->
+        <form action="" method="POST" id="task_submit">
+            <input type="hidden" name="assignmentId" id="assignmentId" value="">
+            <input type="submit" name="submit" value="Submit">
+        </form>
         <div class="row">
             <hr>
             <div id="footer">

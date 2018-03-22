@@ -77,6 +77,9 @@ function initMap() {
         workerid = -1;
     }
 
+    var assignmentid = getUrlVars()['assignment_id'];
+    document.getElementById("assignmentId").value = assignmentid;
+
 
     function sub_compare(a, b) {
         return a.index - b.index;
@@ -153,7 +156,7 @@ function initMap() {
             }, 1000);
         }
 
-        initializeClock('clockdiv', endTime);
+//        initializeClock('clockdiv', endTime);
 
 
         //----Initialize different maps for the different task codes----
@@ -324,7 +327,7 @@ function initMap() {
                 });
             });
 
-            $("#mturk_form").submit();
+//            $("#mturk_form").submit();
         });
 
 
