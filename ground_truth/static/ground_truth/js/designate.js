@@ -23,7 +23,7 @@ var can_decide = false;
 
 ///////////////////////////////////////////////
 // Worker pay and cost parameters
-var max_workers = 500;
+var max_workers = 50;
 var worker_density = 3;
 ///////////////////////////////////////////////
 
@@ -647,6 +647,7 @@ function initMap() {
         draggable: true,
         scrollwheel: true,
         streetViewControl: false,
+        scaleControl: true,
         tilt: 0
 
     });

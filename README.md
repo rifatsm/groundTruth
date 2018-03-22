@@ -134,3 +134,8 @@ SELECT * FROM public.auth_user;
 SELECT * FROM public.ground_truth_judgement;
 SELECT * FROM public.ground_truth_region;
 SELECT * FROM public.ground_truth_completedtasks;
+
+### Change to different heroku app:
+heroku git:remote -a appname
+heroku git:remote -a ground-truth-experts-study
+heroku git:remote -a ground-truth-mock
