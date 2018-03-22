@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+    <title>GroundTruth -- Worker</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="outerContainer">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-lg-2">
+                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">
+            </div>
+            <div class="col-lg-10">
+                <h1>GroundTruth</h1>
+                <h3>Preview Task Instructions</h3>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="panel panel-primary" style="margin-bottom:20px">
+            <div class="panel-heading">
+                <h3 class="panel-title">Preview</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Thank you for participating in this study. We really appreciate it!</h3>
+
+                <p>For this study, you will help geolocate a ground level image with an aerial perspective diagram
+                    underneath the image (both shown on the left-hand side). The aerial perspective diagram is created
+                    by an expert to provide the best
+                    guidance for you to complete your task
+                <p>
+
+                <h4>What do I have do?</h4>
+                <p> If you scroll down, we will show you a preview of what you need to do to complete this task.</p>
+
+                <h4>How am I paid for this task?</h4>
+                <p> Describe how they will be paid here!</p>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 1: Your reference diagram is shown on the left. Your mission is
+                            find the area on the map that the diagram represents. You will look through 16 satellite
+                            subregions and indicate whether or not the satellite imagery matches the diagram. Pay
+                            attention to the features in the diagram and see if you can find them in the satellite
+                            region. You can rotate it using the controls below.</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img id="step1image" style="width:100%;"
+                             src="{% static 'ground_truth/img/expert1/tutorial_img/initial_worker_ui.jpg' %}">
+                    </div>
+                </div>
+
+                <br><br><br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 2: One subregion will be shown in the satellite view. If you think
+                            the satellite imagery matches the diagram, click the 'Yes / Maybe' button. Otherwise, if you
+                            do not think the satellite imagery matches the diagram, click the 'No' button. </h3>
+                    </div>
+                    <div class="panel-body">
+                        <img id="step2image" style="width:100%;"
+                             src="{% static 'ground_truth/img/expert1/tutorial_img/yes_no_tutorial.jpg' %}">
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 3: After you make a decision, click the 'Next' button to view the
+                            next subregion. This map shows your progress throughout the 16 subregions. As you make your
+                            determinations, this map will update.</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img id="step3image" style="width:100%;"
+                             src="{% static 'ground_truth/img/expert1/tutorial_img/next_tutorial.jpg' %}">
+                    </div>
+                </div>
+
+                <br><br><br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 4: After you have completed the task, a submission pop up will
+                            appear. </h3>
+                    </div>
+                    <div class="panel-body">
+                        <img id="step4image" style="width:100%;"
+                             src="{% static 'ground_truth/img/expert1/tutorial_img/submission.jpg' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <br>
+        <hr>
+        <br>
+        <div class="row text-center">
+            <h3>Click the "Accept" button, if you want to proceed on this task!</h3>
+        </div>
+        <div id="footer" class="col-sm-4 col-sm-offset-4">
+            <br><br>
+            <p class="text-center">Virginia Tech &copy; 2017</p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

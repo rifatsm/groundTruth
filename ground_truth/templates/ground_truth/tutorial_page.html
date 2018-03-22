@@ -1,32 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Tutorial</title>
-    <!--{% load static %}-->
-    <!--<link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">-->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
-          <!--integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <title>Simple Map</title>
+    <meta charset="utf-8">
+    {% load static %}
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+    <link href="{% static 'ground_truth/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ground_truth/js/tutorial.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing&callback=initMap"
+            async defer></script>
+
+    <script src="{% static 'ground_truth/js/Matrix.js' %}"></script>
+    {#	<script src="{% static 'ground_truth/js/jquery.freetrans.js' %}"></script>#}
+    <script src="{% static 'ground_truth/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
 
 
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"-->
-            <!--integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
-            <!--crossorigin="anonymous"></script>-->
-    <!--<script src="{% static 'ground_truth/js/login.js' %}"></script>-->
 </head>
-<h3>This is the Tutorial Page</h3>
 
-<center><input type="button" value="Go to my link location"
-               onclick="window.location='https://legionpowered.net/LegionTools/tutorialDone.html';" /></center>
 
-<!--window.location = https://legionpowered.net/LegionTools/tutorialDone.html-->
+<body>
+<div id="outerContainer">
+    <div id="container">
+        <div class="jumbotron">
+            <div class="container">
+                <div class="col-lg-2">
+                    <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">
+                </div>
+                <div class="col-lg-10">
+                    <h1>GroundTruth</h1>
+                    <h3>Tutorial</h3>
+                </div>
+            </div>
+        </div>
 
-<!--<center><h4>Click on the link: <a href="{{ task_link }}">{{ task_link }}</a> </h4></center>-->
+        <div id="titleBar">
+            <div class="col-xs-12">
+                <div id="titlePanel">
+                    <a id="startride" class="btn btn-large btn-default">View Tutorial Again</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="row">
+                    <!--div id='bounds'></div-->
+                    <img id="mysteryImage" style="width:100%;"/>
+                    <div class="col-md-12 text-center" style="margin-bottom:15px;">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
+                                                                                            aria-hidden="true"></i>
+                            </button>
+                            <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
+                                                                                           aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="miniMap"></div>
+                </div>
+            </div>
+            <div class="col-xs-8" id="right-div">
+                <div id="mainView"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <input type="button" value="Click here if you completed the tutorial!"
+                       onclick="window.location='https://legionpowered.net/LegionTools/tutorialDone.html';"/>
+            </div>
+        </div>
+        <div class="row">
+            <hr>
+            <div id="footer">
+                <p class="text-center">Virginia Tech &copy; 2017</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{#<ol id="joyRideTipContent">#}
+{#    <li data-id="mysteryImage" data-button="Next" data-options="tipLocation:right">#}
+{#        <p>This is your reference diagram. Your mission is find the area on the map that the diagram represents. You#}
+{#            will look through 16 satellite subregions and indicate whether or not the satellite imagery matches the#}
+{#            diagram. Pay attention to the features in the diagram and see if#}
+{#            you can find them in the satellite region. You can rotate it using the controls below.</p>#}
+{#    </li>#}
+{#    <li data-id="right-div" data-button="Next" data-options="tipLocation:left">#}
+{#        <p>This is what one subregion will look like. Remember to look at not only the center, but also the edges and#}
+{#            corners of these subregions for similar features.</p>#}
+{#    </li>#}
+{#    <li data-id="yesButton" data-button="Next" data-options="tipLocation:left">#}
+{#        <p>If you think the satellite imagery matches the diagram, click the 'Yes / Maybe' button.</p>#}
+{#    </li>#}
+{#    <li data-id="noButton" data-button="Next" data-options="tipLocation:left">#}
+{#        <p>If you do not think the satellite imagery matches the diagram, click the 'No' button.</p>#}
+{#    </li>#}
+{#    <li data-id="nextButton" data-button="Next" data-options="tipLocation:left">#}
+{#        <p>After you make a decision, click the 'Next' button to view the next subregion.</p>#}
+{#    </li>#}
+{#    <li data-id="miniMap" data-button="Next" data-options="tipLocation:right">#}
+{#        <p>This map shows your progress throughout the 16 subregions. As you make your determinations, this map will#}
+{#            update.</p>#}
+{#    </li>#}
+{#    <li data-id="mainView" data-button="Next" data-options="tipLocation:left">#}
+{#        <p>Feel free to use any of the map controls available to you.</p>#}
+{#    </li>#}
+{#    <li data-id="submitButton" data-button="Close" data-options="tipLocation:top">#}
+{#        <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button#}
+{#            to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original#}
+{#            HIT.</p>#}
+{#    </li>#}
+{#</ol>#}
 </body>
-<style type="text/css">
-    .vertical-offset-100 {
-        padding-top: 100px;
-    }</style>
+
 </html>
+
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    {% load static %}#}
+{#    <title>GroundTruth - Worker</title>#}
+{#    <meta charset="utf-8">#}
+{#    <meta charset="utf-8">#}
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"#}
+{#          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
+{#    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">#}
+{#    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"#}
+{#          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">#}
+{##}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+{##}
+{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
+{#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+{#            crossorigin="anonymous"></script>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<div id="outerContainer">#}
+{#    <div class="jumbotron">#}
+{#        <div class="container">#}
+{#            <div class="col-lg-2">#}
+{#                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">#}
+{#            </div>#}
+{#            <div class="col-lg-10">#}
+{#                <h1>GroundTruth</h1>#}
+{#                <h3>Tutorial</h3>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div id="container">#}
+{#        <div class="col-lg-12">#}
+{#            <h3>Show the mock interactive tutorial here!</h3>#}
+{#            <br><br>#}
+{#            <br><br>#}
+{#            <input type="button" value="Click here if you completed the tutorial!"#}
+{#                   onclick="window.location='https://legionpowered.net/LegionTools/tutorialDone.html';"/>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#</body>#}
+{#</html>#}

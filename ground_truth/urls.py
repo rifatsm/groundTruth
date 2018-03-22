@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^region/$', api.get_region, name='get_region'),
     url(r'^region_url/$', region.get_region, name='region'),
     url(r'^tutorial/$', views.tutorial, name='tutorial'),
+    url(r'^preview_instructions/$', views.preview_instructions, name='preview_instructions'),
+    url(r'^waiting/$', views.waiting, name='waiting'),
     url(r'^get_code/$', api.get_code, name='get_code'),
 
     # expert API endpoints

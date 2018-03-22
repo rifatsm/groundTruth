@@ -123,9 +123,21 @@ def how_to(request):
 def experiment_choice(request):
     return render(request, 'ground_truth/experiment_choice.html')
 
+
+@xframe_options_exempt
+def preview_instructions(request):
+    return render(request, 'ground_truth/preview_instructions.html')
+
+
 @xframe_options_exempt
 def tutorial(request):
     return render(request, 'ground_truth/tutorial_page.html')
+
+
+@xframe_options_exempt
+def waiting(request):
+    return render(request, 'ground_truth/waiting_page.html')
+
 
 # The following method uploads the file to the MEDIA_ROOT and returns image name to the same view
 def image_upload1(request):
