@@ -35,27 +35,27 @@ function getUrlVars() {
 
 var start_time =  Math.floor(new Date() / 1000);
 
-// $(document).ready(function () {
-//
-//      start_time = Math.floor(new Date() / 1000);
-//
-//     $('#joyRideTipContent').joyride({
-//         postRideCallback: function () {
-//             if (currentSubRegionNumber == 0) {
-//                 start_time = Math.floor(new Date() / 1000);
-//             }
-//
-//         },
-//         autoStart: true,
-//         expose: true
-//     });
-//
-//     $('#startride').click(function (e) {
-//         $('#joyRideTipContent').joyride({
-//             expose: true
-//         });
-//     });
-// });
+ $(document).ready(function () {
+
+      start_time = Math.floor(new Date() / 1000);
+
+     $('#joyRideTipContent').joyride({
+         postRideCallback: function () {
+             if (currentSubRegionNumber == 0) {
+                 start_time = Math.floor(new Date() / 1000);
+             }
+
+         },
+         autoStart: true,
+         expose: true
+     });
+
+     $('#startride').click(function (e) {
+         $('#joyRideTipContent').joyride({
+             expose: true
+         });
+     });
+ });
 
 //Initialize the map and event handlers
 function initMap() {
