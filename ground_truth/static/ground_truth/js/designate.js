@@ -106,23 +106,23 @@ var possible_template = {
 };
 
 var nnn_temlate = {
-    fillColor: "#ff343f",
+    fillColor: "#d7191c",
     fillOpacity: 0.6
 };
 
 var yyy_template = {
-    fillColor: "#24d613", // green
-    fillOpacity: 0.7
+    fillColor: "#1a9641",
+    fillOpacity: 0.6 //0.7
 };
 
 var yyn_template = {
-    fillColor: "#24d613",
-    fillOpacity: 0.5
+    fillColor: "#a6d96a",
+    fillOpacity: 0.6 //0.5
 };
 
 var ynn_template = {
-    fillColor: "#24d613",
-    fillOpacity: 0.3
+    fillColor: "#fdae61",
+    fillOpacity: 0.6 //0.3
 };
 
 

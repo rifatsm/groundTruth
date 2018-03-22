@@ -301,6 +301,7 @@ function initMap() {
         google.maps.event.addDomListener(nextControlDiv, 'click', nextFunction);
 
         $("#submitButton").click(function () {
+
             var send = {
                 "worker": workerid,
                 "token": token,
@@ -322,6 +323,8 @@ function initMap() {
                     html: true
                 });
             });
+            
+            $("#mturk_form").submit();
         });
 
 
@@ -339,7 +342,7 @@ function initMap() {
             //TODO John is testing the db on only the first subregion
 
             var send = {
-                "judgment": judgementRectangle.yesNo, // TODO there is a bug here
+                "judgment": judgementRectangle.yesNo, // TODO there is a bug here (what bug??? can't find any)
                 "worker": workerid,
                 "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
                 // "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
