@@ -99,18 +99,19 @@ def my_investigations(request):
 @xframe_options_exempt
 @csrf_exempt
 def found_it(request):
-    if not is_logged_in(request):
-        return HttpResponseRedirect("/")
-    ground_image = request.GET.get('ground_image', '')
-    diagram_image = request.GET.get('diagram_image', '')
-    lat = float(request.GET.get('lat', "22.00"))
-    lon = float(request.GET.get('lon', "22.00"))
-    context = {"lat": lat,
-               "lon": lon,
-               "username": get_username(request),
-               "ground_image": ground_image,
-               "diagram_image": diagram_image
-               }
+
+    # if not is_logged_in(request):
+    #     return HttpResponseRedirect("/")
+    # ground_image = request.GET.get('ground_image', '')
+    # diagram_image = request.GET.get('diagram_image', '')
+    # lat = float(request.GET.get('lat', "22.00"))
+    # lon = float(request.GET.get('lon', "22.00"))
+    # context = {"lat": lat,
+    #            "lon": lon,
+    #            "username": get_username(request),
+    #            "ground_image": ground_image,
+    #            "diagram_image": diagram_image
+    #            }
     return render(request, 'ground_truth/found_it.html', context)
 
 def instructions(request):
