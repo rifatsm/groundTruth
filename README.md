@@ -139,3 +139,13 @@ SELECT * FROM public.ground_truth_completedtasks;
 heroku git:remote -a appname
 heroku git:remote -a ground-truth-experts-study
 heroku git:remote -a ground-truth-mock
+
+
+# Changes in Mock branch:
+Mock vs Expert version:
+1. Max workers 500 in designate.js (done)
+2. Region url text mock, no region mock (done) in _region.html, _no_region.html
+3. Region url link -> mock in region.py (done)
+4. View tutorial in worker UI (done) in search.js
+5.  Finish Tutorial (Submit task) in worker UI in Search.html (done)
+6.  Finish Tutorial (Submit task) Link url in worker UI in Search.html (done)
