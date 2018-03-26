@@ -146,6 +146,7 @@ Mock vs Expert version:
 1. Max workers 500 in designate.js (done)
 2. Region url text mock, no region mock (done) in _region.html, _no_region.html
 3. Region url link -> mock in region.py (done)
-4. View tutorial in worker UI (done) in search.js
+4. View tutorial in worker UI (done) in search.js (joyRideTipContent)
 5.  Finish Tutorial (Submit task) in worker UI in Search.html (done)
-6.  Finish Tutorial (Submit task) Link url in worker UI in Search.html (done)
+6.  Finish Tutorial (Submit task) Link url (…tutorialDone.html) in worker UI in Search.html (done)
+7. Mock URL in urls.py (/mock_url/) instead of (/region_url)
