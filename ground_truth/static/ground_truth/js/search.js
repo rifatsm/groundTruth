@@ -46,8 +46,8 @@ var start_time =  Math.floor(new Date() / 1000);
              }
 
          },
-         autoStart: false,
-         expose: false
+         autoStart: true,
+         expose: true
      });
 
      $('#startride').click(function (e) {

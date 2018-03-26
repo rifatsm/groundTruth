@@ -92,10 +92,10 @@
         <textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"
                   placeholder="Feel free to leave any comments about your experience with the task."></textarea>
         <button type='submit' id='submitButton'
-                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>
+                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Finish Tutorial</button>
         <!--<form id ="mturk_form"/>-->
-        <form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">
-        <!--<form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">-->
+        <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
+        <form action="https://legionpowered.net/release/beta/LegionTools/tutorialDone.html" method="POST" id="mturk_form">
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <!--<input type="submit" name="submit" value="Submit">-->

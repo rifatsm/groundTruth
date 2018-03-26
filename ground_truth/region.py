@@ -39,8 +39,8 @@ def get_region(request):
 
         task_param = '&hitId=' + str(hit_id) + '&workerId=' + str(worker_id) + '&assignmentId=' + str(assignment_id)
 
-        task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param + task_param
-        # task_link = 'https://ground-truth-mock.herokuapp.com/search/?everything=' + param + task_param
+        # task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param + task_param
+        task_link = 'https://ground-truth-mock.herokuapp.com/search/?everything=' + param + task_param
         # print task_link
 
         Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
