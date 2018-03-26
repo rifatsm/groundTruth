@@ -149,4 +149,5 @@ Mock vs Expert version:
 4. View tutorial in worker UI (done) in search.js (joyRideTipContent)
 5.  Finish Tutorial (Submit task) in worker UI in Search.html (done)
 6.  Finish Tutorial (Submit task) Link url (…tutorialDone.html) in worker UI in Search.html (done)
-7. Mock URL in urls.py (/mock_url/) instead of (/region_url)
+7. Mock text in Search.html
+8. Mock URL in urls.py (/mock_url/) instead of (/region_url)
