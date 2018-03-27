@@ -94,7 +94,9 @@
         <button type='submit' id='submitButton'
                 style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>
         <!--<form id ="mturk_form"/>-->
-        <form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">
+        <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
+        <form action="https://www.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">
+            <!--Read more: https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ExternalQuestionArticle.html-->
         <!--<form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">-->
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
