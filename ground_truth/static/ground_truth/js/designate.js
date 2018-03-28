@@ -586,12 +586,12 @@ $(document).ready(function () {
 
     $('#rot-left').on('click', function (event) {
         event.preventDefault();
-        $('#diagram_image').rotate(-45);
+        $('#diagram_image_1').rotate(-45);
 
     });
     $('#rot-right').on('click', function (event) {
         event.preventDefault();
-        $('#diagram_image').rotate(45);
+        $('#diagram_image_1').rotate(45);
 
     });
 
