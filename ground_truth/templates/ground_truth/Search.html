@@ -92,10 +92,12 @@
         <textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"
                   placeholder="Feel free to leave any comments about your experience with the task."></textarea>
         <button type='submit' id='submitButton'
-                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Finish Tutorial</button>
+                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Finish Tutorial
+        </button>
         <!--<form id ="mturk_form"/>-->
         <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
-        <form action="https://legionpowered.net/release/beta/LegionTools/tutorialDone.html" method="POST" id="mturk_form">
+        <form action="https://legionpowered.net/release/beta/LegionTools/tutorialDone.html" method="POST"
+              id="mturk_form">
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <!--<input type="submit" name="submit" value="Submit">-->
@@ -137,10 +139,9 @@
     <li data-id="mainView" data-button="Next" data-options="tipLocation:left">
         <p>Feel free to use any of the map controls available to you.</p>
     </li>
-    <li data-id="submitButton" data-button="Close" data-options="tipLocation:top">
-        <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button
-            to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original
-            HIT.</p>
+    <li data-id="mainView" data-button="Close" data-options="tipLocation:right">
+        <p>You must go through all 16 satellite subregions (using the buttons on the left) before a pop-up appears.
+            Indicating you completed the tutorial and then direct you to the next step. </p>
     </li>
 </ol>
 
@@ -155,42 +156,42 @@
     })();
 
 
-
     function startTimer(duration, display) {
-    var start = Date.now(),
-        diff,
-        minutes,
-        seconds;
-    function timer() {
-        // get the number of seconds that have elapsed since
-        // startTimer() was called
-        diff = duration - (((Date.now() - start) / 1000) | 0);
+        var start = Date.now(),
+                diff,
+                minutes,
+                seconds;
 
-        // does the same job as parseInt truncates the float
-        minutes = (diff / 60) | 0;
-        seconds = (diff % 60) | 0;
+        function timer() {
+            // get the number of seconds that have elapsed since
+            // startTimer() was called
+            diff = duration - (((Date.now() - start) / 1000) | 0);
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+            // does the same job as parseInt truncates the float
+            minutes = (diff / 60) | 0;
+            seconds = (diff % 60) | 0;
 
-        display.textContent = minutes + ":" + seconds;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        if (diff <= 0) {
-            // add one second so that the count down starts at the full duration
-            // example 05:00 not 04:59
-            start = Date.now() + 1000;
-        }
+            display.textContent = minutes + ":" + seconds;
+
+            if (diff <= 0) {
+                // add one second so that the count down starts at the full duration
+                // example 05:00 not 04:59
+                start = Date.now() + 1000;
+            }
+        };
+        // we don't want to wait a full second before the timer starts
+        timer();
+        setInterval(timer, 1000);
+    }
+
+    window.onload = function () {
+        var setMinutes = 60 * 10,
+                display = document.querySelector('#time');
+        startTimer(setMinutes, display);
     };
-    // we don't want to wait a full second before the timer starts
-    timer();
-    setInterval(timer, 1000);
-}
-
-window.onload = function () {
-    var setMinutes = 60 * 10,
-        display = document.querySelector('#time');
-    startTimer(setMinutes, display);
-};
 
 </script>
 </body>
