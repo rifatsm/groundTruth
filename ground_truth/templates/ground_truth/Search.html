@@ -32,26 +32,26 @@
 <div id="outerContainer">
     <div id="container">
         <div id="titleBar">
-            <div class="col-xs-2">
-                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>
-            </div>
-            <div class="col-xs-4">
-                <div id="titlePanel">
-                    <h1>GroundTruth</h1>
-                    <h3>This is a mock UI for tutorial purpose</h3>
-                    <!--button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
-                </div>
-            </div>
-            <div class="col-xs-6">
+            <!--<div class="col-xs-2">-->
+                <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
+            <!--</div>-->
+            <!--<div class="col-xs-4">-->
+                <!--<div id="titlePanel">-->
+                    <!--<h1>GroundTruth</h1>-->
+                    <!--<h3>This is a mock UI for tutorial purpose</h3>-->
+                    <!--&lt;!&ndash;button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-xs-6">-->
 
-                <div id="titlePanel">
+                <!--<div id="titlePanel">-->
 
-                    <!--button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
-                    <a id="startride" class="btn btn-large btn-default">View Tutorial</a>
-                    <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
-                    <!--<div id="clockdiv"></div>-->
-                </div>
-            </div>
+                    <!--&lt;!&ndash;button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+                    <!--<a id="startride" class="btn btn-large btn-default">View Tutorial</a>-->
+                    <!--<h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>-->
+                    <!--&lt;!&ndash;<div id="clockdiv"></div>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
         <hr>
@@ -89,10 +89,10 @@
 
             </div>
         </div>
-        <textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"
-                  placeholder="Feel free to leave any comments about your experience with the task."></textarea>
-        <button type='submit' id='submitButton'
-                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Finish Tutorial</button>
+        <!--<textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"-->
+                  <!--placeholder="Feel free to leave any comments about your experience with the task."></textarea>-->
+        <!--<button type='submit' id='submitButton'-->
+                <!--style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Finish Tutorial</button>-->
         <!--<form id ="mturk_form"/>-->
         <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
         <form action="https://legionpowered.net/release/beta/LegionTools/tutorialDone.html" method="POST" id="mturk_form">
@@ -138,61 +138,10 @@
         <p>Feel free to use any of the map controls available to you.</p>
     </li>
     <li data-id="submitButton" data-button="Close" data-options="tipLocation:top">
-        <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button
-            to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original
-            HIT.</p>
+        <p>After you have completed the tutorial, please wait patiently.</p>
     </li>
 </ol>
 
-<script type="text/javascript">
-    var _mfq = _mfq || [];
-    (function () {
-        var mf = document.createElement("script");
-        mf.type = "text/javascript";
-        mf.async = true;
-        mf.src = "//cdn.mouseflow.com/projects/0d23f5c1-b71d-44dc-8df9-8157efd37d84.js";
-        document.getElementsByTagName("head")[0].appendChild(mf);
-    })();
-
-
-
-    function startTimer(duration, display) {
-    var start = Date.now(),
-        diff,
-        minutes,
-        seconds;
-    function timer() {
-        // get the number of seconds that have elapsed since
-        // startTimer() was called
-        diff = duration - (((Date.now() - start) / 1000) | 0);
-
-        // does the same job as parseInt truncates the float
-        minutes = (diff / 60) | 0;
-        seconds = (diff % 60) | 0;
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
-        if (diff <= 0) {
-            // add one second so that the count down starts at the full duration
-            // example 05:00 not 04:59
-            start = Date.now() + 1000;
-        }
-    };
-    // we don't want to wait a full second before the timer starts
-    timer();
-    setInterval(timer, 1000);
-}
-
-window.onload = function () {
-    var setMinutes = 60 * 10,
-        display = document.querySelector('#time');
-    startTimer(setMinutes, display);
-};
-
-</script>
 </body>
 
 </html>

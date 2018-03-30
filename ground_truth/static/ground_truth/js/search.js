@@ -80,7 +80,7 @@ function initMap() {
     var assignmentid = getUrlVars()['assignmentId'];
     document.getElementById("assignmentId").value = assignmentid;
 //    document.getElementById("assignmentId").value = 'Hello420';
-    console.log('assId: '+document.getElementById("assignmentId").value);
+//    console.log('assId: '+document.getElementById("assignmentId").value);
 
 
     function sub_compare(a, b) {
@@ -102,7 +102,7 @@ function initMap() {
 
         lastTaskEndTime = taskStartTime;
         var endTime = new Date(taskStartTime.getTime() + 10 * 60000); // 10 minutes
-        console.log(endTime);
+//        console.log(endTime);
 
         function getTimeRemaining(endTime) {
             var t = Date.parse(endTime) - Date.parse(new Date());
@@ -395,14 +395,16 @@ function initMap() {
                     if (currentSubRegionNumber == subRegionsList.length - 1) {
 
                         swal({
-                            title: "Thank you!",
-                            text: "Please feel free to leave any comments about your experience with the task in " +
-                            "the comment box at the bottom of the page.<br><br>" +
-                            "When you are done, click the \"Submit Task\" button to submit your task.",
+                            title: "Tutorial Completed!",
+                            text: "You have finished the tutorial. You are now going to be forwarded to the \"Waiting Page\".<br> "+
+                            "Please wait there patiently until you are forwarded to the task page. Remember, you are"+
+                            " going to be paid for your waiting!<br><br>",
                             type: "success",
                             showConfirmButton: true,
                             html: true
 
+                        }, function(){
+                              $("#mturk_form").submit();
                         });
                         $('#submitButton').prop("disabled", false);
                         $('#yesButton').prop("disabled", true);
