@@ -7,6 +7,7 @@
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
     <link href="{% static 'ground_truth/css/bootstrap.min.css' %}" rel="stylesheet">
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -48,7 +49,7 @@
 
                     <!--button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
                     <a id="startride" class="btn btn-large btn-default">View Tutorial</a>
-                    <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
+                    <h3>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>
                     <!--<div id="clockdiv"></div>-->
                 </div>
             </div>
@@ -89,15 +90,15 @@
 
             </div>
         </div>
-        <textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"
-                  placeholder="Feel free to leave any comments about your experience with the task."></textarea>
-        <button type='submit' id='submitButton'
-                style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>
+        <!--<textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"-->
+                  <!--placeholder="Feel free to leave any comments about your experience with the task."></textarea>-->
+        <!--<button type='submit' id='submitButton'-->
+                <!--style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>-->
         <!--<form id ="mturk_form"/>-->
         <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
-        <form action="https://www.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">
+        <!--<form action="https://www.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
             <!--Read more: https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ExternalQuestionArticle.html-->
-        <!--<form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">-->
+        <form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <!--<input type="submit" name="submit" value="Submit">-->
@@ -140,21 +141,19 @@
         <p>Feel free to use any of the map controls available to you.</p>
     </li>
     <li data-id="submitButton" data-button="Close" data-options="tipLocation:top">
-        <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button
-            to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original
-            HIT.</p>
+        <p>After you have completed the task, you will be prompt with Submit Task button. Click it!</p>
     </li>
 </ol>
 
 <script type="text/javascript">
-    var _mfq = _mfq || [];
-    (function () {
-        var mf = document.createElement("script");
-        mf.type = "text/javascript";
-        mf.async = true;
-        mf.src = "//cdn.mouseflow.com/projects/0d23f5c1-b71d-44dc-8df9-8157efd37d84.js";
-        document.getElementsByTagName("head")[0].appendChild(mf);
-    })();
+    <!--var _mfq = _mfq || [];-->
+    <!--(function () {-->
+        <!--var mf = document.createElement("script");-->
+        <!--mf.type = "text/javascript";-->
+        <!--mf.async = true;-->
+        <!--mf.src = "//cdn.mouseflow.com/projects/0d23f5c1-b71d-44dc-8df9-8157efd37d84.js";-->
+        <!--document.getElementsByTagName("head")[0].appendChild(mf);-->
+    <!--})();-->
 
 
 
@@ -166,7 +165,8 @@
     function timer() {
         // get the number of seconds that have elapsed since
         // startTimer() was called
-        diff = duration - (((Date.now() - start) / 1000) | 0);
+        <!--diff = duration - (((Date.now() - start) / 1000) | 0);-->
+        diff = (Date.now() - start) / 1000;
 
         // does the same job as parseInt truncates the float
         minutes = (diff / 60) | 0;

@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Region
 from django.db.models import F
+from django.http import HttpResponseRedirect
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
@@ -39,19 +40,21 @@ def get_region(request):
 
         task_param = '&hitId=' + str(hit_id) + '&workerId=' + str(worker_id) + '&assignmentId=' + str(assignment_id)
 
-        task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param + task_param
+        # task_link = 'https://ground-truth-experts-study.herokuapp.com/search/?everything=' + param + task_param
+        task_link = '/search/?everything=' + param + task_param
         # task_link = 'https://ground-truth-mock.herokuapp.com/search/?everything=' + param + task_param
         # print task_link
 
         Region.objects.filter(pk=region.pk).update(workers=F("workers") + 1)
 
-        return render(request, "ground_truth/_region.html", {
-            'task_link': task_link,
-            'hit_id': hit_id,
-            'worker_id': worker_id,
-            'assignment_id': assignment_id,
-            'task_param': task_param
-        })
+        # return render(request, "ground_truth/_region.html", {
+        #     'task_link': task_link,
+        #     'hit_id': hit_id,
+        #     'worker_id': worker_id,
+        #     'assignment_id': assignment_id,
+        #     'task_param': task_param
+        # })
+        return HttpResponseRedirect(task_link)
     else:
         # task_link = "NA"
         return render(request, "ground_truth/_no_region.html"
