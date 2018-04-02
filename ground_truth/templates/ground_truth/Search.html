@@ -32,28 +32,28 @@
 <body>
 <div id="outerContainer">
     <div id="container">
-        <div id="titleBar">
-            <div class="col-xs-2">
-                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>
-            </div>
-            <div class="col-xs-4">
-                <div id="titlePanel">
-                    <h1>GroundTruth</h1>
-                    <!--<h3>This is a mock UI for tutorial purpose</h3>-->
-                    <!--button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
-                </div>
-            </div>
-            <div class="col-xs-6">
+        <!--<div id="titleBar">-->
+            <!--<div class="col-xs-2">-->
+                <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
+            <!--</div>-->
+            <!--<div class="col-xs-4">-->
+                <!--<div id="titlePanel">-->
+                    <!--<h1>GroundTruth</h1>-->
+                    <!--&lt;!&ndash;<h3>This is a mock UI for tutorial purpose</h3>&ndash;&gt;-->
+                    <!--&lt;!&ndash;button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-xs-6">-->
 
-                <div id="titlePanel">
+                <!--<div id="titlePanel">-->
 
-                    <!--button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button-->
-                    <a id="startride" class="btn btn-large btn-default">View Tutorial</a>
-                    <h3>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>
-                    <!--<div id="clockdiv"></div>-->
-                </div>
-            </div>
-        </div>
+                    <!--&lt;!&ndash;button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a id="startride" class="btn btn-large btn-default">View Tutorial</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h3>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div id="clockdiv"></div>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <hr>
 
@@ -61,6 +61,7 @@
             <!--div id="instructions" class="collapse in jr-quantity" class="col-xs-6 offset-xs-3" style="margin-bottom:20px">
                 Here are some sample instructions
             </div-->
+            <h3 hidden>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>
         </div>
 
         <div class="row">
@@ -95,10 +96,10 @@
         <!--<button type='submit' id='submitButton'-->
                 <!--style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>-->
         <!--<form id ="mturk_form"/>-->
-        <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
+        <form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">
         <!--<form action="https://www.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
             <!--Read more: https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ExternalQuestionArticle.html-->
-        <form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">
+        <!--<form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">-->
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <!--<input type="submit" name="submit" value="Submit">-->
@@ -181,6 +182,44 @@
             // add one second so that the count down starts at the full duration
             // example 05:00 not 04:59
             start = Date.now() + 1000;
+        }
+
+        var time1 = 5, time2 = 15, time3 = 25;
+
+        if (diff >= time1 && diff < (time1 + 1)) {
+            <!--console.log("diff1: "+ diff);-->
+            swal({
+                title: "Please hurry up!",
+                text: "5 minutes have passed after you started the task.",
+                type: "warning",
+                showConfirmButton: true,
+                html: true
+
+            });
+        }
+
+        if (diff >= time2 && diff < (time2 + 1)) {
+            <!--console.log("diff2: "+ diff);-->
+            swal({
+                title: "Please hurry up!",
+                text: "8 minutes have passed after you started the task.",
+                type: "warning",
+                showConfirmButton: true,
+                html: true
+
+            });
+        }
+
+        if (diff >= time3 && diff < (time3 + 1)) {
+            <!--console.log("diff3: "+ diff);-->
+            swal({
+                title: "Please hurry up!",
+                text: "10 minutes have passed after you started the task.",
+                type: "warning",
+                showConfirmButton: true,
+                html: true
+
+            });
         }
     };
     // we don't want to wait a full second before the timer starts

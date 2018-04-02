@@ -801,7 +801,8 @@ function initMap() {
         draw_erase_btn.removeClass("btn-success");
         draw_erase_btn.removeClass("btn-danger");
         draw_erase_btn.removeClass("btn-default");
-        draw_erase_btn.addClass("btn-primary");
+//        draw_erase_btn.addClass("btn-primary");
+        draw_erase_btn.addClass("btn-danger");
         $("#width_zoom").hide();
         $("#width_zoom_notifier").show();
 
