@@ -526,7 +526,7 @@ function is_tutorial() {
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 function worker_zoom() {
-    $(".col-xs-12 label input").click(function () {
+    $(".dropdown-content label input").click(function () {
         zoom = parseInt($(this).attr("data-zoom"));
         sub_region_width = parseFloat($(this).attr("data-bounds"));
         $("#width_zoom_notifier").text($(this).attr("data-text"));
@@ -660,7 +660,7 @@ function initMap() {
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
-    console.log(searchBox);
+//    console.log(searchBox);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
     // Bias the SearchBox results towards current map's viewport.
@@ -762,7 +762,7 @@ function initMap() {
                 draw_erase_btn.removeClass("btn-danger");
                 draw_erase_btn.removeClass("btn-default");
                 draw_erase_btn.addClass("btn-success");
-                $("#width_zoom").show();
+//                $("#width_zoom").show();
                 $("#width_zoom_notifier").hide();
                 map_height();
             }
@@ -776,7 +776,7 @@ function initMap() {
             draw_erase_btn.removeClass("btn-danger");
             draw_erase_btn.removeClass("btn-default");
             draw_erase_btn.addClass("btn-success");
-            $("#width_zoom").show();
+//            $("#width_zoom").show();
             $("#width_zoom_notifier").hide();
             map_height();
 
