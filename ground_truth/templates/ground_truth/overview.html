@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+    <title>GroundTruth - Overview</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+<div id="outerContainer">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-lg-2">
+                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">
+            </div>
+            <div class="col-lg-10">
+                <h1>GroundTruth</h1>
+                <h3>Overview</h3>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="panel panel-primary" style="margin-bottom:20px">
+            <div class="panel-heading">
+                <h3 class="panel-title">Overview</h3>
+            </div>
+            <div class="panel-body">
+                <h2>What is GroundTruth?</h2>
+                <p>GroundTruth is a system that helps in geolocating an image with the help of crowd workers. Based on
+                    prior studies, we've found that crowd workers can reduce the search space (of satellite imagery) by
+                    up to 50% in 10 minutes.</p>
+
+                <h2>How does it work?</h2>
+                <p>Typically, you start off with a ground-level image or satellite image that you want to geolocate. You
+                    then draw an aerial diagram of the same and upload it into the system. Then, you'll need to
+                    designate an area on the map that you suspect contains the image. The size of this area depends on
+                    your budget. We provide this information to a large number crowd workers who decide whether a small
+                    portion of the map matches the aerial diagram and image. These decisions are aggregated and
+                    presented to you in the form of a colored grid which helps you quickly find the location of the
+                    image.</p>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">GroundTruth System</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img id="gt_overview" style="width:100%;"
+                             src="{% static 'ground_truth/img/expert1/ground_level_img/gt_overview_image.jpg' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <br>
+            <hr>
+            <br>
+            <div class="row text-center">
+                <button id="upload_diagram" type="button" class="btn btn-success btn-lg">Next: Upload Diagram</button>
+            </div>
+            <div id="footer" class="col-sm-4 col-sm-offset-4">
+                <br><br><br><br>
+                <p class="text-center">Virginia Tech &copy; 2017</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#upload_diagram").click(function () {
+            window.open("/image_upload4", "_self");
+        });
+    });
+</script>
+</body>
+</html>

@@ -43,6 +43,7 @@ def search(request):
 
     return (render(request, "ground_truth/Search.html", {}))
 
+
 # for multiple expert designate views
 def designate1(request):
     if is_logged_in(request):
@@ -51,12 +52,14 @@ def designate1(request):
     else:
         return HttpResponseRedirect("/")
 
+
 def designate2(request):
     if is_logged_in(request):
         context = {"username": get_username(request)}
         return (render(request, "ground_truth/designate2.html", context))
     else:
         return HttpResponseRedirect("/")
+
 
 def designate3(request):
     if is_logged_in(request):
@@ -65,17 +68,18 @@ def designate3(request):
     else:
         return HttpResponseRedirect("/")
 # extra view in case of missing the first designate view
+
+
 def designate4(request):
     if is_logged_in(request):
-        context = {"username": get_username(request)}
-        return (render(request, "ground_truth/designate4.html", context))
+        return render(request, "ground_truth/designate4.html", {"username": get_username(request)})
     else:
         return HttpResponseRedirect("/")
 
 
 def login_form(request):
     if is_logged_in(request):
-        return HttpResponseRedirect("/instructions/")
+        return HttpResponseRedirect("/overview/")
     return render(request, "ground_truth/login.html", {})
 
 
@@ -114,11 +118,14 @@ def found_it(request):
     #            }
     return render(request, 'ground_truth/found_it_2.html')
 
-def instructions(request):
-    return render(request, 'ground_truth/instructions.html', {})
+
+def overview(request):
+    return render(request, 'ground_truth/overview.html', {})
+
 
 def how_to(request):
     return render(request, 'ground_truth/how_to_do.html')
+
 
 def experiment_choice(request):
     return render(request, 'ground_truth/experiment_choice.html')
@@ -171,7 +178,7 @@ def image_upload1(request):
     #         'short_url': short_url
     #     })
     return render(request, 'ground_truth/image_upload1.html')
-    #("<h1>Hello</h1>")
+
 
 def image_upload2(request):
     if not is_logged_in(request):
@@ -190,6 +197,7 @@ def image_upload2(request):
         })
     return render(request, 'ground_truth/image_upload2.html')
 
+
 def image_upload3(request):
     if not is_logged_in(request):
         return HttpResponseRedirect("/")
@@ -207,11 +215,11 @@ def image_upload3(request):
         })
     return render(request, 'ground_truth/image_upload3.html')
 
+
 def image_upload4(request):
     if not is_logged_in(request):
         return HttpResponseRedirect("/")
     if request.method == 'POST':
-
         try:
             myfile = request.FILES['myfile']
         except KeyError:
@@ -225,7 +233,7 @@ def image_upload4(request):
             filename = fs.save("diagram_4.jpg", myfile)
         uploaded_file_url = fs.url(filename)
         short_url = uploaded_file_url.rsplit('/', 1)[-1]
-        return render(request, 'ground_truth/designate4.html', {
+        return render(request, 'ground_truth/how_to_do.html', {
             'short_url': short_url
         })
     return render(request, 'ground_truth/image_upload4.html')
