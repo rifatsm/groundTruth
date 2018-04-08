@@ -219,21 +219,43 @@ def image_upload3(request):
 def image_upload4(request):
     if not is_logged_in(request):
         return HttpResponseRedirect("/")
-    if request.method == 'POST':
-        try:
-            myfile = request.FILES['myfile']
-        except KeyError:
-            myfile = "Empty"
-            return render(request, 'ground_truth/image_upload4.html')
-        fs = FileSystemStorage()
-        # filename = fs.save(myfile.name, myfile)
-        if fs.exists("diagram_4.jpg"):
-            fs.delete("diagram_4.jpg")
-        if myfile != "Empty":
-            filename = fs.save("diagram_4.jpg", myfile)
-        uploaded_file_url = fs.url(filename)
-        short_url = uploaded_file_url.rsplit('/', 1)[-1]
-        return render(request, 'ground_truth/how_to_do.html', {
-            'short_url': short_url
-        })
+    # Uploading GroundLevel Image
+    if request.method == 'POST' and request.FILES['myfile_gl'] and request.FILES['myfile_di']:
+        myfile_gl = request.FILES['myfile_gl']
+        myfile_di = request.FILES['myfile_di']
+
+        fs = FileSystemStorage(location=settings.FS_IMAGE_UPLOADS, base_url=settings.FS_IMAGE_URL)
+
+        if fs.exists("ground_level_img_1.jpg"):
+            fs.delete("ground_level_img_1.jpg")
+            fs.save("ground_level_img_1.jpg", myfile_gl)
+
+        fs_d = FileSystemStorage(location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL)
+        if fs_d.exists("diagram_4.jpg"):
+            fs_d.delete("diagram_4.jpg")
+            fs_d.save("diagram_4.jpg", myfile_di)
+
+        return render(request, 'ground_truth/how_to_do.html')
+
     return render(request, 'ground_truth/image_upload4.html')
+
+    # if not is_logged_in(request):
+    #     return HttpResponseRedirect("/")
+    # if request.method == 'POST':
+    #     try:
+    #         myfile = request.FILES['myfile']
+    #     except KeyError:
+    #         myfile = "Empty"
+    #         return render(request, 'ground_truth/image_upload4.html')
+    #     fs = FileSystemStorage()
+    #     # filename = fs.save(myfile.name, myfile)
+    #     if fs.exists("diagram_4.jpg"):
+    #         fs.delete("diagram_4.jpg")
+    #     if myfile != "Empty":
+    #         filename = fs.save("diagram_4.jpg", myfile)
+    #     uploaded_file_url = fs.url(filename)
+    #     short_url = uploaded_file_url.rsplit('/', 1)[-1]
+    #     return render(request, 'ground_truth/how_to_do.html', {
+    #         'short_url': short_url
+    #     })
+    # return render(request, 'ground_truth/image_upload4.html')

@@ -2,7 +2,7 @@
 <html>
 <head>
     {% load static %}
-    <title>GroundTruth - Expert</title>
+    <title>GroundTruth - System Tutorial</title>
     <meta charset="utf-8">
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -30,7 +30,7 @@
             </div>
             <div class="col-lg-10">
                 <h1>GroundTruth</h1>
-                <h3>Expert Software Instructions</h3>
+                <h3>Expert Software Tutorial</h3>
             </div>
         </div>
     </div>
@@ -40,18 +40,20 @@
             <h4>For the remainder of this study, please do not refresh any pages or use any browser navigation. Pages
                 will automatically update for you.</h4>
             <h4>You will be performing three geolocation tasks simultaneously with help from crowd workers.</h4>
-{#            <img style="width:100%"#}
-{#                 src="https://dl.dropboxusercontent.com/s/dy91oq42opiky4g/Instructions%201.png?dl=0"></img>#}
+            {#            <img style="width:100%"#}
+            {#                 src="https://dl.dropboxusercontent.com/s/dy91oq42opiky4g/Instructions%201.png?dl=0"></img>#}
             <h4>You must define and start all three investigations before beginning any geolocation yourself.</h4>
-            <h4>During the whole experiment, new tabs are going to pop up after clicking the Next button. Please do not close any tabs, even after finishing the whole experiment.</h4>
+            <h4>During the whole experiment, new tabs are going to pop up after clicking the Next button. Please do not
+                close any tabs, even after finishing the whole experiment.</h4>
             <h4>In addition, make sure to take screenshots on the Mac after finishing each investigation.</h4>
-{#            <img style="width:100%"#}
-{#                 src="https://dl.dropboxusercontent.com/s/sj5w9hgrjqh7xhs/Instructions%202.png?dl=0"></img>#}
-{#            <h3>Remember to start all investigation before doing any of your own searching.</h3>#}
-            <h4>You can also watch the video below for better understanding the system. <br> (Not that, the video only shows one investigation)</h4>
+            {#            <img style="width:100%"#}
+            {#                 src="https://dl.dropboxusercontent.com/s/sj5w9hgrjqh7xhs/Instructions%202.png?dl=0"></img>#}
+            {#            <h3>Remember to start all investigation before doing any of your own searching.</h3>#}
+            <h4>You can also watch the video below for better understanding the system. <br> (Not that, the video only
+                shows one investigation)</h4>
             <br><br>
             <iframe width="640" height="480"
-                src="https://www.youtube.com/embed/xlw6hxkf1ek?autoplay=1">
+                    src="https://www.youtube.com/embed/xlw6hxkf1ek?autoplay=1">
             </iframe>
             <br><br>
             <button id="start" type="button" class="btn btn-success btn-lg">Let's Start!</button>
@@ -63,7 +65,7 @@
     $(document).ready(function () {
         $("#start").click(function () {
             <!--window.open("/experiment_choice","_self");-->
-            window.open("/image_upload4","_self");
+            window.open("/designate4", "_self");
 
         });
     });

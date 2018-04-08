@@ -81,6 +81,11 @@ html, body {
 #startride {
     float: right;
 }
+
+#ground_upload img {
+    height: auto;
+    max-width: 100%;
+}
 	  
 
 
