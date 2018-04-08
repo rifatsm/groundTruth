@@ -46,7 +46,8 @@
 }
 
 #ground_image_1, #diagram_image_4 {
-    max-width: 80%;
+    max-height: 200px;
+    max-width: 300px;
     margin-bottom: 5px;
 }
 
