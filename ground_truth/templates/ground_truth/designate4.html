@@ -162,7 +162,31 @@
                 </div>
             </div>
             <h5 id="budget"></h5>
-            <img hidden id="legend" src="{% static 'ground_truth/img/legend.jpg' %}" style="width:50%"/>
+
+            <!--Legend-->
+            <!--<img hidden id="legend" src="{% static 'ground_truth/img/legend.jpg' %}" style="width:50%"/>-->
+
+            <table hidden id="legend" style="width:50% margin-left:20%" border="1">
+                <h5 hidden id="legend_h"> Color Legend </h5>
+                <tr>
+                    <td bgcolor="#d7191c" width="20%">Red</td>
+                    <td> 0% (none of 3 workers) positive </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#fdae61" width="20%">Orange</td>
+                    <td> 33% (1 of 3 workers) positive </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#a6d96a" width="20%">Light Green</td>
+                    <td> 67% (2 of 3 workers) positive </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#1a9641" width="20%">Green</td>
+                    <td> 100% (3 of 3 workers) positive </td>
+                </tr>
+
+            </table>
+
             <h5 id="cost">Workers required for investigation: <strong>0</strong></h5>
             <h4 hidden id="too_much">You have selected an investigation with bounds that exceeds the allotted number of
                 workers.

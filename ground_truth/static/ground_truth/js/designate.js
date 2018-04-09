@@ -867,6 +867,7 @@ function initMap() {
         $("#crowd_title").show();
 //        $("#legend").show();
         $("#legend").removeAttr("hidden");
+        $("#legend_h").removeAttr("hidden");
 
         var draw_erase_btn = $("#toggle_draw_erase_btn");
         var investigation = draw_erase_btn.data("investigation");

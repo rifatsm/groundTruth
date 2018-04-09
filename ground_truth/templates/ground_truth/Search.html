@@ -30,8 +30,15 @@
 
 
 <body>
+        <div>
+        <div class="col-xs-4">
+            <div class="row">
+                <div style="margin-left:20px" id="miniMap"></div>
+            </div>
+        </div>
+        </div>
 <div id="outerContainer">
-    <div id="container">
+    <div id="container-fluid">
         <!--<div id="titleBar">-->
             <!--<div class="col-xs-2">-->
                 <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
@@ -57,16 +64,22 @@
 
         <hr>
 
-        <div class="row">
+        <div class="row" style="margin-bottom:30px;">
             <!--div id="instructions" class="collapse in jr-quantity" class="col-xs-6 offset-xs-3" style="margin-bottom:20px">
                 Here are some sample instructions
             </div-->
             <h3 hidden>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>
         </div>
 
+
+        <hr>
         <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
+
+
+
+
+            <div class="col-xs-4" align="left" style="margin-left:20px; margin-top: 25px">
+                <!--<div class="row">-->
                     <!--div id='bounds'></div-->
                     <img id="mysteryImage" style="width:100%;"/>
                     <div class="col-md-12 text-center" style="margin-bottom:15px;">
@@ -79,18 +92,49 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                <!--</div>-->
 
-                <div class="row">
-                    <div id="miniMap"></div>
-                </div>
+
             </div>
-            <div class="col-xs-8" id="right-div">
+
+
+
+            <div class="col-xs-4" id="right-div" style="margin-left:180px">
 
                 <div id="mainView"></div>
 
             </div>
         </div>
+
+
+        <!--<div class="row">-->
+            <!--<div class="col-xs-4">-->
+                <!--<div class="row">-->
+                    <!--&lt;!&ndash;div id='bounds'></div&ndash;&gt;-->
+                    <!--<img id="mysteryImage" style="width:100%;"/>-->
+                    <!--<div class="col-md-12 text-center" style="margin-bottom:15px;">-->
+                        <!--<div class="btn-group mr-2" role="group" aria-label="First group">-->
+                            <!--<button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"-->
+                                                                                            <!--aria-hidden="true"></i>-->
+                            <!--</button>-->
+                            <!--<button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"-->
+                                                                                           <!--aria-hidden="true"></i>-->
+                            <!--</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="row">-->
+                    <!--<div id="miniMap"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-xs-8" id="right-div">-->
+
+                <!--<div id="mainView"></div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
         <!--<textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"-->
                   <!--placeholder="Feel free to leave any comments about your experience with the task."></textarea>-->
         <!--<button type='submit' id='submitButton'-->
@@ -184,7 +228,7 @@
             start = Date.now() + 1000;
         }
 
-        var time1 = 5, time2 = 15, time3 = 25;
+        var time1 = 5000, time2 = 150000, time3 = 2500000;
 
         if (diff >= time1 && diff < (time1 + 1)) {
             <!--console.log("diff1: "+ diff);-->
