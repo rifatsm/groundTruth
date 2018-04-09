@@ -392,7 +392,7 @@ function initMap() {
                 $.post("/add_judgment/", send, function (res) {
                     //End condition for the task
                     // console.log(currentSubRegionNumber);
-                    if (currentSubRegionNumber == subRegionsList.length - 1) {
+                    if (currentSubRegionNumber == (subRegionsList.length/2) - 1) {
 
                         swal({
                             title: "Tutorial Completed!",

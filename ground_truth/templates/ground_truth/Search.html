@@ -135,18 +135,25 @@
     <li data-id="mainView" data-button="Next" data-options="tipLocation:left">
         <p>Feel free to use any of the map controls available to you.</p>
     </li>
-<<<<<<< HEAD
     <!--<li data-id="submitButton" data-button="Close" data-options="tipLocation:top">-->
         <!--<p>After you have completed the tutorial, please wait patiently.</p>-->
     </li>
 </ol>
 
-=======
-    <li data-id="mainView" data-button="Close" data-options="tipLocation:right">
-        <p>You must go through all 16 satellite subregions (using the buttons on the left) before a pop-up appears.
-            Indicating you completed the tutorial and then direct you to the next step. </p>
-    </li>
-</ol>
 </body>
+<script>
+    window.onload = function(){
+        swal({
+            title: "Welcome to the Tutorial Page!",
+            text: "Please finish this interactive tutorial!",
+            type: "success",
+            showConfirmButton: true,
+            html: true
+
+        });
+    };
+
+
+</script>
 
 </html>
