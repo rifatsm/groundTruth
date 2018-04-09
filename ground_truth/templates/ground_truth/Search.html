@@ -29,9 +29,19 @@
 
 
 <body>
+
+
+        <div>
+        <div class="col-xs-4">
+            <div class="row">
+                <div style="margin-left:20px" id="miniMap"></div>
+            </div>
+        </div>
+        </div>
+
 <div id="outerContainer">
-    <div id="container">
-        <div id="titleBar">
+    <div id="container-fluid">
+        <!--<div id="titleBar">-->
             <!--<div class="col-xs-2">-->
                 <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
             <!--</div>-->
@@ -52,7 +62,7 @@
                     <!--&lt;!&ndash;<div id="clockdiv"></div>&ndash;&gt;-->
                 <!--</div>-->
             <!--</div>-->
-        </div>
+        <!--</div>-->
 
         <hr>
 
@@ -62,9 +72,15 @@
             </div-->
         </div>
 
+        <hr>
+
         <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
+
+
+
+
+            <div class="col-xs-4" align="left" style="margin-left:20px; margin-top: 25px">
+                <!--<div class="row">-->
                     <!--div id='bounds'></div-->
                     <img id="mysteryImage" style="width:100%;"/>
                     <div class="col-md-12 text-center" style="margin-bottom:15px;">
@@ -77,13 +93,14 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                <!--</div>-->
 
-                <div class="row">
-                    <div id="miniMap"></div>
-                </div>
+
             </div>
-            <div class="col-xs-8" id="right-div">
+
+
+
+            <div class="col-xs-4" id="right-div" style="margin-left:180px">
 
                 <div id="mainView"></div>
 
