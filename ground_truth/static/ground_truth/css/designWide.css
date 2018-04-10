@@ -86,6 +86,19 @@ html, body {
     height: auto;
     max-width: 100%;
 }
+
+/* symbol for "opening" panels */
+.panel-heading .accordion-toggle:after {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon, specifically halflings */
+    content: "\e253";    /* type of arrow icon */
+    float: right;        /* arrow on the right side of the panel */
+    color: white;         /* color of the icon */
+}
+
+/* symbol for "collapsed" panels */
+.panel-heading .accordion-toggle.collapsed:after {
+    content: "\e252";    /* type of arrow icon */
+}
 	  
 
 

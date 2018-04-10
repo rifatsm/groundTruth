@@ -44,16 +44,16 @@
                 <br>
                 <input id="ground_file" style="font-size:18px" type="file" name="myfile_gl">
                 <br>
-                <img id="ground_upload" style="width: 100%" src="">
+                <img id="ground_upload" style="width: 80%" src="">
                 <br><br>
-
+                <hr>
 
                 <h3>Great, now we need you to draw and upload an aerial diagram of the image you just provided.</h3>
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Why do you need an
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Why do you need an
                                     aerial
                                     diagram? What exactly do I draw?</a>
                             </h4>
@@ -71,7 +71,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                                     Do you have a few examples?</a>
                             </h4>
                         </div>
@@ -89,7 +89,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                                     How should I draw it?</a>
                             </h4>
                         </div>
@@ -107,14 +107,29 @@
                         </div>
                     </div>
                 </div>
-
                 <br>
+
+                <hr>
                 <h3>Ideally, please try to spend no more than 5 minutes drawing. Once you have completed drawing and
                     uploading your diagram click the button below to move forward.</h3>
                 <br>
                 <input style="font-size:18px" id="diagram_file" type="file" name="myfile_di">
+                <br>
+                <img id="diagram_upload" style="width: 50%" src="">
                 <br><br>
-                <button type="submit" class="btn btn-success btn-lg">Next: GroundTruth Tutorial</button>
+
+                <div class="row">
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row text-center">
+                        <button type="submit" class="btn btn-success btn-lg">Next: GroundTruth Tutorial</button>
+                    </div>
+                    <div id="footer" class="col-sm-4 col-sm-offset-4">
+                        <br><br><br><br>
+                        <p class="text-center">Virginia Tech &copy; 2017</p>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -155,13 +170,13 @@
     }
 
     /* function used to populate page with the ground level image after the selecting a image via choose file */
-    function readURL(input) {
+    function readURL(input, image_input) {
 
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#ground_upload').attr('src', e.target.result);
+                $(image_input).attr('src', e.target.result);
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -170,7 +185,11 @@
 
     /* with the choose file button change, then it will call the readURL function*/
     $('#ground_file').change(function () {
-        readURL(this);
+        readURL(this, '#ground_upload');
+    });
+
+    $('#diagram_file').change(function () {
+        readURL(this, '#diagram_upload');
     });
 
     window.onload = function () {
