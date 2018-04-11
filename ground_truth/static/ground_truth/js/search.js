@@ -272,7 +272,7 @@ function initMap() {
         //When the map is loaded in, then center the minimap.
         google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
             miniMap.fitBounds(searchRegion.getBounds());
-            miniMap.setZoom(miniMap.getZoom()+1);
+            miniMap.setZoom(miniMap.getZoom());
         });
 
 

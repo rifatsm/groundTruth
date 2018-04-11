@@ -121,8 +121,6 @@
             <h4 id="define_title">Please Define Your Search Space</h4>
             <!--<h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>-->
             <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images
-{#                <br> Duration: <label#}
-{#                    id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label>#}
             </h4>
             <div id="image_wrapper">
 
@@ -144,19 +142,19 @@
                     </div>
                 </div>
                 <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn">Estimate the Width of the Diagram</button>
-                      <div id="width_zoom" class="dropdown-content">
+                    <button onclick="myFunction()" id="dropBt" class="btn btn-success dropdown-toggle">Estimate the Width of the Diagram &#9660;</button>
+                      <div id="width_zoom" class="dropdown-menu">
                         <!--<a href="#small_width">Small   (100 ~ 250 m)   (350 ~ 850 ft)</a>-->
                         <!--<a href="#medium_width">Medium (250 ~ 500 m) (850 ~ 1500 ft)</a>-->
                         <!--<a href="#large_width">Large (500 ~ 1000 m) (1500 ~ 3200 ft)</a>-->
-                          <label class="radio-inline">
-                            <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009" data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">Large (500 ~ 1000 m) (1500 ~ 3200 ft)<br>
+                          <label class="dropdown-item">
+                            <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009" data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~ 3200 ft)<br>
                           </label>
-                          <label class="radio-inline active">
-                            <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="" data-text="250-500m &nbsp;&nbsp; 850-1500 ft">Medium &nbsp;(250 ~ 500 m) &nbsp;(850 ~ 1500 ft)<br>
+                          <label class="dropdown-item">
+                            <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="" data-text="250-500m &nbsp;&nbsp; 850-1500 ft">&nbsp;Mediu (250 ~ 500 m)(850 ~ 1500 ft)<br>
                           </label>
-                          <label class="radio-inline">
-                              <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025" data-text="100-250m &nbsp;&nbsp; 350-850 ft">Small  &nbsp;&nbsp;&nbsp; (100 ~ 250 m)  &nbsp;&nbsp;&nbsp; (350 ~ 850 ft)
+                          <label class="dropdown-item">
+                              <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025" data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)
                           </label>
                       </div>
                 </div>
@@ -290,7 +288,7 @@ function myFunction() {
 }
 
 window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
+  if (!event.target.matches('.dropdown')) {
 
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
