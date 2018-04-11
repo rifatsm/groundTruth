@@ -38,7 +38,7 @@ var not_canidates = 0;
 // text templates
 var start_drawing_template = "Drawing Mode";
 var stop_drawing_template = "Viewing Mode";
-var remove_drawing_template = "Remove Investigation";
+var remove_drawing_template = "Remove Search Space";
 
 var show_judgements_template = "Show Color";
 var hide_judgements_template = "Hide Color";
@@ -49,7 +49,7 @@ var show_overlays_template = "Show all Overlays";
 var canidate_template = "Include in Search";
 var not_canidate_template = "Exclude from Search";
 
-var budeget_template = "You may use up to <strong>" + max_workers + "</strong> workers to complete your investigation";
+var budeget_template = "You may use up to <strong>" + max_workers + "</strong> workers to complete your search space";
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
@@ -207,7 +207,7 @@ function map_height() {
 }
 
 function can_afford(num_regions) {
-    $("#cost").html("Workers required for investigation: <strong>" + (num_regions * worker_density)+"</strong>");
+    $("#cost").html("Workers required for search space: <strong>" + (num_regions * worker_density)+"</strong>");
     return (num_regions * worker_density) <= max_workers;
 
 }
@@ -781,7 +781,7 @@ function initMap() {
             map_height();
 
             $("#too_much").attr("hidden", true);
-            $("#cost").text("Workers required for investigation: 0");
+            $("#cost").text("Workers required for search space: 0");
             var invest = draw_erase_btn.data("investigation");
             invest.setMap(null);
             draw_erase_btn.data("investigation", null);
