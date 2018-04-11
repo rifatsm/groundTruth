@@ -168,7 +168,7 @@ function initMap() {
             new google.maps.LatLng(json.bounds.lat_end, json.bounds.lon_end)
         );
         miniMap = new google.maps.Map(document.getElementById('miniMap'), {
-            zoom: 11,
+            zoom: 10,
             center: regionBounds.getCenter(),
             mapTypeId: 'roadmap',
             disableDefaultUI: true,
@@ -272,6 +272,7 @@ function initMap() {
         //When the map is loaded in, then center the minimap.
         google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
             miniMap.fitBounds(searchRegion.getBounds());
+            miniMap.setZoom(miniMap.getZoom()+1);
         });
 
 
