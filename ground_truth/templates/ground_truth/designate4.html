@@ -159,7 +159,32 @@
                       </div>
                 </div>
             </div>
-            <h5 id="budget"></h5>
+
+            <br>
+
+            <div align="center">
+            <table id="budget_table" style="width:60% margin-left:20%" border="1">
+                <tr>
+                    <td id="budget" align="center" width="80%"></td>
+                    <td id="budget_2" align="center" width="20%">50</td>
+                </tr>
+                <tr>
+                    <td id="cost" align="center" width="80%"> &nbsp; Workers required for Search Space &nbsp; </td>
+                    <td id="cost_2" align="center" width="20%">0</td>
+                </tr>
+
+            </table>
+            </div>
+
+
+            <br>
+
+            <!--<h5 id="budget"></h5>-->
+            <!--<h5 id="cost">Workers required for Search Space: <strong>0</strong></h5>-->
+            <h4 hidden id="too_much">You have selected a search space with bounds that exceeds the allotted number of
+                workers.
+                Please draw a search space with smaller bounds.</h4>
+
 
             <!--Legend-->
             <!--<img hidden id="legend" src="{% static 'ground_truth/img/legend.jpg' %}" style="width:50%"/>-->
@@ -185,10 +210,9 @@
 
             </table>
 
-            <h5 id="cost">Workers required for Search Space: <strong>0</strong></h5>
-            <h4 hidden id="too_much">You have selected a search space with bounds that exceeds the allotted number of
-                workers.
-                Please draw a search space with smaller bounds.</h4>
+
+
+
             <button class="btn btn-default" id="add_investigation_btn">Start Searching (may take a minute...)</button>
             <a href="../foundit/" target="_blank">
                 <br><br>

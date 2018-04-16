@@ -49,7 +49,8 @@ var show_overlays_template = "Show all Overlays";
 var canidate_template = "Include in Search";
 var not_canidate_template = "Exclude from Search";
 
-var budeget_template = "You may use up to <strong>" + max_workers + "</strong> workers to complete your search space";
+//var budeget_template = "You may use up to <strong>" + max_workers + "</strong> workers to complete your search space";
+var budeget_template = "Total workers present ";
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
@@ -207,7 +208,8 @@ function map_height() {
 }
 
 function can_afford(num_regions) {
-    $("#cost").html("Workers required for search space: <strong>" + (num_regions * worker_density)+"</strong>");
+    $("#cost").html(" Workers required for search space: ");
+    $("#cost_2").html("<strong>" + (num_regions * worker_density)+"</strong>");
     return (num_regions * worker_density) <= max_workers;
 
 }
@@ -573,6 +575,7 @@ $(document).ready(function () {
     worker_zoom();
 
     $("#budget").html(budeget_template);
+    $("#budget_2").html("<strong>" + max_workers+"</strong>");
     $("#description_form").hide();
 
     $("#add_investigation_btn").addClass("disabled");
@@ -781,7 +784,8 @@ function initMap() {
             map_height();
 
             $("#too_much").attr("hidden", true);
-            $("#cost").text("Workers required for search space: 0");
+            $("#cost").text(" Workers required for search space: ");
+            $("#cost_2").text("0");
             var invest = draw_erase_btn.data("investigation");
             invest.setMap(null);
             draw_erase_btn.data("investigation", null);
@@ -862,7 +866,9 @@ function initMap() {
         $("#add_investigation_btn").hide();
         $("#define_title").hide();
         $("#budget").hide();
+        $("#budget_2").hide();
         $("#cost").hide();
+        $("#cost_2").hide();
 
         $("#crowd_title").show();
 //        $("#legend").show();
