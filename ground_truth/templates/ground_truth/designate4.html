@@ -95,44 +95,48 @@
     </style>
 
     <style>
-    .dropbtn {
-        background-color: #3498DB;
-        color: white;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-    }
+        .dropbtn {
+            background-color: #3498DB;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
 
-    .dropbtn:hover, .dropbtn:focus {
-        background-color: #2980B9;
-    }
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
 
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        overflow: auto;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-    }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
 
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
 
-    .dropdown a:hover {background-color: #ddd}
+        .dropdown a:hover {
+            background-color: #ddd
+        }
 
-    .show {display:block;}
+        .show {
+            display: block;
+        }
     </style>
 
 </head>
@@ -213,39 +217,46 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="dropdown">
-                    <button onclick="myFunction()" id="dropBt" class="btn btn-success dropdown-toggle">Estimate the Width of the Diagram &#9660;</button>
-                      <div id="width_zoom" class="dropdown-menu">
+                    <button onclick="myFunction()" id="dropBt" class="btn btn-success dropdown-toggle">Estimate the
+                        Width of the Diagram &#9660;</button>
+                    <div id="width_zoom" class="dropdown-menu">
                         <!--<a href="#small_width">Small   (100 ~ 250 m)   (350 ~ 850 ft)</a>-->
                         <!--<a href="#medium_width">Medium (250 ~ 500 m) (850 ~ 1500 ft)</a>-->
                         <!--<a href="#large_width">Large (500 ~ 1000 m) (1500 ~ 3200 ft)</a>-->
-                          <label class="dropdown-item">
-                            <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009" data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~ 3200 ft)<br>
-                          </label>
-                          <label class="dropdown-item">
-                            <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="" data-text="250-500m &nbsp;&nbsp; 850-1500 ft">&nbsp;Medium (250 ~ 500 m)(850 ~ 1500 ft)<br>
-                          </label>
-                          <label class="dropdown-item">
-                              <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025" data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)
-                          </label>
-                      </div>
+                        <label class="dropdown-item">
+                            <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009"
+                                   data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~
+                            3200 ft)<br>
+                        </label>
+                        <label class="dropdown-item">
+                            <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked=""
+                                   data-text="250-500m &nbsp;&nbsp; 850-1500 ft">&nbsp;Medium (250 ~ 500 m)(850 ~ 1500
+                            ft)<br>
+                        </label>
+                        <label class="dropdown-item">
+                            <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025"
+                                   data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)
+                        </label>
+                    </div>
                 </div>
             </div>
 
             <br>
 
             <div align="center">
-            <table id="budget_table" style="width:60% margin-left:20%" border="1">
-                <tr>
-                    <td id="budget" align="center" width="80%"></td>
-                    <td id="budget_2" align="center" width="20%">50</td>
-                </tr>
-                <tr>
-                    <td id="cost" align="center" width="80%"> &nbsp; Workers required for Search Space &nbsp; </td>
-                    <td id="cost_2" align="center" width="20%">0</td>
-                </tr>
+                <table id="budget_table" style="width:70%" border="1">
+                    <tr>
+                        <td id="budget" align="center" width="80%"></td>
+                        <td id="budget_2" align="center" width="20%">50</td>
+                    </tr>
+                    <tr>
+                        <td id="cost" align="center" width="80%"> &nbsp; Workers required for Search Space &nbsp; </td>
+                        <td id="cost_2" align="center" width="20%">0</td>
+                    </tr>
 
-            </table>
+                </table>
             </div>
 
 
@@ -256,7 +267,32 @@
             <h4 hidden id="too_much">You have selected a search space with bounds that exceeds the allotted number of
                 workers.
                 Please draw an investigation with smaller bounds.</h4>
-            <button class="btn btn-default" id="add_investigation_btn">Start Investigation (may take a minute...)</button>
+
+
+            <div align="center">
+                <table hidden id="legend" style="width:70%" border="1">
+                    <h5 hidden id="legend_h"> Color Legend </h5>
+                    <tr>
+                        <td bgcolor="#d7191c" width="20%">Red</td>
+                        <td> 0% (none of 3 workers) positive</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#fdae61" width="20%">Orange</td>
+                        <td> 33% (1 of 3 workers) positive</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#a6d96a" width="20%">Light Green</td>
+                        <td> 67% (2 of 3 workers) positive</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#1a9641" width="20%">Green</td>
+                        <td> 100% (3 of 3 workers) positive</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button class="btn btn-default" id="add_investigation_btn">Start Investigation (may take a minute...)
+            </button>
             <a href="../foundit/" target="_blank">
                 <br><br>
                 <!--<button class="btn btn-primary">Next</button>-->
@@ -316,55 +352,19 @@
 </body>
 
 <script>
-<!--function startTimer(duration, display) {-->
-    <!--var start = Date.now(),-->
-        <!--diff,-->
-        <!--minutes,-->
-        <!--seconds;-->
-    <!--function timer() {-->
-        <!--// get the number of seconds that have elapsed since-->
-        <!--// startTimer() was called-->
-        <!--diff = duration - (((Date.now() - start) / 1000) | 0);-->
+    function myFunction() {
+        document.getElementById("width_zoom").classList.toggle("show");
+    }
 
-        <!--// does the same job as parseInt truncates the float-->
-        <!--minutes = (diff / 60) | 0;-->
-        <!--seconds = (diff % 60) | 0;-->
-
-        <!--minutes = minutes < 10 ? "0" + minutes : minutes;-->
-        <!--seconds = seconds < 10 ? "0" + seconds : seconds;-->
-
-        <!--display.textContent = minutes + ":" + seconds;-->
-
-        <!--if (diff <= 0) {-->
-            <!--// add one second so that the count down starts at the full duration-->
-            <!--// example 05:00 not 04:59-->
-            <!--start = Date.now() + 1000;-->
-        <!--}-->
-    <!--};-->
-    <!--// we don't want to wait a full second before the timer starts-->
-    <!--timer();-->
-    <!--setInterval(timer, 1000);-->
-<!--}-->
-
-<!--window.onload = function () {-->
-    <!--var setMinutes = 60 * 5,-->
-        <!--display = document.querySelector('#time');-->
-    <!--startTimer(setMinutes, display);-->
-<!--};-->
-
-
-function myFunction() {
-    document.getElementById("width_zoom").classList.toggle("show");
-}
     (function () {
         var gl_section = $('#gl_section');
-            $zoomIn: $('#gl_zoom_in'),
         gl_section.find('.panzoom').panzoom({
+            $zoomIn: $('#gl_zoom_in'),
             $zoomOut: $('#gl_zoom_out'),
             $zoomRange: $('#gl_zoom_range'),
             $reset: $('#gl_reset'),
-            contain: 'invert',
             panOnlyWhenZoomed: true,
+            contain: 'invert',
             minScale: 1
         });
 
@@ -373,27 +373,26 @@ function myFunction() {
             $zoomIn: $('#dg_zoom_in'),
             $zoomOut: $('#dg_zoom_out'),
             $zoomRange: $('#dg_zoom_range'),
-            panOnlyWhenZoomed: true,
             $reset: $('#dg_reset'),
+            panOnlyWhenZoomed: true,
             contain: 'invert',
             minScale: 1
-    })();
         });
+    })();
 
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropdown')) {
 
-window.onclick = function(event) {
-  if (!event.target.matches('.dropdown')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
     }
-  }
-}
 
 
 </script>
