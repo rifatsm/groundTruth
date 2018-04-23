@@ -3,7 +3,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>Uploading Image</title>
+    <title>Uploading Images</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -17,43 +17,139 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <style>
+        #ground_upload img {
+            height: auto;
+            max-width: 100%;
+        }
 
+        /* symbol for "opening" panels */
+        .panel-heading .accordion-toggle:after {
+            font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon, specifically halflings */
+            content: "\e253"; /* type of arrow icon */
+            float: right; /* arrow on the right side of the panel */
+            color: white; /* color of the icon */
+        }
+
+        /* symbol for "collapsed" panels */
+        .panel-heading .accordion-toggle.collapsed:after {
+            content: "\e252"; /* type of arrow icon */
+        }
+    </style>
 </head>
 <body>
-
 
 
 <div id="outerContainer">
     <div class="jumbotron">
         <div class="container">
             <div class="col-lg-2">
-                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"></img>
+                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">
             </div>
             <div class="col-lg-10">
                 <h1>GroundTruth</h1>
-                <h3>Get ready to upload the 1st image! (Image Provided)</h3>
+                <h3>Upload Images</h3>
             </div>
         </div>
     </div>
     <div id="container">
         <div class="col-lg-12">
-
-            <!-- image upload by Ri -->
-            <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
-            <h3>Draw a diagram of the following image</h3>
-            <br><br>
-            <img src="{% static 'ground_truth/img/expert1/ground_level_img/image_4.jpg' %}" style="height: 600px; width: 900px"/>
-            <br><br>
-            <h3>Upload the diagram</h3>
-            <br>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input style="font-size:18px" type="file" name="myfile">
+                <h3>Hey there! Please upload a ground-level or satellite image that you wish to geolocate.</h3>
+                <br>
+                <input id="ground_file" style="font-size:18px" type="file" name="myfile_gl">
+                <br>
+                <img id="ground_upload" style="width: 80%" src="">
                 <br><br>
-                <button type="submit" class="btn btn-success btn-lg">Upload</button>
-            </form>
-            <br><br>
+                <hr>
 
+                <h3>Great, now we need you to draw and upload an aerial diagram of the image you just provided.</h3>
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse1">Why do you need an
+                                    aerial
+                                    diagram? What exactly do I draw?</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                Great question! We asked ourselves the same thing! We know many experts already draw
+                                aerial diagrams to help with geolocation tasks. We found that providing an aerial
+                                diagram gave us the best results. Crowd workers responded best to aerial diagrams which
+                                included streets, buildings, and road markings. These features help increase the odds of
+                                finding the correct location.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse2">
+                                    Do you have a few examples?</a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <strong>Sure! Here are a few ground-level images and their respective aerial diagrams
+                                    with the
+                                    appropriate level of detail.</strong>
+                                <br><br><br>
+                                <img id="gt_overview" style="width:100%;"
+                                     src="{% static 'ground_truth/img/expert1/ground_level_img/gld_and_aerial_examples.jpg' %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse3">
+                                    How should I draw it?</a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                Really, it's up to you. If you're more comfortable using an electronic drawing tool, go
+                                for it. Pen and paper is fine too. The final image must be in the format of .jpg, .png,
+                                or .pdf. Once you've finished drawing, we can sort out the details of getting them to
+                                your team of crowd workers.
+
+                                Don't panic! This isn't an art competition!
+
+                                Do your best with drawing the diagrams, but don't worry too much.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <hr>
+                <h3>Ideally, please try to spend no more than 5 minutes drawing. Once you have completed drawing and
+                    uploading your diagram click the button below to move forward.</h3>
+                <br>
+                <input style="font-size:18px" id="diagram_file" type="file" name="myfile_di">
+                <br>
+                <img id="diagram_upload" style="width: 30%" src="">
+                <br><br>
+
+                <div class="row">
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row text-center">
+                        <button type="submit" class="btn btn-success btn-lg">Next: GroundTruth Tutorial</button>
+                    </div>
+                    <div id="footer" class="col-sm-4 col-sm-offset-4">
+                        <br><br><br><br>
+                        <p class="text-center">Virginia Tech &copy; 2017</p>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -61,42 +157,32 @@
 </body>
 
 <script>
-function startTimer(duration, display) {
-    var start = Date.now(),
-        diff,
-        minutes,
-        seconds;
-    function timer() {
-        // get the number of seconds that have elapsed since
-        // startTimer() was called
-        diff = duration - (((Date.now() - start) / 1000) | 0);
+    /* function used to populate page with the ground level image after the selecting a image via choose file */
+    function readURL(input, image_input) {
 
-        // does the same job as parseInt truncates the float
-        minutes = (diff / 60) | 0;
-        seconds = (diff % 60) | 0;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+            reader.onload = function (e) {
+                $(image_input).attr('src', e.target.result);
+            }
 
-        display.textContent = minutes + ":" + seconds;
-
-        if (diff <= 0) {
-            // add one second so that the count down starts at the full duration
-            // example 05:00 not 04:59
-            start = Date.now() + 1000;
+            reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    /* with the choose file button change, then it will call the readURL function*/
+    $('#ground_file').change(function () {
+        readURL(this, '#ground_upload');
+    });
+
+    $('#diagram_file').change(function () {
+        readURL(this, '#diagram_upload');
+    });
+
+    window.onload = function () {
+        // jquery plugin for the collapsible panel (accordion)
+        $('.collapse').collapse();
     };
-    // we don't want to wait a full second before the timer starts
-    timer();
-    setInterval(timer, 1000);
-}
-
-window.onload = function () {
-    var setMinutes = 60 * 5,
-        display = document.querySelector('#time');
-    startTimer(setMinutes, display);
-};
-
-
 </script>
 </html>

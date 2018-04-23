@@ -589,12 +589,12 @@ $(document).ready(function () {
 
     $('#rot-left').on('click', function (event) {
         event.preventDefault();
-        $('#diagram_image').rotate(-45);
+        $('#diagram_image_4').rotate(-45);
 
     });
     $('#rot-right').on('click', function (event) {
         event.preventDefault();
-        $('#diagram_image').rotate(45);
+        $('#diagram_image_4').rotate(45);
 
     });
 

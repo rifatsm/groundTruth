@@ -5,59 +5,93 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     {% load static %}
+
+    <!-- Bootstrap Library -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
+    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+    {#            crossorigin="anonymous"></script>#}
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.mousewheel.min.js"></script>
+    <script src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.iviewer.js"></script>
+    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery.iviewer.css" type="text/css"/>
+    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <!-- Font Awesome -->
     <link href=cle"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <!-- Designate -->
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
+
     <script src="{% static 'ground_truth/js/designate.js' %}"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    {#    panzoom for the Expert UI ground level and diagram images #}
+    <script src="{% static 'ground_truth/dist/jquery.panzoom.js' %}"></script>
 
-{#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"#}
-{#            async defer></script>#}
 
-    {#    Ri's API #}
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
+    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+    {#            crossorigin="anonymous"></script>#}
+
+    {#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"#}
+    {#            async defer></script>#}
+
+    <!-- Ri's API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-4Jo0nwXyzbskNsLZpdLUjPYMylDLmRs&libraries=drawing,geometry,places&callback=initMap"
             async defer></script>
 
     <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
 
-    {#    Style for Search Box #}
+    <!-- Style for Search Box -->
     <style>
+        #ground_image_1, #diagram_image_4 {
+            max-height: 200px;
+            max-width: 300px;
+            margin-bottom: 5px;
+        }
+
         .pac-controls {
-        display: inline-block;
-        padding: 5px 11px;
-      }
+            display: inline-block;
+            padding: 5px 11px;
+        }
 
-      .pac-controls label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
 
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 400px;
-      }
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 13px;
+            text-overflow: ellipsis;
+            width: 400px;
+        }
 
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
     </style>
 
     <style>
@@ -122,23 +156,61 @@
             <!--<h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>-->
             <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images
             </h4>
-            <div id="image_wrapper">
 
-                <img id="ground_image_1" src="{% static 'ground_truth/img/expert1/ground_level_img/image_4.jpg' %}" style="height: 200px; width: 300px"/>
-                <br>
-                <!--<h5>Hint: Somewhere near Polinago, Italy</h5>-->
-                <br><br>
 
-                <img id="diagram_image_1" src="{% static 'ground_truth/img/expert1/diagram_img/diagram_4.jpg'%}" style="height: 200px; width: 300px"/>
+            <div id="images_tab">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#ground_view_tab">Ground-Level</a></li>
+                    <li><a data-toggle="tab" href="#diagram_view_tab">Diagram</a></li>
+                </ul>
 
-                <div class="col-md-12 text-center" style="margin-bottom:15px;">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
-                                                                                        aria-hidden="true"></i>
-                        </button>
-                        <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
-                                                                                       aria-hidden="true"></i>
-                        </button>
+                <div class="tab-content">
+                    <div id="ground_view_tab" class="tab-pane fade in active">
+                        <br>
+                        <div>
+                            <section id="gl_section">
+                                <div class="parent">
+                                    <div class="panzoom">
+                                        <img id="ground_image_1"
+                                             src="{% static 'ground_truth/img/expert1/ground_level_img/ground_level_img_1.jpg' %}"/>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <br>
+                        <div class="ground_level_buttons">
+                            <button id="gl_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
+                            <button id="gl_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <button id="gl_reset" type="button" class="btn btn-default">Reset</button>
+                        </div>
+                    </div>
+                    <div id="diagram_view_tab" class="tab-pane fade">
+                        <br>
+                        <div>
+                            <section id="dg_section">
+                                <div class="parent">
+                                    <div class="panzoom">
+                                        <img id="diagram_image_4"
+                                             src="{% static 'ground_truth/img/expert1/diagram_img/diagram_4.jpg' %}"/>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <br>
+                        <div class="diagram_buttons">
+                            <button id="dg_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
+                            <button id="dg_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <button id="dg_reset" type="button" class="btn btn-default">Reset</button>
+
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
+                                                                                                aria-hidden="true"></i>
+                                </button>
+                                <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
+                                                                                               aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown">
@@ -183,37 +255,8 @@
             <!--<h5 id="cost">Workers required for Search Space: <strong>0</strong></h5>-->
             <h4 hidden id="too_much">You have selected a search space with bounds that exceeds the allotted number of
                 workers.
-                Please draw a search space with smaller bounds.</h4>
-
-
-            <!--Legend-->
-            <!--<img hidden id="legend" src="{% static 'ground_truth/img/legend.jpg' %}" style="width:50%"/>-->
-
-            <table hidden id="legend" style="width:50% margin-left:20%" border="1">
-                <h5 hidden id="legend_h"> Color Legend </h5>
-                <tr>
-                    <td bgcolor="#d7191c" width="20%">Red</td>
-                    <td> 0% (none of 3 workers) positive </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#fdae61" width="20%">Orange</td>
-                    <td> 33% (1 of 3 workers) positive </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#a6d96a" width="20%">Light Green</td>
-                    <td> 67% (2 of 3 workers) positive </td>
-                </tr>
-                <tr>
-                    <td bgcolor="#1a9641" width="20%">Green</td>
-                    <td> 100% (3 of 3 workers) positive </td>
-                </tr>
-
-            </table>
-
-
-
-
-            <button class="btn btn-default" id="add_investigation_btn">Start Searching (may take a minute...)</button>
+                Please draw an investigation with smaller bounds.</h4>
+            <button class="btn btn-default" id="add_investigation_btn">Start Investigation (may take a minute...)</button>
             <a href="../foundit/" target="_blank">
                 <br><br>
                 <!--<button class="btn btn-primary">Next</button>-->
@@ -230,22 +273,25 @@
             <h5 id="width_zoom_notifier" hidden>250-500m &nbsp;&nbsp; 850-1500ft</h5>
             <div id="width_zoom_0" class="col-xs-12" hidden>
                 <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009" data-text="500-1000m &nbsp;&nbsp; 1500-3200ft
+                    <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009"
+                           data-text="500-1000m &nbsp;&nbsp; 1500-3200ft
                     (0.3-0.6miles)">500-1000m<br>1500-3200ft
                     (0.3-0.6miles)
                 </label>
                 <label class="radio-inline active">
-                    <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked="" data-text="250-500m &nbsp;&nbsp; 850-1500ft">250-500m<br>850-1500ft
+                    <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked=""
+                           data-text="250-500m &nbsp;&nbsp; 850-1500ft">250-500m<br>850-1500ft
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025" data-text="100-250m &nbsp;&nbsp; 350-850ft">100-250m<br>350-850ft
+                    <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025"
+                           data-text="100-250m &nbsp;&nbsp; 350-850ft">100-250m<br>350-850ft
                 </label>
-{#                <label class="radio-inline" hidden>#}
-{#                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft#}
-{#                </label>#}
-{#                <label class="radio-inline" hidden>#}
-{#                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft#}
-{#                </label>#}
+                {#                <label class="radio-inline" hidden>#}
+                {#                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft#}
+                {#                </label>#}
+                {#                <label class="radio-inline" hidden>#}
+                {#                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft#}
+                {#                </label>#}
             </div>
             <div class="col-xs-12">
                 <button id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>
@@ -310,6 +356,30 @@
 function myFunction() {
     document.getElementById("width_zoom").classList.toggle("show");
 }
+    (function () {
+        var gl_section = $('#gl_section');
+            $zoomIn: $('#gl_zoom_in'),
+        gl_section.find('.panzoom').panzoom({
+            $zoomOut: $('#gl_zoom_out'),
+            $zoomRange: $('#gl_zoom_range'),
+            $reset: $('#gl_reset'),
+            contain: 'invert',
+            panOnlyWhenZoomed: true,
+            minScale: 1
+        });
+
+        var dg_section = $('#dg_section');
+        dg_section.find('.panzoom').panzoom({
+            $zoomIn: $('#dg_zoom_in'),
+            $zoomOut: $('#dg_zoom_out'),
+            $zoomRange: $('#dg_zoom_range'),
+            panOnlyWhenZoomed: true,
+            $reset: $('#dg_reset'),
+            contain: 'invert',
+            minScale: 1
+    })();
+        });
+
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropdown')) {

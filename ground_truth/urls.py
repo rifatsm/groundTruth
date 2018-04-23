@@ -41,7 +41,7 @@ urlpatterns = [
     # url(r'^user/investigations/$', views.my_investigations, name='my_investigations'),
     url(r'^signup/$', views.singup_form, name="signup"),
     url(r'^foundit/$', views.found_it, name="foundit"),
-    url(r'^instructions/$', views.instructions, name="instructions"),
+    url(r'^overview/$', views.overview, name="overview"),
     url(r'^how_to/$', views.how_to, name="how_to"),
 
 

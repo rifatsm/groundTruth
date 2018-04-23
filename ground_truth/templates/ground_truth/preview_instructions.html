@@ -3,7 +3,7 @@
 <head>
     {% load static %}
 
-    <title>GroundTruth -- Worker</title>
+    <title>GroundTruth -- Preview</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -50,59 +50,43 @@
 
                 <h4>How am I paid for this task?</h4>
                 <p> Describe how they will be paid here!</p>
+
+                <h3><strong style="color:red">Attention: Please disable your AdBlocker if you want to accept this task!</strong></h3>
             </div>
         </div>
-        <br><br><br><br><br>
+        <br><br><br>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Step 1: Your reference diagram is shown on the left. Your mission is
-                            find the area on the map that the diagram represents. You will look through 16 satellite
-                            subregions and indicate whether or not the satellite imagery matches the diagram. Pay
-                            attention to the features in the diagram and see if you can find them in the satellite
-                            region. You can rotate it using the controls below.</h3>
+                        <h3 class="panel-title">
+                            Instruction:
+                            <br><br>
+                            <ol>
+                                <li>Your reference diagram is shown on the left. Your mission is find the area on the
+                                    map that the diagram represents. You will look through 16 satellite subregions and
+                                    indicate whether or not the satellite imagery matches the diagram.
+                                </li>
+                                <br><br>
+                                <li>Pay attention to the features in the diagram and see if you can find them in the
+                                    satellite region. You can rotate it using the controls below.
+                                </li>
+                                <br><br>
+                                <li>One subregion will be shown in the satellite view. If you think the satellite
+                                    imagery matches the diagram, click the 'Yes / Maybe' button. Otherwise, if you do
+                                    not think the satellite imagery matches the diagram, click the 'No' button.
+                                </li>
+                                <br><br>
+                                <li>After you make a decision, click the 'Next' button to view the next subregion. This
+                                    map shows your progress throughout the 16 subregions. As you make your
+                                    determinations, this map will update.
+                                </li>
+                            </ol>
+                        </h3>
                     </div>
                     <div class="panel-body">
                         <img id="step1image" style="width:100%;"
-                             src="{% static 'ground_truth/img/expert1/tutorial_img/initial_worker_ui.jpg' %}">
-                    </div>
-                </div>
-
-                <br><br><br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Step 2: One subregion will be shown in the satellite view. If you think
-                            the satellite imagery matches the diagram, click the 'Yes / Maybe' button. Otherwise, if you
-                            do not think the satellite imagery matches the diagram, click the 'No' button. </h3>
-                    </div>
-                    <div class="panel-body">
-                        <img id="step2image" style="width:100%;"
-                             src="{% static 'ground_truth/img/expert1/tutorial_img/yes_no_tutorial.jpg' %}">
-                    </div>
-                </div>
-                <br><br><br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Step 3: After you make a decision, click the 'Next' button to view the
-                            next subregion. This map shows your progress throughout the 16 subregions. As you make your
-                            determinations, this map will update.</h3>
-                    </div>
-                    <div class="panel-body">
-                        <img id="step3image" style="width:100%;"
-                             src="{% static 'ground_truth/img/expert1/tutorial_img/next_tutorial.jpg' %}">
-                    </div>
-                </div>
-
-                <br><br><br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Step 4: After you have completed the task, a submission pop up will
-                            appear. </h3>
-                    </div>
-                    <div class="panel-body">
-                        <img id="step4image" style="width:100%;"
-                             src="{% static 'ground_truth/img/expert1/tutorial_img/submission.jpg' %}">
+                             src="{% static 'ground_truth/img/expert1/tutorial_img/worker_preview.jpeg' %}">
                     </div>
                 </div>
             </div>
@@ -114,7 +98,7 @@
         <hr>
         <br>
         <div class="row text-center">
-            <h3>Click the "Accept" button, if you want to proceed on this task!</h3>
+            <h3>Click the "Accept" button, if you want to proceed with this task!</h3>
         </div>
         <div id="footer" class="col-sm-4 col-sm-offset-4">
             <br><br>
