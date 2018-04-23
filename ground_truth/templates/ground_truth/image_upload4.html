@@ -16,6 +16,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
+    <style>
+        #ground_upload img {
+            height: auto;
+            max-width: 100%;
+        }
+
+        /* symbol for "opening" panels */
+        .panel-heading .accordion-toggle:after {
+            font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon, specifically halflings */
+            content: "\e253"; /* type of arrow icon */
+            float: right; /* arrow on the right side of the panel */
+            color: white; /* color of the icon */
+        }
+
+        /* symbol for "collapsed" panels */
+        .panel-heading .accordion-toggle.collapsed:after {
+            content: "\e252"; /* type of arrow icon */
+        }
+    </style>
 </head>
 <body>
 
@@ -36,10 +56,6 @@
         <div class="col-lg-12">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div>
-                    <h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>
-                </div>
-
                 <h3>Hey there! Please upload a ground-level or satellite image that you wish to geolocate.</h3>
                 <br>
                 <input id="ground_file" style="font-size:18px" type="file" name="myfile_gl">
@@ -53,7 +69,8 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Why do you need an
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse1">Why do you need an
                                     aerial
                                     diagram? What exactly do I draw?</a>
                             </h4>
@@ -71,7 +88,8 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse2">
                                     Do you have a few examples?</a>
                             </h4>
                         </div>
@@ -89,7 +107,8 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapse3">
                                     How should I draw it?</a>
                             </h4>
                         </div>
@@ -115,7 +134,7 @@
                 <br>
                 <input style="font-size:18px" id="diagram_file" type="file" name="myfile_di">
                 <br>
-                <img id="diagram_upload" style="width: 50%" src="">
+                <img id="diagram_upload" style="width: 30%" src="">
                 <br><br>
 
                 <div class="row">
@@ -138,37 +157,6 @@
 </body>
 
 <script>
-    function startTimer(duration, display) {
-        var start = Date.now(),
-                diff,
-                minutes,
-                seconds;
-
-        function timer() {
-            // get the number of seconds that have elapsed since
-            // startTimer() was called
-            diff = duration - (((Date.now() - start) / 1000) | 0);
-
-            // does the same job as parseInt truncates the float
-            minutes = (diff / 60) | 0;
-            seconds = (diff % 60) | 0;
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = minutes + ":" + seconds;
-
-            if (diff <= 0) {
-                // add one second so that the count down starts at the full duration
-                // example 05:00 not 04:59
-                start = Date.now() + 1000;
-            }
-        };
-        // we don't want to wait a full second before the timer starts
-        timer();
-        setInterval(timer, 1000);
-    }
-
     /* function used to populate page with the ground level image after the selecting a image via choose file */
     function readURL(input, image_input) {
 
@@ -193,10 +181,6 @@
     });
 
     window.onload = function () {
-        var setMinutes = 60 * 5,
-                display = document.querySelector('#time');
-        startTimer(setMinutes, display);
-
         // jquery plugin for the collapsible panel (accordion)
         $('.collapse').collapse();
     };

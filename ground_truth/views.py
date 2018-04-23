@@ -225,14 +225,17 @@ def image_upload4(request):
         myfile_di = request.FILES['myfile_di']
 
         fs = FileSystemStorage(location=settings.FS_IMAGE_UPLOADS, base_url=settings.FS_IMAGE_URL)
-
         if fs.exists("ground_level_img_1.jpg"):
             fs.delete("ground_level_img_1.jpg")
+            fs.save("ground_level_img_1.jpg", myfile_gl)
+        else:
             fs.save("ground_level_img_1.jpg", myfile_gl)
 
         fs_d = FileSystemStorage(location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL)
         if fs_d.exists("diagram_4.jpg"):
             fs_d.delete("diagram_4.jpg")
+            fs_d.save("diagram_4.jpg", myfile_di)
+        else:
             fs_d.save("diagram_4.jpg", myfile_di)
 
         return render(request, 'ground_truth/how_to_do.html')

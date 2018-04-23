@@ -5,37 +5,68 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     {% load static %}
+
+    <!-- Bootstrap Library -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
+    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+    {#            crossorigin="anonymous"></script>#}
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.mousewheel.min.js"></script>
+    <script src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.iviewer.js"></script>
+    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery.iviewer.css" type="text/css"/>
+    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <!-- Font Awesome -->
     <link href=cle"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
+
+    <!-- Designate -->
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
+
     <script src="{% static 'ground_truth/js/designate.js' %}"></script>
 
     {#    panzoom for the Expert UI ground level and diagram images #}
     <script src="{% static 'ground_truth/dist/jquery.panzoom.js' %}"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
+    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+    {#            crossorigin="anonymous"></script>#}
 
     {#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"#}
     {#            async defer></script>#}
 
-    {#    Ri's API #}
+    <!-- Ri's API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-4Jo0nwXyzbskNsLZpdLUjPYMylDLmRs&libraries=drawing,geometry,places&callback=initMap"
             async defer></script>
 
     <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
 
-    {#    Style for Search Box #}
+    <!-- Style for Search Box -->
     <style>
+        #ground_image_1, #diagram_image_4 {
+            max-height: 200px;
+            max-width: 300px;
+            margin-bottom: 5px;
+        }
+
         .pac-controls {
             display: inline-block;
             padding: 5px 11px;
@@ -87,54 +118,61 @@
                 {#                    id="hours">00</label>:<label id="minutes">00</label>:<label id="seconds">00</label>#}
             </h4>
 
-            <div id="image_wrapper">
-                <div>
-                    <section id="gl_section">
-                        <div class="parent">
-                            <div class="panzoom">
-                                <img id="ground_image_1"
-                                     src="{% static 'ground_truth/img/expert1/ground_level_img/ground_level_img_1.jpg' %}"/>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <br>
-                <div class="ground_level_buttons">
-                    <input type="range" id="gl_zoom_range">
-                    <button id="gl_zoom_in">Zoom In</button>
-                    <button id="gl_zoom_out">Zoom Out</button>
-                    <button id="gl_reset">Reset</button>
-                </div>
 
-                <br><br>
+            <div id="images_tab">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#ground_view_tab">Ground-Level</a></li>
+                    <li><a data-toggle="tab" href="#diagram_view_tab">Diagram</a></li>
+                </ul>
 
-                <div>
-                    <section id="dg_section">
-                        <div class="parent">
-                            <div class="panzoom">
-                                <img id="diagram_image_4"
-                                     src="{% static 'ground_truth/img/expert1/diagram_img/diagram_4.jpg' %}"/>
-                            </div>
+                <div class="tab-content">
+                    <div id="ground_view_tab" class="tab-pane fade in active">
+                        <br>
+                        <div>
+                            <section id="gl_section">
+                                <div class="parent">
+                                    <div class="panzoom">
+                                        <img id="ground_image_1"
+                                             src="{% static 'ground_truth/img/expert1/ground_level_img/ground_level_img_1.jpg' %}"/>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-                    </section>
-                </div>
-                <br>
-                <div class="col-md-12 text-center" style="margin-bottom:15px;">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
-                                                                                        aria-hidden="true"></i>
-                        </button>
-                        <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
-                                                                                       aria-hidden="true"></i>
-                        </button>
+                        <br>
+                        <div class="ground_level_buttons">
+                            <button id="gl_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
+                            <button id="gl_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <button id="gl_reset" type="button" class="btn btn-default">Reset</button>
+                        </div>
                     </div>
-                </div>
-                <br>
-                <div class="diagram_buttons">
-                    <input type="range" id="dg_zoom_range">
-                    <button id="dg_zoom_in">Zoom In</button>
-                    <button id="dg_zoom_out">Zoom Out</button>
-                    <button id="dg_reset">Reset</button>
+                    <div id="diagram_view_tab" class="tab-pane fade">
+                        <br>
+                        <div>
+                            <section id="dg_section">
+                                <div class="parent">
+                                    <div class="panzoom">
+                                        <img id="diagram_image_4"
+                                             src="{% static 'ground_truth/img/expert1/diagram_img/diagram_4.jpg' %}"/>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <br>
+                        <div class="diagram_buttons">
+                            <button id="dg_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
+                            <button id="dg_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <button id="dg_reset" type="button" class="btn btn-default">Reset</button>
+
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
+                                                                                                aria-hidden="true"></i>
+                                </button>
+                                <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
+                                                                                               aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -238,18 +276,26 @@
 
 
     (function () {
-        $('#gl_section').panzoom({
+        var gl_section = $('#gl_section');
+        gl_section.find('.panzoom').panzoom({
             $zoomIn: $('#gl_zoom_in'),
             $zoomOut: $('#gl_zoom_out'),
             $zoomRange: $('#gl_zoom_range'),
-            $reset: $('#gl_reset')
+            $reset: $('#gl_reset'),
+            panOnlyWhenZoomed: true,
+            contain: 'invert',
+            minScale: 1
         });
 
-        $('#dg_section').panzoom({
+        var dg_section = $('#dg_section');
+        dg_section.find('.panzoom').panzoom({
             $zoomIn: $('#dg_zoom_in'),
             $zoomOut: $('#dg_zoom_out'),
             $zoomRange: $('#dg_zoom_range'),
-            $reset: $('#dg_reset')
+            $reset: $('#dg_reset'),
+            panOnlyWhenZoomed: true,
+            contain: 'invert',
+            minScale: 1
         });
     })();
 
