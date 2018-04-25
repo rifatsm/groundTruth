@@ -205,7 +205,10 @@ def add_investigation(request):
     """
 
     post = request.POST
+    # print "post: "
     # print post
+    # print "ADD_INVESTIGATION: "
+    # print ADD_INVESTIGATION
 
     if not is_logged_in(request):  # don't allow this unless logged in
         HttpResponseRedirect("/")

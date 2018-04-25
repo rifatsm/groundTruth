@@ -903,13 +903,17 @@ function initMap() {
             'invest_name': name,
             'zoom': zoom,
             'ground_image': $('#ground_image_1').attr('src'),
-            'diagram_image': $('#diagram_image_1').attr('src'),
+            'diagram_image': $('#diagram_image_4').attr('src'),
             // "diagram_image": getUrlVars()["diagram_image"], // TODO Because the rotation of the images messes with things
             'is_tutorial': is_tutorial()
         };
 
+        console.log("add_investigation send data: "+send);
+
 
         $.post("/add_investigation/", send, function (res) {
+
+
 
             //timer();
             // remove the drawing
