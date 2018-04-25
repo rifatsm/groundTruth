@@ -754,7 +754,7 @@ function initMap() {
                 draw_erase_btn.removeClass("btn-success");
                 draw_erase_btn.addClass("btn-default");
                 $("#width_zoom").hide();
-                $("#width_zoom_notifier").show();
+//                $("#width_zoom_notifier").show();
                 map_height();
 
 
@@ -766,7 +766,7 @@ function initMap() {
                 draw_erase_btn.removeClass("btn-default");
                 draw_erase_btn.addClass("btn-success");
 //                $("#width_zoom").show();
-                $("#width_zoom_notifier").hide();
+//                $("#width_zoom_notifier").hide();
                 map_height();
             }
 
@@ -780,7 +780,7 @@ function initMap() {
             draw_erase_btn.removeClass("btn-default");
             draw_erase_btn.addClass("btn-success");
 //            $("#width_zoom").show();
-            $("#width_zoom_notifier").hide();
+//            $("#width_zoom_notifier").hide();
             map_height();
 
             $("#too_much").attr("hidden", true);
@@ -808,7 +808,7 @@ function initMap() {
 //        draw_erase_btn.addClass("btn-primary");
         draw_erase_btn.addClass("btn-danger");
         $("#width_zoom").hide();
-        $("#width_zoom_notifier").show();
+//        $("#width_zoom_notifier").show();
 
         //Get the size and bounds of the drawn region
         var desigArea = rectangle.getBounds();
