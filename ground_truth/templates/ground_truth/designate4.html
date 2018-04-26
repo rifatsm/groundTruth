@@ -14,19 +14,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- Latest compiled JavaScript -->
-    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
-    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
-    {#            crossorigin="anonymous"></script>#}
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.mousewheel.min.js"></script>
-    <script src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.iviewer.js"></script>
-    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery.iviewer.css" type="text/css"/>
-    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery-ui.css" type="text/css"/>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-
+    
     <!-- Font Awesome -->
     <link href=cle"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -34,26 +23,21 @@
 
     <!-- Designate -->
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
+    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
 
     {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
 
+    <!-- Sweet Alert -->
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
 
-    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
-
-    {#    panzoom for the Expert UI ground level and diagram images #}
+    <!-- panzoom for the Expert UI ground level and diagram images -->
     <script src="{% static 'ground_truth/dist/jquery.panzoom.js' %}"></script>
-
-
-    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
-    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
-    {#            crossorigin="anonymous"></script>#}
 
     {#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"#}
     {#            async defer></script>#}
 
-    <!-- Ri's API -->
+    <!-- Google Map (Ri's API) -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-4Jo0nwXyzbskNsLZpdLUjPYMylDLmRs&libraries=drawing,geometry,places&callback=initMap"
             async defer></script>
 
@@ -361,7 +345,6 @@
         gl_section.find('.panzoom').panzoom({
             $zoomIn: $('#gl_zoom_in'),
             $zoomOut: $('#gl_zoom_out'),
-            $zoomRange: $('#gl_zoom_range'),
             $reset: $('#gl_reset'),
             panOnlyWhenZoomed: true,
             contain: 'invert',
@@ -372,7 +355,6 @@
         dg_section.find('.panzoom').panzoom({
             $zoomIn: $('#dg_zoom_in'),
             $zoomOut: $('#dg_zoom_out'),
-            $zoomRange: $('#dg_zoom_range'),
             $reset: $('#dg_reset'),
             panOnlyWhenZoomed: true,
             contain: 'invert',
