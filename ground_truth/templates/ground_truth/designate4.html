@@ -219,27 +219,37 @@
                 </div>
                 <br>
                 <div class="dropdown">
-                    <button onclick="myFunction()" id="dropBt" class="btn btn-success dropdown-toggle">Estimate the
-                        Width of the Diagram &#9660;</button>
-                    <div id="width_zoom" class="dropdown-menu">
-                        <!--<a href="#small_width">Small   (100 ~ 250 m)   (350 ~ 850 ft)</a>-->
-                        <!--<a href="#medium_width">Medium (250 ~ 500 m) (850 ~ 1500 ft)</a>-->
-                        <!--<a href="#large_width">Large (500 ~ 1000 m) (1500 ~ 3200 ft)</a>-->
-                        <label class="dropdown-item">
-                            <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009"
-                                   data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~
-                            3200 ft)<br>
-                        </label>
-                        <label class="dropdown-item">
-                            <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked=""
-                                   data-text="250-500m &nbsp;&nbsp; 850-1500 ft">&nbsp;Medium (250 ~ 500 m)(850 ~ 1500
-                            ft)<br>
-                        </label>
-                        <label class="dropdown-item">
-                            <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025"
-                                   data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)
-                        </label>
-                    </div>
+                    <!--<button onclick="myFunction()" id="dropBt" class="btn btn-success dropdown-toggle">Estimate the-->
+                        <!--Width of the Diagram &#9660;</button>-->
+                    <!--<div id="width_zoom" class="dropdown-menu">-->
+                        <!--&lt;!&ndash;<a href="#small_width">Small   (100 ~ 250 m)   (350 ~ 850 ft)</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a href="#medium_width">Medium (250 ~ 500 m) (850 ~ 1500 ft)</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a href="#large_width">Large (500 ~ 1000 m) (1500 ~ 3200 ft)</a>&ndash;&gt;-->
+                        <!--<label class="dropdown-item">-->
+                            <!--<input type="radio" name="optradio" data-zoom="16" data-bounds="0.009"-->
+                                   <!--data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~-->
+                            <!--3200 ft)<br>-->
+                        <!--</label>-->
+                        <!--<label class="dropdown-item">-->
+                            <!--<input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked=""-->
+                                   <!--data-text="250-500m &nbsp;&nbsp; 850-1500 ft">&nbsp;Medium (250 ~ 500 m)(850 ~ 1500-->
+                            <!--ft)<br>-->
+                        <!--</label>-->
+                        <!--<label class="dropdown-item">-->
+                            <!--<input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025"-->
+                                   <!--data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <h4>Estimate the Width of the Diagram</h4>
+                    <select id="form_width" class="form-control">
+                        <option id="op1" value="1" data-zoom="16" data-bounds="0.009"
+                                   data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~ 3200 ft)</option>
+                        <option id="op2"  value="2"  data-zoom="17" data-bounds="0.005"
+                                   data-text="250-500m &nbsp;&nbsp; 850-1500 ft">&nbsp;Medium (250 ~ 500 m)(850 ~ 1500 ft)</option>
+                        <option id="op3" value="3"   data-zoom="18" data-bounds="0.0025"
+                                   data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)</option>
+                    </select>
+
                 </div>
             </div>
 
@@ -266,7 +276,7 @@
             <!--<h5 id="cost">Workers required for Search Space: <strong>0</strong></h5>-->
             <h4 hidden id="too_much">You have selected a search space with bounds that exceeds the allotted number of
                 workers.
-                Please draw an investigation with smaller bounds.</h4>
+                Please draw an search space with smaller bounds.</h4>
 
 
             <div align="center">
@@ -291,7 +301,7 @@
                 </table>
             </div>
 
-            <button class="btn btn-default" id="add_investigation_btn">Start Investigation (may take a minute...)
+            <button class="btn btn-default" id="add_investigation_btn">Start Searching (may take a minute...)
             </button>
             <a href="../foundit/" target="_blank">
                 <br><br>
@@ -330,7 +340,7 @@
                 {#                </label>#}
             </div>
             <div class="col-xs-12">
-                <button id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>
+                <button disabled id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>
             </div>
 
         </div>
@@ -380,11 +390,11 @@
         });
     })();
 
-    window.onclick = function (event) {
-        if (!event.target.matches('.btn.btn-success.dropdown-toggle')){
-            document.getElementById("width_zoom").classList.remove("show");
-        }
-    }
+    <!--window.onclick = function (event) {-->
+        <!--if (!event.target.matches('.btn.btn-success.dropdown-toggle')){-->
+            <!--document.getElementById("width_zoom").classList.remove("show");-->
+        <!--}-->
+    <!--}-->
 
 
 </script>

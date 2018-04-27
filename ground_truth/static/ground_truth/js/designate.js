@@ -528,13 +528,125 @@ function is_tutorial() {
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 function worker_zoom() {
-    $(".dropdown-menu label input").click(function () {
-        zoom = parseInt($(this).attr("data-zoom"));
-        sub_region_width = parseFloat($(this).attr("data-bounds"));
-        $("#width_zoom_notifier").text($(this).attr("data-text"));
-        sub_region_height = sub_region_width;
+//    $(".dropdown-menu label input").click(function () {
+//        zoom = parseInt($(this).attr("data-zoom"));
+//        sub_region_width = parseFloat($(this).attr("data-bounds"));
+//        $("#width_zoom_notifier").text($(this).attr("data-text"));
+//        sub_region_height = sub_region_width;
+//
+//    });
+
+//    $("#form_width.form-control").click(function () {
+    $("#form_width.form-control").click(function () {
+
+        if($('#toggle_draw_erase_btn').prop("disabled")){
+            $("#toggle_draw_erase_btn").removeAttr("disabled");
+        }
+        else{
+            var draw_erase_btn = $("#toggle_draw_erase_btn");
+
+            // there is no investigation on the map
+            if (draw_erase_btn.data== null || draw_erase_btn.data == undefined) {
+                $("#add_investigation_btn").removeClass("btn-success");
+                $("#add_investigation_btn").addClass("btn-default");
+
+                // not Drawing on the map yet
+                if (drawingManager.getDrawingMode() === null || drawingManager.getDrawingMode() === undefined) {
+                    drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+                    draw_erase_btn.text(stop_drawing_template);
+                    draw_erase_btn.removeClass("btn-primary");
+                    draw_erase_btn.removeClass("btn-danger");
+                    draw_erase_btn.removeClass("btn-success");
+                    draw_erase_btn.addClass("btn-default");
+                    $("#width_zoom").hide();
+    //                $("#width_zoom_notifier").show();
+                    map_height();
+
+
+                } else { // they are drawing on the map, they can disable it
+                    drawingManager.setDrawingMode(null);
+                    draw_erase_btn.text(start_drawing_template);
+                    draw_erase_btn.removeClass("btn-primary");
+                    draw_erase_btn.removeClass("btn-danger");
+                    draw_erase_btn.removeClass("btn-default");
+                    draw_erase_btn.addClass("btn-success");
+    //                $("#width_zoom").show();
+    //                $("#width_zoom_notifier").hide();
+                    map_height();
+                }
+
+            } else {
+                $("#add_investigation_btn").addClass("disabled");
+                draw_erase_btn.text(start_drawing_template);
+                $("#add_investigation_btn").removeClass("btn-success");
+                $("#add_investigation_btn").addClass("btn-default");
+                draw_erase_btn.removeClass("btn-primary");
+                draw_erase_btn.removeClass("btn-danger");
+                draw_erase_btn.removeClass("btn-default");
+                draw_erase_btn.addClass("btn-success");
+    //            $("#width_zoom").show();
+    //            $("#width_zoom_notifier").hide();
+                map_height();
+
+                $("#too_much").attr("hidden", true);
+                $("#cost").text(" Workers required for search space: ");
+                $("#cost_2").text("0");
+                var invest = draw_erase_btn.data("investigation");
+                if(invest !== null){
+                    invest.setMap(null);
+                }
+
+                draw_erase_btn.data("investigation", null);
+            }
+            $("#toggle_draw_erase_btn").data("investigation", null);
+        }
+//
+
+
+
+
 
     });
+
+    $("#toggle_draw_erase_btn").click(function(){
+        var sel = document.getElementById('form_width');
+
+        // display value property of select list (from selected option)
+        console.log("Select: "+ sel.value );
+
+        if(sel.value == "1"){
+            zoom = parseInt("16");
+            sub_region_width = parseFloat("0.009");
+            $("#width_zoom_notifier").text("500-1000m  1500-3200 ft ");
+            sub_region_height = sub_region_width;
+        }
+        if(sel.value == "2"){
+            zoom = parseInt("17");
+            sub_region_width = parseFloat("0.005");
+            $("#width_zoom_notifier").text("250-500m  850-1500 ft");
+            sub_region_height = sub_region_width;
+        }
+        if(sel.value == "3"){
+            zoom = parseInt("18");
+            sub_region_width = parseFloat("0.0025");
+            $("#width_zoom_notifier").text("100-250m  350-850 ft");
+            sub_region_height = sub_region_width;
+        }
+
+
+        // display value and text property values
+//        console.log("option: " + opt.value );
+
+
+
+//        zoom = parseInt($("option").attr("data-zoom"));
+//        sub_region_width = parseFloat($("option").attr("data-bounds"));
+//        $("#width_zoom_notifier").text($("option").attr("data-text"));
+//        sub_region_height = sub_region_width;
+
+    });
+
+
 }
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
