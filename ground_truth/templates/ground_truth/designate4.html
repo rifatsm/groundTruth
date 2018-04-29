@@ -15,7 +15,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
+
     <!-- Font Awesome -->
     <link href=cle"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -24,6 +24,10 @@
     <!-- Designate -->
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
     <script src="{% static 'ground_truth/js/designate.js' %}"></script>
+
+    <!-- Joyride -->
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
+    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
 
     {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
 
@@ -130,10 +134,13 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">GroundTruth</a>
         </div>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-left">
             {#            <li class="active"><a href="/designate/">New Investigation</a></li>#}
             {#            <li><a href="/user/investigations/">My Investigations</a></li>#}
             <li><a href="/logout/">Logout: {{ username }}</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a id="startjoyride">View Tutorial</a></li>
         </ul>
     </div>
 </nav>
@@ -148,11 +155,12 @@
 
             <div id="images_tab">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#ground_view_tab">Ground-Level</a></li>
-                    <li><a data-toggle="tab" href="#diagram_view_tab">Diagram</a></li>
+                    <li class="active"><a data-toggle="tab" href="#ground_view_tab" id="gl_tab_button">Ground-Level</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#diagram_view_tab" id="dg_tab_button">Diagram</a></li>
                 </ul>
 
-                <div class="tab-content">
+                <div class="tab-content" id="tab_content">
                     <div id="ground_view_tab" class="tab-pane fade in active">
                         <br>
                         <div>
@@ -333,6 +341,53 @@
     </div>
 
 </div>
+
+<ol id="joyRideTutorial" hidden>
+    <li data-id="gl_tab_button" data-button="Next" data-options="tipLocation:top">
+        <p>Click here to view the ground-level images</p>
+    </li>
+    <li data-id="dg_tab_button" data-button="Next" data-options="tipLocation:top">
+        <p>Click here to view the diagram image</p>
+    </li>
+    <li data-id="tab_content" data-button="Next" data-options="tipLocation:bottom">
+        <p>Click to + / - / Reset buttons to activate image zoom</p>
+    </li>
+    {#    <li data-id="estimate_width" data-button="Next" data-options="tipLocation:left">#}
+    {#        <p>Now, pick a width range that most closely matches the width of the aerial diagram you have drawn. We use this#}
+    {#            information for.. (crowdworkers)</p>#}
+    {#    </li>#}
+    <li data-id="budget_table" data-button="Next" data-options="tipLocation:top">
+        <p>This is your crowdworker budget, you can get help from up to 50 crowdworkers for this task. When you draw a
+            search region, you will be able to see how many crowdworkers you have used.</p>
+    </li>
+    <li data-id="toggle_draw_erase_btn" data-button="Next" data-options="tipLocation:top">
+        <p>Click on the green button to enter ‘Drawing Mode’, that lets you draw your search region. </p>
+    </li>
+    <li data-id="too_much" data-button="Next" data-options="tipLocation:bottom">
+        <p>Oops! Looks like the search region you drew requires more crowdworkers than your budget allows for. Click on
+            the ‘Remove Investigation’ button to redraw a smaller investigation.</p>
+    </li>
+    <li data-id="add_investigation_btn" data-button="Next" data-options="tipLocation:bottom">
+        <p>Looks good! Click here to allow the crowdworkers to start working. You will automatically see feedback
+            rolling in, in real-time.</p>
+    </li>
+    <li data-id="found_it_btn" data-button="Next" data-options="tipLocation:top">
+        <p>When you believe you’ve found the grid that contains the location you’re searching for, click on ‘Found
+            it!’.</p>
+    </li>
+    <li data-id="toggle_seen_btn" data-button="Next" data-options="tipLocation:top">
+        <p>When you see grid filled with color, this button will be available. If you’re confident a cell doesn't
+            include the location, you can exclude it. This will make the grid turn gray. </p>
+    </li>
+    <li data-id="toggle_suggestions_btn" data-button="Next" data-options="tipLocation:top">
+        <p>Click here to ignore/hide the colors, temporarily</p>
+    </li>
+    <li data-id="legend" data-button="Close" data-options="tipLocation:top">
+        <p>The grids are colored based on worker decisions, with green indicating a greater likelihood of matching the
+            aerial diagram.</p>
+    </li>
+</ol>
+
 </body>
 
 <script>
@@ -375,6 +430,19 @@
             }
         }
     }
+
+    $(document).ready(function () {
+        $('#joyRideTutorial').joyride({
+            autoStart: true,
+            expose: false
+        });
+
+        $('#startjoyride').click(function (e) {
+            $('#joyRideTutorial').joyride({
+                expose: true
+            });
+        });
+    });
 
 
 </script>
