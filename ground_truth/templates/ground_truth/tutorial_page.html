@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Map</title>
+    <title>Tutorial</title>
     <meta charset="utf-8">
     {% load static %}
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
@@ -29,35 +29,54 @@
 
 
 <body>
-<div id="outerContainer">
-    <div id="container">
-        <div class="jumbotron">
-            <div class="container">
-                <div class="col-lg-2">
-                    <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">
-                </div>
-                <div class="col-lg-10">
-                    <h1>GroundTruth</h1>
-                    <h3>Tutorial</h3>
-                </div>
-            </div>
-        </div>
 
-        <div id="titleBar">
-            <div class="col-xs-12">
-                <div id="titlePanel">
-                    <a id="startride" class="btn btn-large btn-default">View Tutorial Again</a>
-                </div>
-            </div>
+
+
+<div id="outerContainer">
+    <div id="container-fluid">
+        <!--<div id="titleBar">-->
+            <!--<div class="col-xs-2">-->
+                <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
+            <!--</div>-->
+            <!--<div class="col-xs-4">-->
+                <!--<div id="titlePanel">-->
+                    <!--<h1>GroundTruth</h1>-->
+                    <!--<h3>This is a mock UI for tutorial purpose</h3>-->
+                    <!--&lt;!&ndash;button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-xs-6">-->
+
+                <!--<div id="titlePanel">-->
+
+                    <!--&lt;!&ndash;button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+                    <!--<a id="startride" class="btn btn-large btn-default">View Tutorial</a>-->
+                    <!--<h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>-->
+                    <!--&lt;!&ndash;<div id="clockdiv"></div>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <hr>
+
+        <div class="row" style="">
+            <!--div id="instructions" class="collapse in jr-quantity" class="col-xs-6 offset-xs-3" style="margin-bottom:20px">
+                Here are some sample instructions
+            </div-->
         </div>
 
         <hr>
 
         <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
+
+
+
+
+            <div class="col-xs-4" align="left" style="margin-left:20px;margin-right:10px">
+                <!--<div class="row">-->
                     <!--div id='bounds'></div-->
                     <img id="mysteryImage" style="width:100%;"/>
+                    <br>
                     <div class="col-md-12 text-center" style="margin-bottom:15px;">
                         <div class="btn-group mr-2" role="group" aria-label="First group">
                             <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
@@ -68,22 +87,36 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                <!--</div>-->
 
-                <div class="row">
-                    <div id="miniMap"></div>
+
+            </div>
+
+
+
+            <div class="col-xs-5" id="right-div" style="margin-left:0px">
+
+                <div id="mainView"></div>
+
+            </div>
+
+            <div>
+                <div class="col-xs-2">
+                    <div class="row">
+                        <div style="margin-left:0px" id="miniMap"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-8" id="right-div">
-                <div id="mainView"></div>
-            </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <input type="button" value="Click here if you completed the tutorial!"
-                       onclick="window.location='https://legionpowered.net/release/beta/LegionTools/tutorialDone.html';"/>
-            </div>
-        </div>
+
+        <!--<form id ="mturk_form"/>-->
+        <!--<form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
+        <form action="https://legionpowered.net/release/beta/LegionTools/tutorialDone.html" method="POST"
+              id="mturk_form">
+            {% csrf_token %}
+            <input type="hidden" name="assignmentId" id="assignmentId" value="">
+            <!--<input type="submit" name="submit" value="Submit">-->
+        </form>
         <div class="row">
             <hr>
             <div id="footer">
@@ -94,86 +127,52 @@
 </div>
 
 
-{#<ol id="joyRideTipContent">#}
-{#    <li data-id="mysteryImage" data-button="Next" data-options="tipLocation:right">#}
-{#        <p>This is your reference diagram. Your mission is find the area on the map that the diagram represents. You#}
-{#            will look through 16 satellite subregions and indicate whether or not the satellite imagery matches the#}
-{#            diagram. Pay attention to the features in the diagram and see if#}
-{#            you can find them in the satellite region. You can rotate it using the controls below.</p>#}
-{#    </li>#}
-{#    <li data-id="right-div" data-button="Next" data-options="tipLocation:left">#}
-{#        <p>This is what one subregion will look like. Remember to look at not only the center, but also the edges and#}
-{#            corners of these subregions for similar features.</p>#}
-{#    </li>#}
-{#    <li data-id="yesButton" data-button="Next" data-options="tipLocation:left">#}
-{#        <p>If you think the satellite imagery matches the diagram, click the 'Yes / Maybe' button.</p>#}
-{#    </li>#}
-{#    <li data-id="noButton" data-button="Next" data-options="tipLocation:left">#}
-{#        <p>If you do not think the satellite imagery matches the diagram, click the 'No' button.</p>#}
-{#    </li>#}
-{#    <li data-id="nextButton" data-button="Next" data-options="tipLocation:left">#}
-{#        <p>After you make a decision, click the 'Next' button to view the next subregion.</p>#}
-{#    </li>#}
-{#    <li data-id="miniMap" data-button="Next" data-options="tipLocation:right">#}
-{#        <p>This map shows your progress throughout the 16 subregions. As you make your determinations, this map will#}
-{#            update.</p>#}
-{#    </li>#}
-{#    <li data-id="mainView" data-button="Next" data-options="tipLocation:left">#}
-{#        <p>Feel free to use any of the map controls available to you.</p>#}
-{#    </li>#}
-{#    <li data-id="submitButton" data-button="Close" data-options="tipLocation:top">#}
-{#        <p>After you have completed the task, this Generate Passcode button will become enabled. Please use this button#}
-{#            to generate your unique passcode. Copy the passcode and paste it into Passcode field in the original#}
-{#            HIT.</p>#}
-{#    </li>#}
-{#</ol>#}
+<ol id="joyRideTipContent">
+    <li data-id="mysteryImage" data-button="Next" data-options="tipLocation:right">
+        <p>This is your reference diagram. Your mission is find the area on the map that the diagram represents. You
+            will look through 16 satellite subregions and indicate whether or not the satellite imagery matches the
+            diagram. Pay attention to the features in the diagram and see if
+            you can find them in the satellite region. You can rotate it using the controls below.</p>
+    </li>
+    <li data-id="right-div" data-button="Next" data-options="tipLocation:left">
+        <p>This is what one subregion will look like. Remember to look at not only the center, but also the edges and
+            corners of these subregions for similar features.</p>
+    </li>
+    <li data-id="yesButton" data-button="Next" data-options="tipLocation:left">
+        <p>If you think the satellite imagery matches the diagram, click the 'Yes / Maybe' button.</p>
+    </li>
+    <li data-id="noButton" data-button="Next" data-options="tipLocation:left">
+        <p>If you do not think the satellite imagery matches the diagram, click the 'No' button.</p>
+    </li>
+    <li data-id="nextButton" data-button="Next" data-options="tipLocation:left">
+        <p>After you make a decision, click the 'Next' button to view the next subregion.</p>
+    </li>
+    <li data-id="miniMap" data-button="Next" data-options="tipLocation:right">
+        <p>This map shows your progress throughout the 16 subregions. As you make your determinations, this map will
+            update.</p>
+    </li>
+    <li data-id="mainView" data-button="Next" data-options="tipLocation:left">
+        <p>Feel free to use any of the map controls available to you.</p>
+    </li>
+    <!--<li data-id="submitButton" data-button="Close" data-options="tipLocation:top">-->
+        <!--<p>After you have completed the tutorial, please wait patiently.</p>-->
+    </li>
+</ol>
+
 </body>
+<script>
+    window.onload = function(){
+        swal({
+            title: "Welcome to the Tutorial Page!",
+            text: "Please finish this interactive tutorial!",
+            type: "success",
+            showConfirmButton: true,
+            html: true
+
+        });
+    };
+
+
+</script>
 
 </html>
-
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
-{#    {% load static %}#}
-{#    <title>GroundTruth - Worker</title>#}
-{#    <meta charset="utf-8">#}
-{#    <meta charset="utf-8">#}
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"#}
-{#          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
-{#    <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">#}
-{#    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"#}
-{#          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">#}
-{##}
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
-{##}
-{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
-{#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
-{#            crossorigin="anonymous"></script>#}
-{#</head>#}
-{##}
-{#<body>#}
-{#<div id="outerContainer">#}
-{#    <div class="jumbotron">#}
-{#        <div class="container">#}
-{#            <div class="col-lg-2">#}
-{#                <img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%">#}
-{#            </div>#}
-{#            <div class="col-lg-10">#}
-{#                <h1>GroundTruth</h1>#}
-{#                <h3>Tutorial</h3>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    <div id="container">#}
-{#        <div class="col-lg-12">#}
-{#            <h3>Show the mock interactive tutorial here!</h3>#}
-{#            <br><br>#}
-{#            <br><br>#}
-{#            <input type="button" value="Click here if you completed the tutorial!"#}
-{#                   onclick="window.location='https://legionpowered.net/LegionTools/tutorialDone.html';"/>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-{##}
-{#</body>#}
-{#</html>#}

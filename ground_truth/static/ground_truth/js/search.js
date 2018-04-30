@@ -1,5 +1,5 @@
 /**
- * @author Divya Sengar
+ * @author Ri
  * Controls the search screen
  * Refer to the Google Maps API
  */
@@ -89,6 +89,8 @@ function initMap() {
 
     $.getJSON("/region/?token=" + token + "&region=" + region, function (data) {
         var json = data;
+
+//        console.log("json data: "+JSON.stringify(data));
 
 
         json.sub_regions.sort(sub_compare);

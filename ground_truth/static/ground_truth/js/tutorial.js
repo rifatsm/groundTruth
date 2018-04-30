@@ -1,6 +1,7 @@
 /**
- * Created by Anne Hoang on 3/21/18.
- * Similar to the search.js, but used for the mock investigation
+ * @author Ri
+ * Controls the search screen
+ * Refer to the Google Maps API
  */
 
 //The map that is displayed on the page
@@ -9,10 +10,10 @@ var judgementsList = new Array();
 var subRegionsList = new Array();
 var currentSubRegionNumber = 0;
 var searchRegion;
-//var taskStartTime;
-//var lastTaskEndTime;
+var taskStartTime;
+var lastTaskEndTime;
 var highlightSubRegion;
-//var taskCode;
+var taskCode;
 var yeses = 0;
 
 var rotationVal = 0;
@@ -32,37 +33,39 @@ function getUrlVars() {
     return vars;
 }
 
-//var start_time =  Math.floor(new Date() / 1000);
+var start_time =  Math.floor(new Date() / 1000);
 
-// $(document).ready(function () {
-//
-//      start_time = Math.floor(new Date() / 1000);
-//
-//     $('#joyRideTipContent').joyride({
-//         postRideCallback: function () {
-//             if (currentSubRegionNumber == 0) {
-//                 start_time = Math.floor(new Date() / 1000);
-//             }
-//
-//         },
-//         autoStart: true,
-//         expose: true
-//     });
-//
-//     $('#startride').click(function (e) {
-//         $('#joyRideTipContent').joyride({
-//             expose: true
-//         });
-//     });
-// });
+ $(document).ready(function () {
+
+      start_time = Math.floor(new Date() / 1000);
+
+     $('#joyRideTipContent').joyride({
+         postRideCallback: function () {
+             if (currentSubRegionNumber == 0) {
+                 start_time = Math.floor(new Date() / 1000);
+             }
+
+         },
+         autoStart: true,
+         expose: true
+     });
+
+     $('#startride').click(function (e) {
+         $('#joyRideTipContent').joyride({
+             expose: true
+         });
+     });
+ });
 
 //Initialize the map and event handlers
 function initMap() {
-    var everyhting = getUrlVars()["everything"].split("_");
 
-    var token = everyhting[1];
 
-    var region = everyhting[0];
+//    var everyhting = getUrlVars()["everything"].split("_");
+
+    var token = -1;
+
+    var region = -1;
 
     var task = getUrlVars()["hitId"];
     if (task === null || task === undefined) {
@@ -74,83 +77,91 @@ function initMap() {
         workerid = -1;
     }
 
+    var assignmentid = getUrlVars()['assignmentId'];
+    document.getElementById("assignmentId").value = assignmentid;
+//    document.getElementById("assignmentId").value = 'Hello420';
+//    console.log('assId: '+document.getElementById("assignmentId").value);
+
 
     function sub_compare(a, b) {
         return a.index - b.index;
     }
 
-    $.getJSON("/region/?token=" + token + "&region=" + region, function (data) {
-        var json = data;
+//    $.getJSON("/region/?token=" + token + "&region=" + region, function (data) {
+        var json = {};
 
+        var json = {"investigation_id":37,"img":"/static/ground_truth/img/expert1/diagram_img/diagram_4.jpg","zoom":16,"bounds":{"lat_end":"33.647845","lon_start":"-116.303143","lon_end":"-116.267143","lat_start":"33.611845"},"sub_regions":[{"index":0,"sub_region_id":801,"region_id":"51","bounds":{"lat_end":"33.620845","lon_start":"-116.303143","lon_end":"-116.294143","lat_start":"33.611845"}},{"index":1,"sub_region_id":802,"region_id":"51","bounds":{"lat_end":"33.629845","lon_start":"-116.303143","lon_end":"-116.294143","lat_start":"33.620845"}},{"index":2,"sub_region_id":803,"region_id":"51","bounds":{"lat_end":"33.638845","lon_start":"-116.303143","lon_end":"-116.294143","lat_start":"33.629845"}},{"index":3,"sub_region_id":804,"region_id":"51","bounds":{"lat_end":"33.647845","lon_start":"-116.303143","lon_end":"-116.294143","lat_start":"33.638845"}},{"index":4,"sub_region_id":805,"region_id":"51","bounds":{"lat_end":"33.647845","lon_start":"-116.294143","lon_end":"-116.285143","lat_start":"33.638845"}},{"index":5,"sub_region_id":806,"region_id":"51","bounds":{"lat_end":"33.638845","lon_start":"-116.294143","lon_end":"-116.285143","lat_start":"33.629845"}},{"index":6,"sub_region_id":807,"region_id":"51","bounds":{"lat_end":"33.629845","lon_start":"-116.294143","lon_end":"-116.285143","lat_start":"33.620845"}},{"index":7,"sub_region_id":808,"region_id":"51","bounds":{"lat_end":"33.620845","lon_start":"-116.294143","lon_end":"-116.285143","lat_start":"33.611845"}},{"index":8,"sub_region_id":809,"region_id":"51","bounds":{"lat_end":"33.620845","lon_start":"-116.285143","lon_end":"-116.276143","lat_start":"33.611845"}},{"index":9,"sub_region_id":810,"region_id":"51","bounds":{"lat_end":"33.629845","lon_start":"-116.285143","lon_end":"-116.276143","lat_start":"33.620845"}},{"index":10,"sub_region_id":811,"region_id":"51","bounds":{"lat_end":"33.638845","lon_start":"-116.285143","lon_end":"-116.276143","lat_start":"33.629845"}},{"index":11,"sub_region_id":812,"region_id":"51","bounds":{"lat_end":"33.647845","lon_start":"-116.285143","lon_end":"-116.276143","lat_start":"33.638845"}},{"index":12,"sub_region_id":813,"region_id":"51","bounds":{"lat_end":"33.647845","lon_start":"-116.276143","lon_end":"-116.267143","lat_start":"33.638845"}},{"index":13,"sub_region_id":814,"region_id":"51","bounds":{"lat_end":"33.638845","lon_start":"-116.276143","lon_end":"-116.267143","lat_start":"33.629845"}},{"index":14,"sub_region_id":815,"region_id":"51","bounds":{"lat_end":"33.629845","lon_start":"-116.276143","lon_end":"-116.267143","lat_start":"33.620845"}},{"index":15,"sub_region_id":816,"region_id":"51","bounds":{"lat_end":"33.620845","lon_start":"-116.276143","lon_end":"-116.267143","lat_start":"33.611845"}}],"id":"51"};
+//        console.log("json obj: "+json);
+//        console.log("json val: "+JSON.stringify(json));
 
         json.sub_regions.sort(sub_compare);
 
 
         $('#mysteryImage').attr("src", json['img']);
 
-        // //----Timer----
-        // taskStartTime = new Date(0);
-        // taskStartTime.setUTCSeconds(parseInt(getUrlVars()["acceptTime"]));
-        //
-        // lastTaskEndTime = taskStartTime;
-        // var endTime = new Date(taskStartTime.getTime() + 10 * 60000); // 10 minutes
-        // console.log(endTime);
-        //
-        // function getTimeRemaining(endTime) {
-        //     var t = Date.parse(endTime) - Date.parse(new Date());
-        //     var seconds = Math.floor((t / 1000) % 60);
-        //     var minutes = Math.floor((t / 1000 / 60) % 60);
-        //     var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        //     var days = Math.floor(t / (1000 * 60 * 60 * 24));
-        //     return {
-        //         'total': t,
-        //         'days': days,
-        //         'hours': hours,
-        //         'minutes': minutes,
-        //         'seconds': seconds
-        //     };
-        // }
-        //
-        // function getTimeElapsed(taskStartTime) {
-        //     var t = Date.parse(new Date()) - Date.parse(taskStartTime);
-        //     var seconds = Math.floor((t / 1000) % 60);
-        //     var minutes = Math.floor((t / 1000 / 60) % 60);
-        //     var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        //     var days = Math.floor(t / (1000 * 60 * 60 * 24));
-        //     return {
-        //         'total': t,
-        //         'days': days,
-        //         'hours': hours,
-        //         'minutes': minutes,
-        //         'seconds': seconds
-        //     };
-        // }
-        //
-        // function initializeClock(id, endtime) {
-        //     var clock = document.getElementById(id);
-        //     var timeinterval = setInterval(function () {
-        //         var remainingTime = getTimeRemaining(endtime);
-        //         if (remainingTime.seconds < 10) {
-        //             clock.innerHTML = 'Time Remaining ' + remainingTime.minutes + ':0' + remainingTime.seconds;
-        //         }
-        //         else {
-        //             clock.innerHTML = 'Time Remaining ' + remainingTime.minutes + ':' + remainingTime.seconds;
-        //         }
-        //         if (remainingTime.total <= 0) {
-        //             clearInterval(timeinterval);
-        //             swal({
-        //                 title: "Bummer!",
-        //                 text: "You ran out of time.<br> Please return to Amazon Mechanical Turk",
-        //                 type: "error",
-        //                 showConfirmButton: false,
-        //                 html: true
-        //
-        //             })
-        //         }
-        //     }, 1000);
-        // }
-        //
-        // initializeClock('clockdiv', endTime);
+        //----Timer----
+        taskStartTime = new Date(0);
+        taskStartTime.setUTCSeconds(parseInt(getUrlVars()["acceptTime"]));
+
+        lastTaskEndTime = taskStartTime;
+        var endTime = new Date(taskStartTime.getTime() + 10 * 60000); // 10 minutes
+//        console.log(endTime);
+
+        function getTimeRemaining(endTime) {
+            var t = Date.parse(endTime) - Date.parse(new Date());
+            var seconds = Math.floor((t / 1000) % 60);
+            var minutes = Math.floor((t / 1000 / 60) % 60);
+            var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+            var days = Math.floor(t / (1000 * 60 * 60 * 24));
+            return {
+                'total': t,
+                'days': days,
+                'hours': hours,
+                'minutes': minutes,
+                'seconds': seconds
+            };
+        }
+
+        function getTimeElapsed(taskStartTime) {
+            var t = Date.parse(new Date()) - Date.parse(taskStartTime);
+            var seconds = Math.floor((t / 1000) % 60);
+            var minutes = Math.floor((t / 1000 / 60) % 60);
+            var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+            var days = Math.floor(t / (1000 * 60 * 60 * 24));
+            return {
+                'total': t,
+                'days': days,
+                'hours': hours,
+                'minutes': minutes,
+                'seconds': seconds
+            };
+        }
+
+        function initializeClock(id, endtime) {
+            var clock = document.getElementById(id);
+            var timeinterval = setInterval(function () {
+                var remainingTime = getTimeRemaining(endtime);
+                if (remainingTime.seconds < 10) {
+                    clock.innerHTML = 'Time Remaining ' + remainingTime.minutes + ':0' + remainingTime.seconds;
+                }
+                else {
+                    clock.innerHTML = 'Time Remaining ' + remainingTime.minutes + ':' + remainingTime.seconds;
+                }
+                if (remainingTime.total <= 0) {
+                    clearInterval(timeinterval);
+                    swal({
+                        title: "Bummer!",
+                        text: "You ran out of time.<br> Please return to Amazon Mechanical Turk",
+                        type: "error",
+                        showConfirmButton: false,
+                        html: true
+
+                    })
+                }
+            }, 1000);
+        }
+
+//        initializeClock('clockdiv', endTime);
 
 
         //----Initialize different maps for the different task codes----
@@ -297,29 +308,32 @@ function initMap() {
         //Handle the next button
         google.maps.event.addDomListener(nextControlDiv, 'click', nextFunction);
 
-        // $("#submitButton").click(function () {
-        //     var send = {
-        //         "worker": workerid,
-        //         "token": token,
-        //         "task": task,
-        //         "comments": $("#comments").val(),
-        //
-        //         // TODO i question my morals here.
-        //         // this is cause we need a region id on the backend
-        //         "sub_region": subRegionsList[0].sub_region_id
-        //     };
-        //     $.post("/get_code/", send, function (res) {
-        //         swal({
-        //             title: "Thank you!",
-        //             text: "You have now completed the task! <br>" +
-        //             "<br>The code to complete your HIT is:<br><br>" +
-        //             "<strong>" + res["passcode"] + "</strong>",
-        //             type: "success",
-        //             showConfirmButton: false,
-        //             html: true
-        //         });
-        //     });
-        // });
+        $("#submitButton").click(function () {
+
+            var send = {
+                "worker": workerid,
+                "token": token,
+                "task": task,
+                "comments": $("#comments").val(),
+
+                // TODO i question my morals here.
+                // this is cause we need a region id on the backend
+                "sub_region": subRegionsList[0].sub_region_id
+            };
+//            $.post("/get_code/", send, function (res) {
+//                swal({
+//                    title: "Thank you!",
+//                    text: "You have now completed the task! <br>" +
+//                    "<br>The code to complete your HIT is:<br><br>" +
+//                    "<strong>" + res["passcode"] + "</strong>",
+//                    type: "success",
+//                    showConfirmButton: false,
+//                    html: true
+//                });
+//            });
+
+            $("#mturk_form").submit();
+        });
 
 
         function nextFunction() {
@@ -336,7 +350,7 @@ function initMap() {
             //TODO John is testing the db on only the first subregion
 
             var send = {
-                "judgment": judgementRectangle.yesNo, // TODO there is a bug here
+                "judgment": judgementRectangle.yesNo, // TODO there is a bug here (what bug??? can't find any)
                 "worker": workerid,
                 "sub_region": subRegionsList[currentSubRegionNumber].sub_region_id,
                 // "duration": getTimeElapsed(lastTaskEndTime).minutes * 60 + getTimeElapsed(lastTaskEndTime).seconds,
@@ -377,53 +391,100 @@ function initMap() {
                 });
             }
 
-            if (db) {
-                $.post("/add_judgment/", send, function (res) {
-                    //End condition for the task
-                    // console.log(currentSubRegionNumber);
-                    if (currentSubRegionNumber == subRegionsList.length - 1) {
+            if (currentSubRegionNumber == (subRegionsList.length/2) - 1) {
 
-                        swal({
-                            title: "Thank you!",
-                            text: "Please feel free to leave any comments about your experience with the task in " +
-                            "the comment box at the bottom of the page.<br><br>" +
-                            "When you are done, click the \"Generate Passcode\" button to receive your completion passcode.",
-                            type: "success",
-                            showConfirmButton: true,
-                            html: true
+                swal({
+                    title: "Tutorial Completed!",
+                    text: "You have finished the tutorial. You are now going to be forwarded to the \"Waiting Page\".<br> "+
+                    "Please wait there patiently until you are forwarded to the task page. Remember, you are"+
+                    " going to be paid for your waiting!<br><br>",
+                    type: "success",
+                    showConfirmButton: true,
+                    html: true
 
-                        });
-                        $('#submitButton').prop("disabled", false);
-                        $('#yesButton').prop("disabled", true);
-                        $('#noButton').prop("disabled", true);
-                        $('#nextButton').prop("disabled", true);
-
-                        return; // break out to stop errors
-
-
-                    }
-                    judgementsList.push(judgementRectangle);
-
-
-                    currentSubRegionNumber++;
-                    map.setCenter(subRegionsList[currentSubRegionNumber].bounds.getCenter());
-                    for (var i = 0; i < judgementsList.length; i++) {
-                        judgementsList[i].setMap(miniMap);
-                    }
-                    judgementRectangle = null;
-
-                    highlightSubRegion = new google.maps.Rectangle({
-                        strokeColor: 'white',
-                        strokeOpacity: 0.3,
-                        strokeWeight: 8,
-                        fillOpacity: 0.0,
-                        map: map,
-                        bounds: subRegionsList[currentSubRegionNumber].bounds
-                    });
-
-
+                }, function(){
+                      $("#mturk_form").submit();
                 });
+                $('#submitButton').prop("disabled", false);
+                $('#yesButton').prop("disabled", true);
+                $('#noButton').prop("disabled", true);
+                $('#nextButton').prop("disabled", true);
+
+                return; // break out to stop errors
+
+
             }
+
+            judgementsList.push(judgementRectangle);
+
+
+            currentSubRegionNumber++;
+            map.setCenter(subRegionsList[currentSubRegionNumber].bounds.getCenter());
+            for (var i = 0; i < judgementsList.length; i++) {
+                judgementsList[i].setMap(miniMap);
+            }
+            judgementRectangle = null;
+
+            highlightSubRegion = new google.maps.Rectangle({
+                strokeColor: 'white',
+                strokeOpacity: 0.3,
+                strokeWeight: 8,
+                fillOpacity: 0.0,
+                map: map,
+                bounds: subRegionsList[currentSubRegionNumber].bounds
+            });
+
+//            if (db) {
+//                $.post("/add_judgment/", send, function (res) {
+//                    //End condition for the task
+//                    // console.log(currentSubRegionNumber);
+//                    if (currentSubRegionNumber == (subRegionsList.length/2) - 1) {
+//
+//                        swal({
+//                            title: "Tutorial Completed!",
+//                            text: "You have finished the tutorial. You are now going to be forwarded to the \"Waiting Page\".<br> "+
+//                            "Please wait there patiently until you are forwarded to the task page. Remember, you are"+
+//                            " going to be paid for your waiting!<br><br>",
+//                            type: "success",
+//                            showConfirmButton: true,
+//                            html: true
+//
+//                        }, function(){
+//                              $("#mturk_form").submit();
+//                        });
+//                        $('#submitButton').prop("disabled", false);
+//                        $('#yesButton').prop("disabled", true);
+//                        $('#noButton').prop("disabled", true);
+//                        $('#nextButton').prop("disabled", true);
+//
+//                        return; // break out to stop errors
+//
+//
+//                    }
+//                    judgementsList.push(judgementRectangle);
+//
+//
+//                    currentSubRegionNumber++;
+//                    map.setCenter(subRegionsList[currentSubRegionNumber].bounds.getCenter());
+//                    for (var i = 0; i < judgementsList.length; i++) {
+//                        judgementsList[i].setMap(miniMap);
+//                    }
+//                    judgementRectangle = null;
+//
+//                    highlightSubRegion = new google.maps.Rectangle({
+//                        strokeColor: 'white',
+//                        strokeOpacity: 0.3,
+//                        strokeWeight: 8,
+//                        fillOpacity: 0.0,
+//                        map: map,
+//                        bounds: subRegionsList[currentSubRegionNumber].bounds
+//                    });
+//
+//
+//                });
+//            }
+
+
         }
 
 
@@ -519,8 +580,8 @@ function initMap() {
 
         });
 
-    })
-    ;//end of get
+//    })
+//    ;//end of get
 }//end of initMap
 
 //These functions simply create the divs for the buttons on the map as well as the css vlaues.
