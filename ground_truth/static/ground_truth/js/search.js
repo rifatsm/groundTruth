@@ -33,29 +33,29 @@ function getUrlVars() {
     return vars;
 }
 
-var start_time =  Math.floor(new Date() / 1000);
+var start_time = Math.floor(new Date() / 1000);
 
- $(document).ready(function () {
+$(document).ready(function () {
 
-      start_time = Math.floor(new Date() / 1000);
+    start_time = Math.floor(new Date() / 1000);
 
-     $('#joyRideTipContent').joyride({
-         postRideCallback: function () {
-             if (currentSubRegionNumber == 0) {
-                 start_time = Math.floor(new Date() / 1000);
-             }
+    $('#joyRideTipContent').joyride({
+        postRideCallback: function () {
+            if (currentSubRegionNumber == 0) {
+                start_time = Math.floor(new Date() / 1000);
+            }
 
-         },
-         autoStart: false,
-         expose: false
-     });
+        },
+        autoStart: false,
+        expose: false
+    });
 
-     $('#startride').click(function (e) {
-         $('#joyRideTipContent').joyride({
-             expose: true
-         });
-     });
- });
+    $('#startride').click(function (e) {
+        $('#joyRideTipContent').joyride({
+            expose: true
+        });
+    });
+});
 
 //Initialize the map and event handlers
 function initMap() {
@@ -405,9 +405,9 @@ function initMap() {
 //                            button: "Submit Task",
                             html: true
 
-                        }, function(){
+                        }, function () {
 //                            window.location="https://legionpowered.net/LegionTools/tutorialDone.html";
-                              $("#mturk_form").submit();
+                            $("#mturk_form").submit();
                         });
                         $('#submitButton').prop("disabled", false);
                         $('#yesButton').prop("disabled", true);
@@ -524,21 +524,26 @@ function initMap() {
         });
 
         //Reference image rotation controls
+        var currRotate = 0;
         $('#rot-left').on('click', function (event) {
             event.preventDefault();
             $('#mysteryImage').rotate(-45);
             rotationVal = rotationVal - 90;
-
+            currRotate += 45;
         });
         $('#rot-right').on('click', function (event) {
             event.preventDefault();
             rotationVal = rotationVal + 90;
             $('#mysteryImage').rotate(45);
-
+            currRotate += -45;
+        });
+        $('#mi_reset').on('click', function (event) {
+            event.preventDefault();
+            $('#mysteryImage').rotate(currRotate);
+            currRotate = 0;
         });
 
-    })
-    ;//end of get
+    });//end of get
 }//end of initMap
 
 //These functions simply create the divs for the buttons on the map as well as the css vlaues.
@@ -552,6 +557,9 @@ function nextControlMethod(controlDiv, map, text) {
     nextButton.value = text;
     nextButton.className = "btn btn-lg btn-primary";
     nextButton.disabled = true;
+    nextButton.addEventListener("click", function () {
+        $('#mi_reset').click();
+    });
     controlDiv.appendChild(nextButton);
 }
 

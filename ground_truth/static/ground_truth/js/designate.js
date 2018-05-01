@@ -587,15 +587,23 @@ $(document).ready(function () {
     seen_btn.data("sub_region", null);
 
 
+    var currRotate = 0;
     $('#rot-left').on('click', function (event) {
         event.preventDefault();
         $('#diagram_image_4').rotate(-45);
+        currRotate += 45;
 
     });
     $('#rot-right').on('click', function (event) {
         event.preventDefault();
         $('#diagram_image_4').rotate(45);
+        currRotate += -45;
+    });
 
+    $('#dg_reset').on('click', function (event) {
+        event.preventDefault();
+        $('#diagram_image_4').rotate(currRotate);
+        currRotate = 0;
     });
 
     $("#found_it_btn").click(found_it);

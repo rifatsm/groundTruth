@@ -175,8 +175,10 @@
                         </div>
                         <br>
                         <div class="ground_level_buttons">
-                            <button id="gl_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
-                            <button id="gl_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button id="gl_zoom_in" type="button" class="btn btn-default">Zoom in</button>
+                            <button id="gl_zoom_out" type="button" class="btn btn-default">Zoom out</button>
+                                </div>
                             <button id="gl_reset" type="button" class="btn btn-default">Reset</button>
                         </div>
                     </div>
@@ -194,15 +196,17 @@
                         </div>
                         <br>
                         <div class="diagram_buttons">
-                            <button id="dg_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
-                            <button id="dg_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button id="dg_zoom_in" type="button" class="btn btn-default">Zoom in</button>
+                            <button id="dg_zoom_out" type="button" class="btn btn-default">Zoom out</button>
+                                </div>
                             <button id="dg_reset" type="button" class="btn btn-default">Reset</button>
 
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
+                                <button id="rot-right" type="button" class="btn btn-default">Rotate <i class="fa fa-repeat"
                                                                                                 aria-hidden="true"></i>
                                 </button>
-                                <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
+                                <button id="rot-left" type="button" class="btn btn-default">Rotate <i class="fa fa-undo"
                                                                                                aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -433,7 +437,7 @@
 
     $(document).ready(function () {
         $('#joyRideTutorial').joyride({
-            autoStart: true,
+            autoStart: false,
             expose: false
         });
 
