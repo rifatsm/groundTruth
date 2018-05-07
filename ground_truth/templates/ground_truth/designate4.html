@@ -154,9 +154,9 @@
     </div>
 </nav>
 <div>
-    <div class="col-sm-4">
+    <div class="col-sm-5">
         <div id="add_invest">
-            <h4 id="define_title">Please Define Your Search Space</h4>
+            <h4 id="define_title">Please define your search space</h4>
             <!--<h3>Remaining Time: <span id="time" style="color: red"></span> minutes!</h3>-->
             <h4 id="crowd_title" hidden>Work with the Crowd to Geolocate the Images
             </h4>
@@ -240,7 +240,7 @@
                                    <!--data-text="100-250m &nbsp;&nbsp; 350-850 ft">&nbsp;Small (100 ~ 250 m)(350 ~ 850 ft)-->
                         <!--</label>-->
                     <!--</div>-->
-                    <h4>Estimate the Width of the Diagram</h4>
+                    <h4>Estimate the width of the diagram</h4>
                     <select id="form_width" class="form-control">
                         <option id="op1" value="1" data-zoom="16" data-bounds="0.009"
                                    data-text="500-1000m &nbsp;&nbsp; 1500-3200 ft ">&nbsp;Large (500 ~ 1000 m)(1500 ~ 3200 ft)</option>
@@ -283,20 +283,20 @@
                 <table hidden id="legend" style="width:70%" border="1">
                     <h5 hidden id="legend_h"> Color Legend </h5>
                     <tr>
-                        <td bgcolor="#d7191c" width="20%">Red</td>
-                        <td> 0% (none of 3 workers) positive</td>
+                        <td bgcolor="#d7191c" width="20%">&nbsp;&nbsp;Red</td>
+                        <td> &nbsp;&nbsp;0% (none of 3 workers) positive</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#fdae61" width="20%">Orange</td>
-                        <td> 33% (1 of 3 workers) positive</td>
+                        <td bgcolor="#fdae61" width="20%">&nbsp;&nbsp;Orange</td>
+                        <td> &nbsp;&nbsp;33% (1 of 3 workers) positive</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#a6d96a" width="20%">Light Green</td>
-                        <td> 67% (2 of 3 workers) positive</td>
+                        <td bgcolor="#a6d96a" width="20%">&nbsp;&nbsp;Light &nbsp;&nbsp;Green</td>
+                        <td> &nbsp;&nbsp;67% (2 of 3 workers) positive</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#1a9641" width="20%">Green</td>
-                        <td> 100% (3 of 3 workers) positive</td>
+                        <td bgcolor="#1a9641" width="20%">&nbsp;&nbsp;Green</td>
+                        <td> &nbsp;&nbsp;100% (3 of 3 workers) positive</td>
                     </tr>
                 </table>
             </div>
@@ -312,50 +312,50 @@
 
         </div>
     </div>
-    <div id="map_outter" class="col-sm-8">
+    <div id="map_outter" class="col-sm-7">
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <div id="mainView"></div>
-        <div id="drawing_wrapper" class="row" role="group">
-            <h5 id="width_zoom_notifier" hidden>250-500m &nbsp;&nbsp; 850-1500ft</h5>
-            <div id="width_zoom_0" class="col-xs-12" hidden>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="16" data-bounds="0.009"
-                           data-text="500-1000m &nbsp;&nbsp; 1500-3200ft
-                    (0.3-0.6miles)">500-1000m<br>1500-3200ft
-                    (0.3-0.6miles)
-                </label>
-                <label class="radio-inline active">
-                    <input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked=""
-                           data-text="250-500m &nbsp;&nbsp; 850-1500ft">250-500m<br>850-1500ft
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025"
-                           data-text="100-250m &nbsp;&nbsp; 350-850ft">100-250m<br>350-850ft
-                </label>
-                {#                <label class="radio-inline" hidden>#}
-                {#                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft#}
-                {#                </label>#}
-                {#                <label class="radio-inline" hidden>#}
-                {#                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft#}
-                {#                </label>#}
-            </div>
-            <div class="col-xs-12">
-                <button disabled id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>
-            </div>
+        <!--<div id="drawing_wrapper" class="row" role="group">-->
+            <!--<h5 id="width_zoom_notifier" hidden>250-500m &nbsp;&nbsp; 850-1500ft</h5>-->
+            <!--<div id="width_zoom_0" class="col-xs-12" hidden>-->
+                <!--<label class="radio-inline">-->
+                    <!--<input type="radio" name="optradio" data-zoom="16" data-bounds="0.009"-->
+                           <!--data-text="500-1000m &nbsp;&nbsp; 1500-3200ft-->
+                    <!--(0.3-0.6miles)">500-1000m<br>1500-3200ft-->
+                    <!--(0.3-0.6miles)-->
+                <!--</label>-->
+                <!--<label class="radio-inline active">-->
+                    <!--<input type="radio" name="optradio" data-zoom="17" data-bounds="0.005" checked=""-->
+                           <!--data-text="250-500m &nbsp;&nbsp; 850-1500ft">250-500m<br>850-1500ft-->
+                <!--</label>-->
+                <!--<label class="radio-inline">-->
+                    <!--<input type="radio" name="optradio" data-zoom="18" data-bounds="0.0025"-->
+                           <!--data-text="100-250m &nbsp;&nbsp; 350-850ft">100-250m<br>350-850ft-->
+                <!--</label>-->
+                <!--{#                <label class="radio-inline" hidden>#}-->
+                <!--{#                    <input type="radio" name="optradio" data-zoom="19" data-bounds="0.0012" data-text="50-100m &nbsp;&nbsp; 150-350ft">50-100m<br>150-350ft#}-->
+                <!--{#                </label>#}-->
+                <!--{#                <label class="radio-inline" hidden>#}-->
+                <!--{#                    <input type="radio" name="optradio" data-zoom="20" data-bounds="0.0006" data-text="30-50m &nbsp;&nbsp; 100-150ft">30-50m<br>100-150ft#}-->
+                <!--{#                </label>#}-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<div class="col-xs-12">&ndash;&gt;-->
+                <!--&lt;!&ndash;<button hidden disabled id="toggle_draw_erase_btn" type="button" class="btn btn-success btn-block"></button>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-        </div>
-        <div id="judgement_wrapper" class="btn-toolbar" role="group" style="display: none">
-            <div class="btn-group" role="group">
-                <button id="found_it_btn" type="button" class="btn btn-success">Found It!</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button id="toggle_seen_btn" type="button" class="btn btn-default" disabled></button>
-            </div>
-            <div class="btn-group" role="group">
-                <button id="toggle_suggestions_btn" type="button" class="btn btn-default"></button>
-                <button id="toggle_overlay_btn" type="button" class="btn btn-default"></button>
-            </div>
-        </div>
+        <!--</div>-->
+        <!--<div id="judgement_wrapper" class="btn-toolbar" role="group" style="display: none">-->
+            <!--<div class="btn-group" role="group">-->
+                <!--<button id="found_it_btn" type="button" class="btn btn-success">Found It!</button>-->
+            <!--</div>-->
+            <!--<div class="btn-group" role="group">-->
+                <!--<button id="toggle_seen_btn" type="button" class="btn btn-default" disabled></button>-->
+            <!--</div>-->
+            <!--<div class="btn-group" role="group">-->
+                <!--<button id="toggle_suggestions_btn" type="button" class="btn btn-default"></button>-->
+                <!--<button id="toggle_overlay_btn" type="button" class="btn btn-default"></button>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 
 </div>

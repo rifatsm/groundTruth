@@ -36,9 +36,10 @@ var not_canidates = 0;
 
 ///////////////////////////////////////////////
 // text templates
-var start_drawing_template = "Drawing Mode";
-var stop_drawing_template = "Viewing Mode";
-var remove_drawing_template = "Remove Search Space";
+var start_drawing_template = "Draw";
+var stop_drawing_template = "View";
+//var remove_drawing_template = "Remove Search Space";
+var remove_drawing_template = "Re-Draw";
 
 var show_judgements_template = "Show Color";
 var hide_judgements_template = "Hide Color";
@@ -313,13 +314,13 @@ function judgement_manager(sub_region) {
  * toggles judgement of sub regions
  */
 function judge() {
-    var toggle = $("#toggle_seen_btn");
+    var toggle = $("#hideButton");
     var sub_region = toggle.data("sub_region");
 
     // no subregion selected, should never get here because of the management function
     if (toggle.data("sub_region") === undefined || toggle.data("sub_region") === null) {
         toggle.prop('disabled', true);
-        $("#found_it_btn").prop("disabled", true);
+        $("#foundButton").prop("disabled", true);
         suggestions_manager(); // tell suggestions manager to turn itself off.
     } else {
         if (toggle.data("sub_region")["candidate"]) { // we are looking a sub_region that has not been outlawed
@@ -539,11 +540,12 @@ function worker_zoom() {
 //    $("#form_width.form-control").click(function () {
     $("#form_width.form-control").click(function () {
 
-        if($('#toggle_draw_erase_btn').prop("disabled")){
-            $("#toggle_draw_erase_btn").removeAttr("disabled");
+        if($('#drawButton').prop("disabled")){
+            $("#drawButton").removeAttr("disabled");
         }
         else{
-            var draw_erase_btn = $("#toggle_draw_erase_btn");
+//            var draw_erase_btn = $("#toggle_draw_erase_btn");
+            var draw_erase_btn = $("#drawButton");
 
             // there is no investigation on the map
             if (draw_erase_btn.data== null || draw_erase_btn.data == undefined) {
@@ -569,7 +571,7 @@ function worker_zoom() {
                     draw_erase_btn.removeClass("btn-primary");
                     draw_erase_btn.removeClass("btn-danger");
                     draw_erase_btn.removeClass("btn-default");
-                    draw_erase_btn.addClass("btn-success");
+                    draw_erase_btn.addClass("btn-primary");
     //                $("#width_zoom").show();
     //                $("#width_zoom_notifier").hide();
                     map_height();
@@ -583,7 +585,7 @@ function worker_zoom() {
                 draw_erase_btn.removeClass("btn-primary");
                 draw_erase_btn.removeClass("btn-danger");
                 draw_erase_btn.removeClass("btn-default");
-                draw_erase_btn.addClass("btn-success");
+                draw_erase_btn.addClass("btn-primary");
     //            $("#width_zoom").show();
     //            $("#width_zoom_notifier").hide();
                 map_height();
@@ -598,7 +600,8 @@ function worker_zoom() {
 
                 draw_erase_btn.data("investigation", null);
             }
-            $("#toggle_draw_erase_btn").data("investigation", null);
+//            $("#toggle_draw_erase_btn").data("investigation", null);
+            $("#drawButton").data("investigation", null);
         }
 //
 
@@ -608,30 +611,34 @@ function worker_zoom() {
 
     });
 
-    $("#toggle_draw_erase_btn").click(function(){
-        var sel = document.getElementById('form_width');
 
-        // display value property of select list (from selected option)
-        console.log("Select: "+ sel.value );
+// Handled below in drawFunction
 
-        if(sel.value == "1"){
-            zoom = parseInt("16");
-            sub_region_width = parseFloat("0.009");
-            $("#width_zoom_notifier").text("500-1000m  1500-3200 ft ");
-            sub_region_height = sub_region_width;
-        }
-        if(sel.value == "2"){
-            zoom = parseInt("17");
-            sub_region_width = parseFloat("0.005");
-            $("#width_zoom_notifier").text("250-500m  850-1500 ft");
-            sub_region_height = sub_region_width;
-        }
-        if(sel.value == "3"){
-            zoom = parseInt("18");
-            sub_region_width = parseFloat("0.0025");
-            $("#width_zoom_notifier").text("100-250m  350-850 ft");
-            sub_region_height = sub_region_width;
-        }
+//    $("#drawButton").click(function(){
+////        console.log("here! ");
+//        var sel = document.getElementById('form_width');
+//
+//        // display value property of select list (from selected option)
+//        console.log("Select: "+ sel.value );
+//
+//        if(sel.value == "1"){
+//            zoom = parseInt("16");
+//            sub_region_width = parseFloat("0.009");
+//            $("#width_zoom_notifier").text("500-1000m  1500-3200 ft ");
+//            sub_region_height = sub_region_width;
+//        }
+//        if(sel.value == "2"){
+//            zoom = parseInt("17");
+//            sub_region_width = parseFloat("0.005");
+//            $("#width_zoom_notifier").text("250-500m  850-1500 ft");
+//            sub_region_height = sub_region_width;
+//        }
+//        if(sel.value == "3"){
+//            zoom = parseInt("18");
+//            sub_region_width = parseFloat("0.0025");
+//            $("#width_zoom_notifier").text("100-250m  350-850 ft");
+//            sub_region_height = sub_region_width;
+//        }
 
 
         // display value and text property values
@@ -644,10 +651,12 @@ function worker_zoom() {
 //        $("#width_zoom_notifier").text($("option").attr("data-text"));
 //        sub_region_height = sub_region_width;
 
-    });
+//    });
 
 
 }
+
+
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 // timer stuff
@@ -693,10 +702,10 @@ $(document).ready(function () {
     $("#add_investigation_btn").addClass("disabled");
     $(window).resize(map_height);
 
-    var seen_btn = $("#toggle_seen_btn");
-    seen_btn.click(judge);
-    seen_btn.text(not_canidate_template);
-    seen_btn.data("sub_region", null);
+//    var seen_btn = $("#toggle_seen_btn");
+//    seen_btn.click(judge);
+//    seen_btn.text(not_canidate_template);
+//    seen_btn.data("sub_region", null);
 
 
     $('#rot-left').on('click', function (event) {
@@ -724,7 +733,7 @@ $(document).ready(function () {
     judgements_btn.click(toggle_suggestions);
     judgements_btn.data("hidden", false);
 
-    $("#toggle_draw_erase_btn").text(start_drawing_template);
+    $("#drawButton").text(start_drawing_template);
     judgements_btn.text(hide_judgements_template);
     overlay_btn.text(hide_overlays_template);
     map_height();
@@ -845,12 +854,12 @@ function initMap() {
 
 
     function have_investigation() {
-        var draw_erase_btn = $("#toggle_draw_erase_btn");
+        var draw_erase_btn = $("#drawButton");
         return draw_erase_btn.data("investigation") !== null && draw_erase_btn.data("investigation") !== undefined;
     }
 
     function draw_erase() {
-        var draw_erase_btn = $("#toggle_draw_erase_btn");
+        var draw_erase_btn = $("#drawButton");
 
         // there is no investigation on the map
         if (!have_investigation()) {
@@ -869,6 +878,8 @@ function initMap() {
 //                $("#width_zoom_notifier").show();
                 map_height();
 
+                console.log("if 1");
+
 
             } else { // they are drawing on the map, they can disable it
                 drawingManager.setDrawingMode(null);
@@ -876,10 +887,12 @@ function initMap() {
                 draw_erase_btn.removeClass("btn-primary");
                 draw_erase_btn.removeClass("btn-danger");
                 draw_erase_btn.removeClass("btn-default");
-                draw_erase_btn.addClass("btn-success");
+                draw_erase_btn.addClass("btn-primary");
 //                $("#width_zoom").show();
 //                $("#width_zoom_notifier").hide();
                 map_height();
+
+                console.log("else 2");
             }
 
         } else {
@@ -890,7 +903,7 @@ function initMap() {
             draw_erase_btn.removeClass("btn-primary");
             draw_erase_btn.removeClass("btn-danger");
             draw_erase_btn.removeClass("btn-default");
-            draw_erase_btn.addClass("btn-success");
+            draw_erase_btn.addClass("btn-primary");
 //            $("#width_zoom").show();
 //            $("#width_zoom_notifier").hide();
             map_height();
@@ -901,25 +914,31 @@ function initMap() {
             var invest = draw_erase_btn.data("investigation");
             invest.setMap(null);
             draw_erase_btn.data("investigation", null);
+
+            console.log("else 3");
         }
 
     }
 
 
     // TODO i need to make a ready section where code goes when the init map stuff is done. the area where code actuallyexecutess
-    $("#toggle_draw_erase_btn").click(draw_erase);
-    $("#toggle_draw_erase_btn").data("investigation", null);
+    $("#drawButton").click(draw_erase);
+    $("#drawButton").data("investigation", null);
 
     //Convert a drawn region into designated areas
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
-        var draw_erase_btn = $("#toggle_draw_erase_btn");
-        draw_erase_btn.text(remove_drawing_template);
+        var draw_erase_btn = $("#drawButton");
+//        draw_erase_btn.text(remove_drawing_template);
+//        draw_erase_btn.prop('value', remove_drawing_template);
         draw_erase_btn.removeClass("btn-success");
         draw_erase_btn.removeClass("btn-danger");
         draw_erase_btn.removeClass("btn-default");
 //        draw_erase_btn.addClass("btn-primary");
         draw_erase_btn.addClass("btn-danger");
         $("#width_zoom").hide();
+
+//        console.log("drawingManager!");
+
 //        $("#width_zoom_notifier").show();
 
         //Get the size and bounds of the drawn region
@@ -938,6 +957,8 @@ function initMap() {
             'num_sub_regions_width': num_sub_regions_width,
             'num_sub_regions_height': num_sub_regions_height
         };
+
+        console.log("send region: "+ JSON.stringify(send));
 
         $.post("/draw_investigation/", send, function (res) {
             var newSouthWest = new google.maps.LatLng(res.investigation_bounds.lat_start, res.investigation_bounds.lon_start);
@@ -987,7 +1008,12 @@ function initMap() {
         $("#legend").removeAttr("hidden");
         $("#legend_h").removeAttr("hidden");
 
-        var draw_erase_btn = $("#toggle_draw_erase_btn");
+        $("#foundButton").prop("disabled", false);
+        $("#hideButton").prop("disabled", false);
+        $("#excludeButton").prop("disabled", false);
+        $("#drawButton").prop("disabled", true);
+
+        var draw_erase_btn = $("#drawButton");
         var investigation = draw_erase_btn.data("investigation");
 
         // This is where we stop people from spending too much money
@@ -1071,7 +1097,8 @@ function initMap() {
 
                         $.get("/judgement/" + sub_regions[i] + "/", function (res) {
                             var region = worker_subregions[res["sub_region_id"]];
-                            if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
+//                            if (region["candidate"] && !$("#toggle_overlay_btn").data("hidden") && !$("#toggle_suggestions_btn").data("hidden")) {
+                            if (region["candidate"]) {
                                 if (res.status >= 3) {
                                     region.setOptions(yyy_template);
                                 } else if (res.status === 2) {
@@ -1096,4 +1123,145 @@ function initMap() {
     $("#add_investigation_btn").click(send_investigation);
 
     drawingManager.setDrawingMode(null);
+
+    //----Adding buttons to the map-----
+
+    //Creates the divs for the buttons and adds them to the map
+    var drawButtonDiv = document.createElement('div');
+    var drawButton = new drawControlMethod(drawButtonDiv, map, 'Draw');
+
+    var foundButtonDiv = document.createElement('div');
+    var foundButton = new foundControlMethod(foundButtonDiv, map, 'Found it');
+
+    var hideButtonDiv = document.createElement('div');
+    var hideButton = new hideControlMethod(hideButtonDiv, map, 'Toggle Colors');
+
+    var excludeButtonDiv = document.createElement('div');
+    var excludeButton = new excludeControlMethod(excludeButtonDiv, map, 'Exclude');
+
+//    var yesControlDiv = document.createElement('div');
+//    var yesControl = new yesControlMethod(yesControlDiv, map);
+//
+//    var noControlDiv = document.createElement('div');
+//    var noControl = new noControlMethod(noControlDiv, map);
+
+    drawButtonDiv.index = 1;
+    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(drawButtonDiv);
+
+    foundButtonDiv.index = 1;
+    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(foundButtonDiv);
+
+    hideButtonDiv.index = 1;
+    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(hideButtonDiv);
+
+    excludeButtonDiv.index = 1;
+    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(excludeButtonDiv);
+
+    //Handle the draw button
+    google.maps.event.addDomListener(drawButtonDiv, 'click', drawFunction);
+
+    //Handle the found button
+    google.maps.event.addDomListener(foundButtonDiv, 'click', foundFunction);
+
+    //Handle the toggle button
+    google.maps.event.addDomListener(hideButtonDiv, 'click', toggleSeen);
+
+    function foundFunction(){
+        found_it();
+
+    }
+
+    function toggleSeen(){
+        var seen_btn = $("#hideButton");
+        judge();
+        seen_btn.text(not_canidate_template);
+        seen_btn.data("sub_region", null);
+
+    }
+
+
+    function drawFunction(){
+        var sel = document.getElementById('form_width');
+
+        // display value property of select list (from selected option)
+        console.log("Select: "+ sel.value );
+
+        if(sel.value == "1"){
+            zoom = parseInt("16");
+            sub_region_width = parseFloat("0.009");
+            $("#width_zoom_notifier").text("500-1000m  1500-3200 ft ");
+            sub_region_height = sub_region_width;
+        }
+        if(sel.value == "2"){
+            zoom = parseInt("17");
+            sub_region_width = parseFloat("0.005");
+            $("#width_zoom_notifier").text("250-500m  850-1500 ft");
+            sub_region_height = sub_region_width;
+        }
+        if(sel.value == "3"){
+            zoom = parseInt("18");
+            sub_region_width = parseFloat("0.0025");
+            $("#width_zoom_notifier").text("100-250m  350-850 ft");
+            sub_region_height = sub_region_width;
+        }
+
+        draw_erase();
+        $("#drawButton").data("investigation", null);
+    }
+
+}
+
+function drawControlMethod(controlDiv, map, text) {
+//    console.log("button! ");
+    var drawButton = document.createElement("input");
+    drawButton.id = "drawButton";
+    drawButton.style.marginTop = '10px';
+    drawButton.style.marginRight = '10px';
+    drawButton.type = "button";
+    drawButton.name = "add";
+    drawButton.value = text;
+    drawButton.className = "btn btn btn-primary";
+    drawButton.disabled = true;
+    controlDiv.appendChild(drawButton);
+}
+
+
+function foundControlMethod(controlDiv, map, text) {
+    var foundButton = document.createElement("input");
+    foundButton.id = "foundButton";
+    foundButton.style.marginTop = '10px';
+    foundButton.style.marginRight = '10px';
+    foundButton.type = "button";
+    foundButton.name = "add";
+    foundButton.value = text;
+    foundButton.className = "btn btn-success";
+    foundButton.disabled = true;
+    controlDiv.appendChild(foundButton);
+}
+
+function hideControlMethod(controlDiv, map, text) {
+    var hideButton = document.createElement("input");
+    hideButton.id = "hideButton";
+    hideButton.style.marginTop = '10px';
+    hideButton.style.marginRight = '10px';
+    hideButton.type = "button";
+    hideButton.name = "add";
+    hideButton.value = text;
+    hideButton.className = "btn btn-primary";
+    hideButton.disabled = true;
+    controlDiv.appendChild(hideButton);
+}
+
+
+function excludeControlMethod(controlDiv, map, text) {
+    var excludeButton = document.createElement("input");
+    excludeButton.id = "excludeButton";
+    excludeButton.style.marginTop = '10px';
+    excludeButton.style.marginRight = '10px';
+    excludeButton.type = "button";
+    excludeButton.name = "add";
+    excludeButton.value = text;
+    excludeButton.className = "btn btn-danger";
+    excludeButton.disabled = true;
+    controlDiv.appendChild(excludeButton);
 }
