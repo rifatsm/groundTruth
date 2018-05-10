@@ -319,8 +319,8 @@ function judge() {
 
     // no subregion selected, should never get here because of the management function
     if (toggle.data("sub_region") === undefined || toggle.data("sub_region") === null) {
-        toggle.prop('disabled', true);
-        $("#foundButton").prop("disabled", true);
+//        toggle.prop('disabled', true);
+//        $("#foundButton").prop("disabled", true);
         suggestions_manager(); // tell suggestions manager to turn itself off.
     } else {
         if (toggle.data("sub_region")["candidate"]) { // we are looking a sub_region that has not been outlawed
@@ -929,7 +929,7 @@ function initMap() {
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
         var draw_erase_btn = $("#drawButton");
 //        draw_erase_btn.text(remove_drawing_template);
-//        draw_erase_btn.prop('value', remove_drawing_template);
+        draw_erase_btn.prop('value', remove_drawing_template);
         draw_erase_btn.removeClass("btn-success");
         draw_erase_btn.removeClass("btn-danger");
         draw_erase_btn.removeClass("btn-default");
@@ -1008,10 +1008,11 @@ function initMap() {
         $("#legend").removeAttr("hidden");
         $("#legend_h").removeAttr("hidden");
 
-        $("#foundButton").prop("disabled", false);
-        $("#hideButton").prop("disabled", false);
-        $("#excludeButton").prop("disabled", false);
-        $("#drawButton").prop("disabled", true);
+        $("#foundButton").removeClass("hidden");
+        $("#hideButton").removeClass("hidden");
+        $("#excludeButton").removeClass("hidden");
+//        $("#drawButton").prop("disabled", true);
+        $("#drawButton").addClass("hidden");
 
         var draw_erase_btn = $("#drawButton");
         var investigation = draw_erase_btn.data("investigation");
@@ -1134,7 +1135,7 @@ function initMap() {
     var foundButton = new foundControlMethod(foundButtonDiv, map, 'Found it');
 
     var hideButtonDiv = document.createElement('div');
-    var hideButton = new hideControlMethod(hideButtonDiv, map, 'Toggle Colors');
+    var hideButton = new hideControlMethod(hideButtonDiv, map, 'Hide Colors');
 
     var excludeButtonDiv = document.createElement('div');
     var excludeButton = new excludeControlMethod(excludeButtonDiv, map, 'Exclude');
@@ -1146,16 +1147,19 @@ function initMap() {
 //    var noControl = new noControlMethod(noControlDiv, map);
 
     drawButtonDiv.index = 1;
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(drawButtonDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(drawButtonDiv);
 
-    foundButtonDiv.index = 1;
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(foundButtonDiv);
-
-    hideButtonDiv.index = 1;
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(hideButtonDiv);
 
     excludeButtonDiv.index = 1;
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(excludeButtonDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(excludeButtonDiv);
+
+    hideButtonDiv.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(hideButtonDiv);
+
+
+    foundButtonDiv.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(foundButtonDiv);
+
 
     //Handle the draw button
     google.maps.event.addDomListener(drawButtonDiv, 'click', drawFunction);
@@ -1221,7 +1225,7 @@ function drawControlMethod(controlDiv, map, text) {
     drawButton.name = "add";
     drawButton.value = text;
     drawButton.className = "btn btn btn-primary";
-    drawButton.disabled = true;
+//    drawButton.disabled = true;
     controlDiv.appendChild(drawButton);
 }
 
@@ -1229,26 +1233,24 @@ function drawControlMethod(controlDiv, map, text) {
 function foundControlMethod(controlDiv, map, text) {
     var foundButton = document.createElement("input");
     foundButton.id = "foundButton";
-    foundButton.style.marginTop = '10px';
+    foundButton.style.marginTop = '90px';
     foundButton.style.marginRight = '10px';
     foundButton.type = "button";
     foundButton.name = "add";
     foundButton.value = text;
-    foundButton.className = "btn btn-success";
-    foundButton.disabled = true;
+    foundButton.className = "btn btn-success hidden";
     controlDiv.appendChild(foundButton);
 }
 
 function hideControlMethod(controlDiv, map, text) {
     var hideButton = document.createElement("input");
     hideButton.id = "hideButton";
-    hideButton.style.marginTop = '10px';
+    hideButton.style.marginTop = '50px';
     hideButton.style.marginRight = '10px';
     hideButton.type = "button";
     hideButton.name = "add";
     hideButton.value = text;
-    hideButton.className = "btn btn-primary";
-    hideButton.disabled = true;
+    hideButton.className = "btn btn-primary hidden";
     controlDiv.appendChild(hideButton);
 }
 
@@ -1256,12 +1258,10 @@ function hideControlMethod(controlDiv, map, text) {
 function excludeControlMethod(controlDiv, map, text) {
     var excludeButton = document.createElement("input");
     excludeButton.id = "excludeButton";
-    excludeButton.style.marginTop = '10px';
-    excludeButton.style.marginRight = '10px';
+    excludeButton.setAttribute("style", "background-color:black; margin-top: 10px; margin-right: 10px; color: white;");
     excludeButton.type = "button";
     excludeButton.name = "add";
     excludeButton.value = text;
-    excludeButton.className = "btn btn-danger";
-    excludeButton.disabled = true;
+    excludeButton.className = "btn  hidden";
     controlDiv.appendChild(excludeButton);
 }
