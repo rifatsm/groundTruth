@@ -5,123 +5,162 @@
     <meta charset="utf-8">
     {% load static %}
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designWide.css' %}">
+
+    <!-- BootStrap -->
     <link href="{% static 'ground_truth/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static 'ground_truth/js/bootstrap.min.js' %}"></script>
+
+    <!--jQuery (need version > 3.3 for panzoom to work)  -->
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Sweet Alert -->
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
-    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
+
+
+    <!-- Joyride -->
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
+    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
+
+    <!-- Font Awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- panzoom for the Worker UI diagram -->
+    <script src="{% static 'ground_truth/dist/jquery.panzoom.js' %}"></script>
 
-    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
-    <script type="text/javascript" src="{% static 'ground_truth/js/search.js' %}"></script>
+    <!-- Google Map API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing&callback=initMap"
             async defer></script>
 
+    <!-- Other js files -->
+    <script type="text/javascript" src="{% static 'ground_truth/js/search.js' %}"></script>
     <script src="{% static 'ground_truth/js/Matrix.js' %}"></script>
     {#	<script src="{% static 'ground_truth/js/jquery.freetrans.js' %}"></script>#}
-    <script src="{% static 'ground_truth/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'ground_truth/js/jquery.rotate.js' %}"></script>
 
 
     <style>
-    #show5 {
-        visibility: hidden;
-        min-width: 250px;
-        margin-left: -125px;
-        background-color: #f4ee42;
-        color: #000000;
-        text-align: center;
-        border-radius: 2px;
-        border-color: #000000;
-        border-style: solid;
-        border-width: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 1;
-        left: 40%;
-        top: 30px;
-        font-size: 17px;
-    }
+        #show5 {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #f4ee42;
+            color: #000000;
+            text-align: center;
+            border-radius: 2px;
+            border-color: #000000;
+            border-style: solid;
+            border-width: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 40%;
+            top: 30px;
+            font-size: 17px;
+        }
 
-    #show5.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
-        animation: fadein 0.5s, fadeout 0.5s 4.5s;
-    }
+        #show5.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+            animation: fadein 0.5s, fadeout 0.5s 4.5s;
+        }
 
-    #show8 {
-        visibility: hidden;
-        min-width: 250px;
-        margin-left: -125px;
-        background-color: #f4b841;
-        color: #000000;
-        text-align: center;
-        border-radius: 2px;
-        border-color: #000000;
-        border-style: solid;
-        border-width: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 1;
-        left: 40%;
-        top: 30px;
-        font-size: 17px;
-    }
+        #show8 {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #f4b841;
+            color: #000000;
+            text-align: center;
+            border-radius: 2px;
+            border-color: #000000;
+            border-style: solid;
+            border-width: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 40%;
+            top: 30px;
+            font-size: 17px;
+        }
 
-    #show8.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
-        animation: fadein 0.5s, fadeout 0.5s 4.5s;
-    }
+        #show8.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+            animation: fadein 0.5s, fadeout 0.5s 4.5s;
+        }
 
-    #show10 {
-        visibility: hidden;
-        min-width: 250px;
-        margin-left: -125px;
-        background-color: #f46d41;
-        color: #000000;
-        text-align: center;
-        border-radius: 2px;
-        border-color: #000000;
-        border-style: solid;
-        border-width: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 1;
-        left: 40%;
-        top: 30px;
-        font-size: 17px;
-    }
+        #show10 {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #f46d41;
+            color: #000000;
+            text-align: center;
+            border-radius: 2px;
+            border-color: #000000;
+            border-style: solid;
+            border-width: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 40%;
+            top: 30px;
+            font-size: 17px;
+        }
 
-    #show10.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
-        animation: fadein 0.5s, fadeout 0.5s 4.5s;
-    }
+        #show10.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+            animation: fadein 0.5s, fadeout 0.5s 4.5s;
+        }
 
-    @-webkit-keyframes fadein {
-        from {top: 0; opacity: 0;}
-        to {top: 30px; opacity: 1;}
-    }
+        @-webkit-keyframes fadein {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+            to {
+                top: 30px;
+                opacity: 1;
+            }
+        }
 
-    @keyframes fadein {
-        from {top: 0; opacity: 0;}
-        to {top: 30px; opacity: 1;}
-    }
+        @keyframes fadein {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+            to {
+                top: 30px;
+                opacity: 1;
+            }
+        }
 
-    @-webkit-keyframes fadeout {
-        from {top: 30px; opacity: 1;}
-        to {top: 0; opacity: 0;}
-    }
+        @-webkit-keyframes fadeout {
+            from {
+                top: 30px;
+                opacity: 1;
+            }
+            to {
+                top: 0;
+                opacity: 0;
+            }
+        }
 
-    @keyframes fadeout {
-        from {top: 30px; opacity: 1;}
-        to {top: 0; opacity: 0;}
-    }
-</style>
+        @keyframes fadeout {
+            from {
+                top: 30px;
+                opacity: 1;
+            }
+            to {
+                top: 0;
+                opacity: 0;
+            }
+        }
+    </style>
 
 
 </head>
@@ -137,26 +176,26 @@
 <div id="outerContainer">
     <div id="container-fluid">
         <!--<div id="titleBar">-->
-            <!--<div class="col-xs-2">-->
-                <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
-            <!--</div>-->
-            <!--<div class="col-xs-4">-->
-                <!--<div id="titlePanel">-->
-                    <!--<h1>GroundTruth</h1>-->
-                    <!--&lt;!&ndash;<h3>This is a mock UI for tutorial purpose</h3>&ndash;&gt;-->
-                    <!--&lt;!&ndash;button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-xs-6">-->
+        <!--<div class="col-xs-2">-->
+        <!--<img src="{% static 'ground_truth/img/logo.jpg' %}" style="width:100%"/>-->
+        <!--</div>-->
+        <!--<div class="col-xs-4">-->
+        <!--<div id="titlePanel">-->
+        <!--<h1>GroundTruth</h1>-->
+        <!--&lt;!&ndash;<h3>This is a mock UI for tutorial purpose</h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;button class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
 
-                <!--<div id="titlePanel">-->
+        <!--<div id="titlePanel">-->
 
-                    <!--&lt;!&ndash;button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a id="startride" class="btn btn-large btn-default">View Tutorial</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h3>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div id="clockdiv"></div>&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
+        <!--&lt;!&ndash;button id="instructionsButton" class="btn btn-default" data-toggle="collapse" data-target="#instructions">Show/Hide Instructions</button&ndash;&gt;-->
+        <!--&lt;!&ndash;<a id="startride" class="btn btn-large btn-default">View Tutorial</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;<h3>Time Spent: <span id="time" style="color: red"></span> minutes!</h3>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div id="clockdiv"></div>&ndash;&gt;-->
+        <!--</div>-->
+        <!--</div>-->
         <!--</div>-->
 
         <hr>
@@ -169,31 +208,34 @@
         </div>
 
         <div class="row">
-
-
-
-
             <div class="col-xs-4" align="left" style="margin-left:20px;margin-right:10px">
-                <!--<div class="row">-->
-                    <!--div id='bounds'></div-->
-                    <img id="mysteryImage" style="width:100%;"/>
-                    <br>
-                    <div class="col-md-12 text-center" style="margin-bottom:15px;">
-                        <div class="btn-group mr-2" role="group" aria-label="First group">
-                            <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
-                                                                                            aria-hidden="true"></i>
-                            </button>
-                            <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
-                                                                                           aria-hidden="true"></i>
-                            </button>
+                <div>
+                    <section id="mi_section">
+                        <div class="parent">
+                            <div class="panzoom">
+                                <img id="mysteryImage" style="width:100%;"/>
+                            </div>
                         </div>
+                    </section>
+                </div>
+                <br>
+                <div class="mi_buttons col-md-12 text-center" style="margin-bottom:15px;">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button id="mi_zoom_in" type="button" class="btn btn-default">Zoom in</button>
+                        <button id="mi_zoom_out" type="button" class="btn btn-default">Zoom out</button>
                     </div>
-                <!--</div>-->
+                    <button id="mi_reset" type="button" class="btn btn-default">Reset</button>
 
-
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button id="rot-right" type="button" class="btn btn-default">Rotate <i class="fa fa-repeat"
+                                                                                        aria-hidden="true"></i>
+                        </button>
+                        <button id="rot-left" type="button" class="btn btn-default">Rotate <i class="fa fa-undo"
+                                                                                       aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-
-
 
             <div class="col-xs-5" id="right-div" style="margin-left:0px">
 
@@ -212,42 +254,42 @@
 
 
         <!--<div class="row">-->
-            <!--<div class="col-xs-4">-->
-                <!--<div class="row">-->
-                    <!--&lt;!&ndash;div id='bounds'></div&ndash;&gt;-->
-                    <!--<img id="mysteryImage" style="width:100%;"/>-->
-                    <!--<div class="col-md-12 text-center" style="margin-bottom:15px;">-->
-                        <!--<div class="btn-group mr-2" role="group" aria-label="First group">-->
-                            <!--<button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"-->
-                                                                                            <!--aria-hidden="true"></i>-->
-                            <!--</button>-->
-                            <!--<button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"-->
-                                                                                           <!--aria-hidden="true"></i>-->
-                            <!--</button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+        <!--<div class="col-xs-4">-->
+        <!--<div class="row">-->
+        <!--&lt;!&ndash;div id='bounds'></div&ndash;&gt;-->
+        <!--<img id="mysteryImage" style="width:100%;"/>-->
+        <!--<div class="col-md-12 text-center" style="margin-bottom:15px;">-->
+        <!--<div class="btn-group mr-2" role="group" aria-label="First group">-->
+        <!--<button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"-->
+        <!--aria-hidden="true"></i>-->
+        <!--</button>-->
+        <!--<button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"-->
+        <!--aria-hidden="true"></i>-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
-                <!--<div class="row">-->
-                    <!--<div id="miniMap"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-xs-8" id="right-div">-->
+        <!--<div class="row">-->
+        <!--<div id="miniMap"></div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-xs-8" id="right-div">-->
 
-                <!--<div id="mainView"></div>-->
+        <!--<div id="mainView"></div>-->
 
-            <!--</div>-->
+        <!--</div>-->
         <!--</div>-->
 
         <!--<textarea id="comments" name="comments" rows="5" style="width:100%; margin:70px 20px 0px 20px; padding:10px;"-->
-                  <!--placeholder="Feel free to leave any comments about your experience with the task."></textarea>-->
+        <!--placeholder="Feel free to leave any comments about your experience with the task."></textarea>-->
         <!--<button type='submit' id='submitButton'-->
-                <!--style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>-->
+        <!--style="width:100%; margin:0px 20px; padding:10px;" disabled="true" class="btn btn-block">Submit Task</button>-->
         <!--<form id ="mturk_form"/>-->
         <form action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">
-        <!--<form action="https://www.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
+            <!--<form action="https://www.mturk.com/mturk/externalSubmit" method="POST" id="mturk_form">-->
             <!--Read more: https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ExternalQuestionArticle.html-->
-        <!--<form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">-->
+            <!--<form action="https://legionpowered.net/LegionTools/tutorialDone.html" method="POST" id="mturk_form">-->
             {% csrf_token %}
             <input type="hidden" name="assignmentId" id="assignmentId" value="">
             <!--<input type="submit" name="submit" value="Submit">-->
@@ -295,106 +337,121 @@
 </ol>
 
 <script type="text/javascript">
-    <!--var _mfq = _mfq || [];-->
-    <!--(function () {-->
-        <!--var mf = document.createElement("script");-->
-        <!--mf.type = "text/javascript";-->
-        <!--mf.async = true;-->
-        <!--mf.src = "//cdn.mouseflow.com/projects/0d23f5c1-b71d-44dc-8df9-8157efd37d84.js";-->
-        <!--document.getElementsByTagName("head")[0].appendChild(mf);-->
-    <!--})();-->
-
+    <!--{#    var _mfq = _mfq || [];#}
+    {#    (function () {#}
+    {#        var mf = document.createElement("script");#}
+    {#        mf.type = "text/javascript";#}
+    {#        mf.async = true;#}
+    {#        mf.src = "//cdn.mouseflow.com/projects/0d23f5c1-b71d-44dc-8df9-8157efd37d84.js";#}
+    {#        document.getElementsByTagName("head")[0].appendChild(mf);#}
+    {#    })();#} -->
 
 
     function startTimer(duration, display) {
-    var start = Date.now(),
-        diff,
-        minutes,
-        seconds;
-    function timer() {
-        // get the number of seconds that have elapsed since
-        // startTimer() was called
-        <!--diff = duration - (((Date.now() - start) / 1000) | 0);-->
-        diff = (Date.now() - start) / 1000;
+        var start = Date.now(),
+                diff,
+                minutes,
+                seconds;
 
-        // does the same job as parseInt truncates the float
-        minutes = (diff / 60) | 0;
-        seconds = (diff % 60) | 0;
+        function timer() {
+            // get the number of seconds that have elapsed since
+            // startTimer() was called
+            <!--diff = duration - (((Date.now() - start) / 1000) | 0);-->
+            diff = (Date.now() - start) / 1000;
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+            // does the same job as parseInt truncates the float
+            minutes = (diff / 60) | 0;
+            seconds = (diff % 60) | 0;
 
-        display.textContent = minutes + ":" + seconds;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        if (diff <= 0) {
-            // add one second so that the count down starts at the full duration
-            // example 05:00 not 04:59
-            start = Date.now() + 1000;
-        }
+            display.textContent = minutes + ":" + seconds;
 
         <!--var time1 = 5, time2 = 15, time3 = 25;-->
         var time1 = 5*60, time2 = 8*60, time3 = 10*60;
 
-        if (diff >= time1 && diff < (time1 + 1)) {
-            <!--console.log("diff1: "+ diff);-->
-            <!--swal({-->
+            var time1 = 5, time2 = 15, time3 = 25;
+            <!--var time1 = 5*60, time2 = 8*60, time3 = 10*60;-->
+
+            if (diff >= time1 && diff < (time1 + 1)) {
+                <!--console.log("diff1: "+ diff);-->
+                <!--swal({-->
                 <!--title: "Timecheck!",-->
                 <!--text: "5 minutes have passed after you started the task.",-->
                 <!--type: "warning",-->
                 <!--showConfirmButton: true,-->
                 <!--html: true-->
 
-            <!--});-->
-            var x = document.getElementById("show5");
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+                <!--});-->
+                var x = document.getElementById("show5");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 5000);
 
-        }
+            }
 
-        if (diff >= time2 && diff < (time2 + 1)) {
-            <!--console.log("diff2: "+ diff);-->
-            <!--swal({-->
+            if (diff >= time2 && diff < (time2 + 1)) {
+                <!--console.log("diff2: "+ diff);-->
+                <!--swal({-->
                 <!--title: "Timecheck!",-->
                 <!--text: "8 minutes have passed after you started the task.",-->
                 <!--type: "warning",-->
                 <!--showConfirmButton: true,-->
                 <!--html: true-->
 
-            <!--});-->
+                <!--});-->
 
 
-            var x = document.getElementById("show8");
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
-        }
+                var x = document.getElementById("show8");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 5000);
+            }
 
-        if (diff >= time3 && diff < (time3 + 1)) {
-            <!--console.log("diff3: "+ diff);-->
-            <!--swal({-->
+            if (diff >= time3 && diff < (time3 + 1)) {
+                <!--console.log("diff3: "+ diff);-->
+                <!--swal({-->
                 <!--title: "Please hurry up!",-->
                 <!--text: "10 minutes have passed after you started the task.",-->
                 <!--type: "warning",-->
                 <!--showConfirmButton: true,-->
                 <!--html: true-->
 
-            <!--});-->
+                <!--});-->
 
 
-            var x = document.getElementById("show10");
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
-        }
+                var x = document.getElementById("show10");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 5000);
+            }
+        };
+        // we don't want to wait a full second before the timer starts
+        timer();
+        setInterval(timer, 1000);
+    }
+
+    (function () {
+        var mi_section = $('#mi_section');
+        mi_section.find('.panzoom').panzoom({
+            $zoomIn: $('#mi_zoom_in'),
+            $zoomOut: $('#mi_zoom_out'),
+            $reset: $('#mi_reset'),
+            panOnlyWhenZoomed: true,
+            contain: 'invert',
+            minScale: 1
+        });
+    })();
+
+    window.onload = function () {
+        var setMinutes = 60 * 10,
+                display = document.querySelector('#time');
+        startTimer(setMinutes, display);
     };
-    // we don't want to wait a full second before the timer starts
-    timer();
-    setInterval(timer, 1000);
-}
-
-window.onload = function () {
-    var setMinutes = 60 * 10,
-        display = document.querySelector('#time');
-    startTimer(setMinutes, display);
-};
 
 </script>
 </body>

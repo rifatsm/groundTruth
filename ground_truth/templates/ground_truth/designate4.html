@@ -14,18 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- Latest compiled JavaScript -->
-    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
-    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
-    {#            crossorigin="anonymous"></script>#}
-
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.mousewheel.min.js"></script>
-    <script src="https://s3.amazonaws.com/baselinewebfiles/js/jquery.iviewer.js"></script>
-    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery.iviewer.css" type="text/css"/>
-    <link rel="stylesheet" href="https://s3.amazonaws.com/baselinewebfiles/css/jquery-ui.css" type="text/css"/>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 
     <!-- Font Awesome -->
     <link href=cle"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -34,26 +23,25 @@
 
     <!-- Designate -->
     <link id="size-stylesheet" rel="stylesheet" type="text/css" href="{% static 'ground_truth/css/designate.css' %}">
+    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
+
+    <!-- Joyride -->
+    <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/joyride.css' %}">
+    <script src="{% static 'ground_truth/dist/joyride.js' %}"></script>
 
     {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
 
+    <!-- Sweet Alert -->
     <script src="{% static 'ground_truth/dist/sweetalert.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'ground_truth/dist/sweetalert.css' %}">
 
-    <script src="{% static 'ground_truth/js/designate.js' %}"></script>
-
-    {#    panzoom for the Expert UI ground level and diagram images #}
+    <!-- panzoom for the Expert UI ground level and diagram images -->
     <script src="{% static 'ground_truth/dist/jquery.panzoom.js' %}"></script>
-
-
-    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
-    {#            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
-    {#            crossorigin="anonymous"></script>#}
 
     {#    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztWb9Htt_Lqxe9TJWJR1uvdPZEOyR7kg&libraries=drawing,geometry&callback=initMap"#}
     {#            async defer></script>#}
 
-    <!-- Ri's API -->
+    <!-- Google Map (Ri's API) -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-4Jo0nwXyzbskNsLZpdLUjPYMylDLmRs&libraries=drawing,geometry,places&callback=initMap"
             async defer></script>
 
@@ -146,10 +134,13 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">GroundTruth</a>
         </div>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-left">
             {#            <li class="active"><a href="/designate/">New Investigation</a></li>#}
             {#            <li><a href="/user/investigations/">My Investigations</a></li>#}
             <li><a href="/logout/">Logout: {{ username }}</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a id="startjoyride">View Tutorial</a></li>
         </ul>
     </div>
 </nav>
@@ -164,11 +155,12 @@
 
             <div id="images_tab">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#ground_view_tab">Ground-Level</a></li>
-                    <li><a data-toggle="tab" href="#diagram_view_tab">Diagram</a></li>
+                    <li class="active"><a data-toggle="tab" href="#ground_view_tab" id="gl_tab_button">Ground-Level</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#diagram_view_tab" id="dg_tab_button">Diagram</a></li>
                 </ul>
 
-                <div class="tab-content">
+                <div class="tab-content" id="tab_content">
                     <div id="ground_view_tab" class="tab-pane fade in active">
                         <br>
                         <div>
@@ -183,8 +175,10 @@
                         </div>
                         <br>
                         <div class="ground_level_buttons">
-                            <button id="gl_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
-                            <button id="gl_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button id="gl_zoom_in" type="button" class="btn btn-default">Zoom in</button>
+                            <button id="gl_zoom_out" type="button" class="btn btn-default">Zoom out</button>
+                                </div>
                             <button id="gl_reset" type="button" class="btn btn-default">Reset</button>
                         </div>
                     </div>
@@ -202,15 +196,17 @@
                         </div>
                         <br>
                         <div class="diagram_buttons">
-                            <button id="dg_zoom_in" type="button" class="btn btn-default"><strong>+</strong></button>
-                            <button id="dg_zoom_out" type="button" class="btn btn-default"><strong>-</strong></button>
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button id="dg_zoom_in" type="button" class="btn btn-default">Zoom in</button>
+                            <button id="dg_zoom_out" type="button" class="btn btn-default">Zoom out</button>
+                                </div>
                             <button id="dg_reset" type="button" class="btn btn-default">Reset</button>
 
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button id="rot-right" type="button" class="btn btn-default"><i class="fa fa-repeat"
+                                <button id="rot-right" type="button" class="btn btn-default">Rotate <i class="fa fa-repeat"
                                                                                                 aria-hidden="true"></i>
                                 </button>
-                                <button id="rot-left" type="button" class="btn btn-default"><i class="fa fa-undo"
+                                <button id="rot-left" type="button" class="btn btn-default">Rotate <i class="fa fa-undo"
                                                                                                aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -359,6 +355,53 @@
     </div>
 
 </div>
+
+<ol id="joyRideTutorial" hidden>
+    <li data-id="gl_tab_button" data-button="Next" data-options="tipLocation:top">
+        <p>Click here to view the ground-level images</p>
+    </li>
+    <li data-id="dg_tab_button" data-button="Next" data-options="tipLocation:top">
+        <p>Click here to view the diagram image</p>
+    </li>
+    <li data-id="tab_content" data-button="Next" data-options="tipLocation:bottom">
+        <p>Click to + / - / Reset buttons to activate image zoom</p>
+    </li>
+    {#    <li data-id="estimate_width" data-button="Next" data-options="tipLocation:left">#}
+    {#        <p>Now, pick a width range that most closely matches the width of the aerial diagram you have drawn. We use this#}
+    {#            information for.. (crowdworkers)</p>#}
+    {#    </li>#}
+    <li data-id="budget_table" data-button="Next" data-options="tipLocation:top">
+        <p>This is your crowdworker budget, you can get help from up to 50 crowdworkers for this task. When you draw a
+            search region, you will be able to see how many crowdworkers you have used.</p>
+    </li>
+    <li data-id="toggle_draw_erase_btn" data-button="Next" data-options="tipLocation:top">
+        <p>Click on the green button to enter ‘Drawing Mode’, that lets you draw your search region. </p>
+    </li>
+    <li data-id="too_much" data-button="Next" data-options="tipLocation:bottom">
+        <p>Oops! Looks like the search region you drew requires more crowdworkers than your budget allows for. Click on
+            the ‘Remove Investigation’ button to redraw a smaller investigation.</p>
+    </li>
+    <li data-id="add_investigation_btn" data-button="Next" data-options="tipLocation:bottom">
+        <p>Looks good! Click here to allow the crowdworkers to start working. You will automatically see feedback
+            rolling in, in real-time.</p>
+    </li>
+    <li data-id="found_it_btn" data-button="Next" data-options="tipLocation:top">
+        <p>When you believe you’ve found the grid that contains the location you’re searching for, click on ‘Found
+            it!’.</p>
+    </li>
+    <li data-id="toggle_seen_btn" data-button="Next" data-options="tipLocation:top">
+        <p>When you see grid filled with color, this button will be available. If you’re confident a cell doesn't
+            include the location, you can exclude it. This will make the grid turn gray. </p>
+    </li>
+    <li data-id="toggle_suggestions_btn" data-button="Next" data-options="tipLocation:top">
+        <p>Click here to ignore/hide the colors, temporarily</p>
+    </li>
+    <li data-id="legend" data-button="Close" data-options="tipLocation:top">
+        <p>The grids are colored based on worker decisions, with green indicating a greater likelihood of matching the
+            aerial diagram.</p>
+    </li>
+</ol>
+
 </body>
 
 <script>
@@ -371,7 +414,6 @@
         gl_section.find('.panzoom').panzoom({
             $zoomIn: $('#gl_zoom_in'),
             $zoomOut: $('#gl_zoom_out'),
-            $zoomRange: $('#gl_zoom_range'),
             $reset: $('#gl_reset'),
             panOnlyWhenZoomed: true,
             contain: 'invert',
@@ -382,7 +424,6 @@
         dg_section.find('.panzoom').panzoom({
             $zoomIn: $('#dg_zoom_in'),
             $zoomOut: $('#dg_zoom_out'),
-            $zoomRange: $('#dg_zoom_range'),
             $reset: $('#dg_reset'),
             panOnlyWhenZoomed: true,
             contain: 'invert',
@@ -395,6 +436,19 @@
             <!--document.getElementById("width_zoom").classList.remove("show");-->
         <!--}-->
     <!--}-->
+
+    $(document).ready(function () {
+        $('#joyRideTutorial').joyride({
+            autoStart: false,
+            expose: false
+        });
+
+        $('#startjoyride').click(function (e) {
+            $('#joyRideTutorial').joyride({
+                expose: true
+            });
+        });
+    });
 
 
 </script>
